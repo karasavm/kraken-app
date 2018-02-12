@@ -1,0 +1,173 @@
+
+<!--<div class="row">-->
+<!--<div class="col-12">-->
+<form [formGroup]="groupForm" *ngIf="groupForm" >
+  <br>
+  <!--MAIN PANEL-->
+  <div class="card">
+    <div class="card-content">
+      <h5 class="card-title">Group</h5>
+
+
+      <div class="row">
+        <div class="input-field col s8">
+          <input placeholder="Name" type="text" class="form-control" formControlName="name">
+        </div>
+        <div class="col s1"></div>
+        <button class="btn btn-small waves-effect waves-light autoWidth green input-field col s2"
+                type="button"
+                (click)="onClickUpdateGroup()"
+                [disabled]="groupForm.get('name').value === ''"
+        >
+          <i class="large material-icons">done</i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <br>
+  <!--- --MEMBERS-- -->
+  <div class="card">
+    <div class="card-content">
+      <h5 class="card-title">Memebers</h5>
+      <!--<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+      <!--MEMBERS LIST-->
+
+
+      <div formArrayName="members" class="row">
+        <div class="col s12"*ngFor="let member of groupForm.get('members').controls; let i=index" [formGroupName]="i">
+
+          <div class="input-field col s7">
+            <input type="text" formControlName="name" >
+          </div>
+
+
+          <button class="btn btn-small red waves-effect waves-light autoWidth red col s2 input-field" type="button" (dblclick)="onClickDeleteMember(i, member.value)">
+            <i class="large material-icons">clear</i>
+          </button>
+
+          <div class="col s1"></div>
+
+          <button class="btn btn-small waves-effect waves-light autoWidth green col s2 input-field" type="button" (click)="onClickUpdateMember(i, member.value)" [disabled]="member.value.name === ''">
+            <i class="large material-icons">check</i>
+          </button>
+
+
+
+        </div>
+      </div>
+
+
+      <br>
+      <!--NEW MEMBER-->
+      <div class="row">
+        <div class="col s12">
+          <input type="text" class="input-field col s7" placeholder="Insert New Member" formControlName="newMemberName">
+          <div class="col s1"></div>
+          <button class="btn btn-small waves-effect waves-light autoWidth green col s4" type="button" (click)="onClickAddMember()" [disabled]="groupForm.get('newMemberName').value === ''">
+            Add
+          </button>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <br>
+
+  <!--SHARES-->
+  <div class="card">
+    <div class="card-content">
+      <h4 class="card-title">Sharing</h4>
+      <!--<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+
+      <!--SHARING LIST-->
+      <div formArrayName="users" class="row">
+        <div  class='col s12'*ngFor="let user of groupForm.get('users').controls; let i=index" [formGroupName]="i">
+
+          <input type="text" class="input-field col s8" formControlName="email" >
+          <div class="col s1"></div>
+          <button class="btn btn-small red waves-effect waves-light autoWidth red col s2 input-field" type="button" (dblclick)="onClickDeleteUser(i, user.value)">
+            <i class="large material-icons">clear</i>
+          </button>
+          <!--<button class="btn btn-success" type="button" (click)="onClickUpdateUser(i, user.value)" [disabled]="user.value.email === ''">-->
+          <!--<span class="glyphicon glyphicon-ok"></span>-->
+          <!--</button>-->
+
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <!--NEW SHARE-->
+      <div class="row">
+        <div class="col s12">
+          <input type="text" class="input-field col s7" placeholder="Insert New Member" formControlName="newUserEmail">
+          <div class="col s1"></div>
+          <button class="btn btn-small waves-effect waves-light green col s4" type="button" (click)="onClickAddUser()" [disabled]="groupForm.get('newUserEmail').value === ''">
+            Add
+          </button>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+</form>
+
+  <!--DELETE BUTTON-->
+<div class="row">
+  <div class="col s12">
+    <a class="waves-effect waves-light btn-large red right" (click)="openModal()">
+      <i class="material-icons left">delete_forever</i>
+      delete
+    </a>
+  </div>
+
+</div>
+
+
+<!--MODAL-->
+<!--<div id="modal1"-->
+     <!--class="modal"-->
+     <!--materialize="modal"-->
+     <!--[materializeParams]="[{dismissible: true}]"-->
+     <!--[materializeActions]="modalActions"-->
+<!--&gt;-->
+  <!--<div class="modal-content">-->
+    <!--<h4>New Transaction</h4>-->
+
+  <!--</div>-->
+
+  <!--<div class="modal-footer">-->
+    <!--<a class="waves-effect waves-green btn-flat" (click)="closeModal()">Close</a>-->
+    <!--<a class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>-->
+  <!--</div>-->
+<!--</div>-->
+
+<div id="modal1"
+     class="modal bottom-sheet"
+     materialize="modal"
+     [materializeParams]="[{dismissible: false}]"
+     [materializeActions]="modalActions">
+  <div class="modal-content">
+    <h4>Delete Group</h4>
+    <p>{{messagesDict.deleteGroup}}</p>
+  </div>
+  <div class="modal-footer">
+    <a class="waves-effect waves-green btn" (click)="closeModal()">
+      cancel
+    </a>
+    <a class="modal-action modal-close waves-effect waves-green btn red" (click)="onClickDeleteGroup()">
+      Delete
+    </a>
+  </div>
+</div>
+
+

@@ -1,0 +1,37 @@
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none!important;
+}
+
+/*.btn {*/
+  /*width: 77px;*/
+/*}*/
+
+.btn-small {
+  /*width: 80px;*/
+  /*text-align: justify;*/
+  color: white;
+  border: none;
+  border-radius: 2px;
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+  text-transform: uppercase;
+  max-font-size: 13pt;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+
+}
+.amountWidth {
+  width: 10px
+}
+
+.debtWidth {
+  width: 75px
+}
+
+.autoWidth {
+  width: 75px
+}

@@ -1,0 +1,20 @@
+<!--<ul class="tabs tabs-transparent" materialize="tabs">-->
+  <!--<li class="tab paddingDiv" [routerLink]="" ><a >Transactions</a></li>-->
+  <!--<li class="tab paddingDiv" [routerLink]="" ><a >Dashboard</a></li>-->
+  <!--<li class="tab paddingDiv" [routerLink]="" ><a >Settings</a></li>-->
+  <!--&lt;!&ndash;<li class="tab"><a href="#test1">Test 1</a></li>&ndash;&gt;-->
+  <!--&lt;!&ndash;<li class="tab"><a href="#test2">Test 2</a></li>&ndash;&gt;-->
+  <!--&lt;!&ndash;<li class="tab"><a href="#test3">Disabled Tab</a></li>&ndash;&gt;-->
+  <!--&lt;!&ndash;<li class="tab"><a href="#test4">Test 4</a></li>&ndash;&gt;-->
+<!--</ul>-->
+
+
+<div class="row">
+  <div class="col s12">
+    <ul class="tabs" materialize="tabs">
+      <li class="tab col s3"><a [routerLink]="'/signin'" routerLinkActive="active">Sign In</a></li>
+      <li class="tab col s3"><a [routerLink]="'/signup'" routerLinkActive="active">New User</a></li>
+    </ul>
+  </div>
+</div>
+<router-outlet></router-outlet>
