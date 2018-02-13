@@ -1,21 +1,26 @@
+<div class="row">
+  <div class="col s12">
 
-  <table class="striped">
-    <thead>
-    <tr>
-      <th class="center-align">Name</th>
-      <th class="center-align">Balance</th>
-      <th class="center-align">Expenses</th>
-    </tr>
-    </thead>
+    <table class="striped">
+      <thead>
+      <tr>
+        <th class="center-align">Name</th>
+        <th class="center-align">Balance</th>
+        <th class="center-align">Expenses</th>
+      </tr>
+      </thead>
 
-    <tbody>
-    <tr *ngFor="let m of group.members" class="center-align">
+      <tbody>
+      <tr *ngFor="let m of group.members" class="center-align">
 
-      <td class="center-align">{{m.name}}</td>
-      <td
-        [ngClass] = "{true: 'center-align red-text', false: 'center-align green-text'}[debts[m.id].debt < 0]"
-      >{{debts[m.id].debt}}</td>
-      <td class="center-align">{{debts[m.id].expenses}}</td>
-    </tr>
-    </tbody>
-  </table>
+        <td class="center-align">{{m.name}}</td>
+        <td
+          [ngClass] = "{true: 'center-align red-text', false: 'center-align green-text'}[debts[m.id].debt < 0]"
+        >{{debts[m.id].debt | number}}</td>
+        <td class="center-align">{{debts[m.id].expenses | number}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
