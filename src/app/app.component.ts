@@ -55,7 +55,7 @@ export class AppComponent implements OnInit{
 //todo: transfer
 //todo: Memembers
 //todo:strogullopoihsh
-
+//todo: autocomplete off on signin/signup forms
 
 //
 
