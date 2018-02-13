@@ -46,6 +46,18 @@ export class AppComponent implements OnInit{
 //todo: when logged in can not navigate to singin/register
 //todo: delete buttons
 //todo: use table on transaction edit
+//todo: one click to delete a member
+//todo: dekadika stoggulopoihsh
+//todo: hmerominies sta transaction
+//todo: pills sto transactions
+//todo: dashboat table bgainei apo ta oria
+//todo: back arrow does not work on full browser screen
+//todo: transfer
+//todo: Memembers
+//todo:strogullopoihsh
+
+
+//
 
 // BUGS
 // todo: back button disappeared on chrome

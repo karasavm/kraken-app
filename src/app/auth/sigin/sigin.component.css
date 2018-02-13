@@ -1,3 +1,7 @@
 /*input.ng-invalid.ng-touched {*/
   /*border-color: red;*/
 /*}*/
+
+.col.s12 > .btn {
+  width: 100%;
+}

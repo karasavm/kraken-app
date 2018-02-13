@@ -7,7 +7,11 @@ export class NavigationService {
   constructor(private router: Router) { }
 
   signInUri = '/signin';
-  groupListUri = '/groups';
+
+
+  groupListUri() {
+    return '/groups';
+  }
 
   groupSettingsUri(groupId: string) {
     return '/groups/' + groupId + '/settings';

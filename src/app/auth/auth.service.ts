@@ -11,19 +11,19 @@ import {NavigationService} from '../shared/services/navigation.service';
 export class AuthService {
 
   // token: string = null;
-  redirectUrl = '/groups';
-  tokenToRemove: string;
+  redirectUrl: string;
 
   constructor(private http: HttpClient,
               private router: Router,
               private navService: NavigationService) {
 
-    // this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhNTUwNGIyY2UwMDNjMTg5OGFhMDFlYSIsIm5hbWUiOiJVc2VyIEFkbWluIiwiZXhwIjoxNTIwNzA1MjAyLCJpYXQiOjE1MTU1MjEyMDJ9.N_NLbocZhtr8TpBo2et-PaNT83Wa15GbPi8pQJWKQwc';
+    // default redirect page
+    this.redirectUrl = this.navService.groupListUri();
   }
 
+
+
   removeToken() {
-    // this.tokenToRemove = null;
-    // return;
     localStorage.removeItem('token');
   }
 
@@ -33,24 +33,19 @@ export class AuthService {
     const body = {user: {email: email, password: password, name: name}};
     return this.http.post(host + '/users/register', body, {observe: 'response'})
       .subscribe((res) => {
-        console.log('Response', res);
-        // this.token = res.body['user.token'];
-        this.storeToken(res.body['user.token']);
+        this.storeToken(res.body['user']['token']);
         this.navService.groupList();
         return res.body;
       }, (err) => {
-        console.log('Error', err);
+        //todo: handle wrong data for sign up
       });
   }
 
   storeToken(token) {
-    // this.tokenToRemove = token;
-    // return;
     localStorage.setItem('token', token);
   }
 
   retriveToken() {
-    // return this.tokenToRemove;
     return localStorage.getItem('token');
   }
 
@@ -63,7 +58,6 @@ export class AuthService {
     return this.http.post<{ user: User }>(host + '/users/login', body, {observe: 'response'})
       .subscribe((res) => {
         console.log('Response', res);
-        // this.token = res.body['user.token'];
         this.storeToken(res.body.user.token);
         this.navService.toUrl(this.redirectUrl);
       }, (err) => {

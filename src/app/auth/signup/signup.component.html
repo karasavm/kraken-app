@@ -1,22 +1,24 @@
-<h2>Sign Up</h2>
-    <form (ngSubmit)="onSignup(f)" #f="ngForm">
+<form (ngSubmit)="onSignup(f)" #f="ngForm" >
 
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="name" id="name" class="form-control" name="name" ngModel>
-      </div>
+  <div class="input-field">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" ngModel>
+  </div>
 
-      <div class="form-group">
-        <label for="email">Mail</label>
-        <input type="email" id="email" class="form-control" name="email" ngModel>
-      </div>
+  <div class="input-field">
+    <label for="email">Mail</label>
+    <input type="text" id="email" name="email" materialize ngModel>
+  </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" class="form-control" name="password" ngModel>
-      </div>
+  <div class="input-field">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" materialize ngModel>
+  </div>
 
-      <button class="btn btn-primary btn-lg btn-block" type="submit">Sign Up</button>
-      <span>Have an account? <a routerLink="/signin">Log In</a></span>
-    </form>
+
+  <div class="col s12">
+    <button class="btn btn-large waves-effect waves-light" type="submit">Sign Up</button>
+  </div>
+
+</form>
 

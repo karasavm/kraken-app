@@ -1,15 +1,13 @@
-<h4>Login</h4>
 <br>
 <!--<div class="row">-->
 
   <!--<div class="col-xs">-->
     <form (ngSubmit)="onSigin(f)" #f="ngForm">
 
-      <div class="form-group">
-        <label for="email">Mail</label>
+      <div class="input-field">
+        <label for="email">Email</label>
         <input type="email"
                id="email"
-               class="form-control input-xl"
                name="email"
                required
                #email="ngModel"
@@ -19,11 +17,10 @@
       </div>
 
 
-      <div class="form-group">
+      <div class="input-field">
         <label for="password">Password</label>
         <input type="password"
                id="password"
-               class="form-control input-lg"
                name="password"
                required
                #password="ngModel"
@@ -35,13 +32,13 @@
 
 
       <br>
-      <button class="btn btn-success btn-lg btn-block"
-              type="submit"
-              [disabled]="!f.valid"
-      >Log In</button>
-      <h5 style="text-align: center">-OR-</h5>
-      <button class="btn pull-right btn-primary btn-lg btn-block"
-              type="button" (click)="navService.signUp()">Sign Up</button>
+      <div class="col s12">
+        <button class="btn btn-large waves-effect waves-light"
+                type="submit"
+                [disabled]="!f.valid"
+        >Log In</button>
+      </div>
+
     </form>
 
 
