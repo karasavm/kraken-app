@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {GroupService} from '../group.service';
 import {Member} from '../../models/member.model';
-import {AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, NgForm, ValidatorFn, Validators} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Transaction} from '../../models/transaction.model';
@@ -34,11 +34,13 @@ export class TransactionEditNewComponent implements OnInit {
   transId: string;
   modalActions = new EventEmitter<string|MaterializeAction>();
   auto = true;
-  pay = true;
   paymentsTotal = 0;
   messagesDict = {deleteTrans: dict['transaction.delete.prompt_message']};
 
-
+  // TRANSFERS
+  fromTransfer: string;
+  toTransfer: string;
+  amountTransfer: number;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -58,18 +60,23 @@ export class TransactionEditNewComponent implements OnInit {
       this.transId = this.route.snapshot.paramMap.get('transId');
       this.transaction = data['transData']['transaction'];
       this.members = data['transData']['members'];
-      this.initForm();
       this.headerService.setState('transaction', this.groupId, this.transaction.name);
 
+      if (this.transaction.type === 'general') {
+        this.initForm();
+      } else if(this.transaction.type === 'give') {
+        // payments.push({member: from, amount: amount, debt: 0});
+        // payments.push({member: to, amount: 0, debt: amount});
 
-      // this.myForm.valueChanges.subscribe((data) => {
-      //   console.log("change: ", data);
-      //   this.setAutoValues(data.payments);
-      // })
-      // this.myForm.statusChanges.subscribe((data) => {
-      //   console.log("status: ", data);
-      // })
-      // this.setInitPaymentsFromMembers(this.members);
+        if (this.transaction.payments.length !== 0) {
+
+          const transfer = Transaction.paymentsToTransfer(this.transaction.payments);
+          this.fromTransfer = transfer.from;
+          this.toTransfer = transfer.to;
+          this.amountTransfer = transfer.amount;
+        }
+
+      }
     });
 
   }
@@ -225,7 +232,6 @@ export class TransactionEditNewComponent implements OnInit {
 
     // set manual value to null
     if (!payment.get('auto').value) {
-      console.log("mpikkkkkk")
       payment.patchValue({debt: null});
     }
   }
@@ -283,6 +289,42 @@ export class TransactionEditNewComponent implements OnInit {
     this.modalActions.emit({action:"modal",params:['close']});
   }
 
+  // ------------------------------------------------------------
+
+
+  // ------------------------ TRANSFERS -------------------------
+
+
+
+  onClickTransferSave(form: NgForm) {
+
+
+    const from = form.value.fromSelection;
+    const to = form.value.toSelection;
+    const amount = form.value.amount;
+
+    this.transaction.payments = Transaction.transferToPayments(from, to, amount);
+
+    this.groupService.updateTransaction(
+      this.groupId,
+      this.transId,
+      this.transaction
+    ).subscribe((trans) => {
+      this.toastService.success(dict['transaction.save.success']);
+      this.navService.groupDashboard(this.groupId);
+    }, (err) => {
+      this.toastService.error(dict['transaction.save.error']);
+    });
+  }
+
+  // onSigin(form: NgForm) {
+  //
+  //   console.log("SignIn Form",form);
+  //   const email = form.value.email;
+  //   const password = form.value.password;
+  //   this.authService.loginUser(email, password);
+  // }
+  // ------------------------------------------------------------
   onClickDeleteGroup() {
 
     this.groupService.deleteTransaction(this.groupId, this.transId).subscribe(

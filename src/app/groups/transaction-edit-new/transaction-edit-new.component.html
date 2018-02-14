@@ -28,11 +28,13 @@
 
 
 
-<form *ngIf="members.length" class="form-group" [formGroup]="myForm">
-
+<form
+  *ngIf="members.length && transaction.type === 'general'"
+  class="form-group"
+  [formGroup]="myForm"
+>
 
     <div class="row">
-
       <div class="col s6">
         <div class="input-field left">
           <!--<i class="material-icons prefix">account_circle</i>-->
@@ -54,8 +56,6 @@
 
     </div>
 
-
-
   <div *ngIf="myForm.invalid" class="alert alert-danger text-center" role="alert">
     <div class="row">
       <div class="col s12 m6">
@@ -70,7 +70,6 @@
   </div>
 
   <!--FormArray-->
-
   <table>
     <thead>
     <tr>
@@ -149,15 +148,66 @@
     </div>
   </div>
 
-
-
 </form>
 
+
+<!-------------------------TRANSFER FORM------------------------->
+<div *ngIf="members.length && transaction.type === 'give'">
+
+  <h4>Money Transfer</h4>
+  <br>
+  <form (ngSubmit)="onClickTransferSave(f)" #f="ngForm">
+
+    <div class="row">
+      <div class="input-field col s6">
+        <select name="fromSelection" materialize="material_select" [(ngModel)]="fromTransfer">
+          <option value="" disabled selected>Choose</option>
+          <option *ngFor="let member of members" [value]="member.id">{{member.name}}</option>
+        </select>
+        <label>From</label>
+      </div>
+      <div class="input-field col s6">
+        <select name="toSelection" materialize="material_select" [(ngModel)]="toTransfer">
+          <option value="" disabled selected>Choose</option>
+          <option *ngFor="let member of members" [value]="member.id">{{member.name}}</option>
+        </select>
+        <label>To</label>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="input-field col s6">
+        <input type="number" name="amount" id="amount" required materialize placeholder="0 euros" [(ngModel)]="amountTransfer">
+        <label for="amount"> Amount </label>
+      </div>
+
+
+      <div class="input-field col s6 right-align">
+        <button
+          type="submit"
+          class="btn-large waves-effect waves-light green"
+          [disabled]="f.value.fromSelection === f.value.toSelection || f.invalid || f.value.amount <= 0"
+        >Save</button>
+      </div>
+
+    </div>
+
+
+  </form>
+</div>
+
+
+
+<!-------------------------------------------------------------->
+<br>
+<br>
+<hr>
 
 <!--DELETE BUTTON-->
 <div class="row">
   <div class="col s12">
-    <a class="waves-effect waves-light btn-large red right" (click)="openModal()">
+    <a class="waves-effect waves-light btn red right" (click)="openModal()">
       <i class="material-icons left">delete_forever</i>
       delete
     </a>

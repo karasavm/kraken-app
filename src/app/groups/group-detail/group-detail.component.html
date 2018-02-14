@@ -40,65 +40,46 @@
   <a class="collection-item"
      routerLink="/groups/{{group.id}}/transactions/{{transaction.id}}"
      *ngFor="let transaction of searched_transactions">
-    <div>{{transaction.name}}
+    <div>{{transaction.name}} <span *ngIf="transaction.type === 'give'">
+        ###{{group.getMemberById(getFromTransfer(transaction.payments)).name}}
+       -> {{group.getMemberById(getToTransfer(transaction.payments)).name}}###
+    </span>
       <a class="secondary-content">{{transaction.calcTotalAmount()}} euro</a>
       <br>
       <small>{{transaction.createdAt |date:'E, dd LLL yyyy HH:mm':'gr'}}</small>
     </div>
+
   </a>
 </div>
 
-
-<!--MODAL-->
-<!--<mz-modal #modal [options]="modalOptions">-->
-<!--<mz-modal-header>-->
-<!--New Group-->
-<!--</mz-modal-header>-->
-<!--<mz-modal-content>-->
-<!--<form  [formGroup]="myForm">-->
-<!--<div class="row form-group">-->
-
-<!--<div class="col-4">-->
-<!--<label for="name">Name:</label>-->
-<!--</div>-->
-<!--<div class="col-8">-->
-<!--<input type="email" class="form-control" formControlName="name" id="name">-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="container">-->
-<!--<div class="row">-->
-<!--<div class="col-12 d-flex justify-content-end">-->
-
-<!--<button-->
-<!--type="button"-->
-<!--class="btn waves-effect waves-light green"-->
-<!--(click)="onClickCreateTransaction(modal)"-->
-<!--[disabled]="this.myForm.get('name').value === ''"-->
-<!--&gt;Create</button>-->
-
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--</form>-->
-<!--</mz-modal-content>-->
-<!--</mz-modal>-->
 
 
 <!--ADD BUTTON-->
-<div class="fixed-action-btn">
-  <a href="#modal1" class="btn-floating btn-large green modal-trigger" (click)="openModal()">
-    <i class="large material-icons">add</i>
+<!--<div class="fixed-action-btn">-->
+  <!--<a href="#modal1" class="btn-floating btn-large green modal-trigger" (click)="openModal()">-->
+    <!--<i class="large material-icons">add</i>-->
+  <!--</a>-->
+<!--</div>-->
+
+<div class="fixed-action-btn vertical click-to-toggle">
+  <a class="btn-floating btn-large green">
+    <i class="material-icons">add</i>
   </a>
+  <ul>
+    <li><a href="#modal2" (click)="openModal(2)" class="btn-floating red modal-trigger"><i class="material-icons">trending_flat</i></a></li>
+    <li><a href="#modal1" (click)="openModal(1)" class="btn-floating blue modal-trigger"><i class="material-icons">swap_horiz</i></a></li>
+
+  </ul>
 </div>
 
-<!-- MODAL -->
+
+
+<!-- TRANSACTION MODAL -->
 <div id="modal1"
      class="modal"
      materialize="modal"
      [materializeParams]="[{dismissible: true}]"
-     [materializeActions]="modalActions"
+     [materializeActions]="modalActions1"
 >
   <div class="modal-content">
     <h4>New Transaction</h4>
@@ -114,29 +95,58 @@
         </div>
       </div>
 
-
       <div class="row">
         <div class="col">
           <button
             type="button"
             class="btn waves-effect waves-light green"
-            (click)="onClickCreateTransaction()"
+            (click)="onClickCreateTransaction(1)"
             [disabled]="this.myForm.get('name').value === ''"
           >Create</button>
-
         </div>
-
         <div class="col">
           <button
             type="button"
             class="btn waves-effect waves-light"
-            (click)="closeModal()"
+            (click)="closeModal(1)"
           >Close</button>
-
         </div>
       </div>
 
     </form>
+
+  </div>
+</div>
+
+<!--TRANSFER MODAL-->
+<div id="modal2"
+     class="modal"
+     materialize="modal"
+     [materializeParams]="[{dismissible: true}]"
+     [materializeActions]="modalActions2"
+>
+  <div class="modal-content center-align">
+    <h4 >New Transfer</h4>
+    <p>You are going to create a new money transfer!</p>
+
+
+    <div class="row">
+      <div class="col">
+        <button
+          type="button"
+          class="btn waves-effect waves-light green"
+          (click)="onClickCreateTransaction(2)"
+        >Create</button>
+      </div>
+      <div class="col">
+        <button
+          type="button"
+          class="btn waves-effect waves-light"
+          (click)="closeModal(2)"
+        >Close</button>
+      </div>
+    </div>
+
 
   </div>
 </div>

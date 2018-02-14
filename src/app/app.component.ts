@@ -50,7 +50,7 @@ export class AppComponent implements OnInit{
 //todo: dekadika stoggulopoihsh
 //todo: hmerominies sta transaction
 //todo: pills sto transactions
-//todo: dashboat table bgainei apo ta oria
+
 //todo: back arrow does not work on full browser screen
 //todo: transfer
 //todo: Memembers
@@ -64,3 +64,4 @@ export class AppComponent implements OnInit{
 
 // DONE
 //tabs shifting when big screen
+//ashboat table bgainei apo ta oria

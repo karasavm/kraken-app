@@ -24,7 +24,8 @@ export class GroupDetailComponent implements OnInit {
   myForm: FormGroup;
   id: string;
   searched_transactions: Transaction[];
-  modalActions = new EventEmitter<string|MaterializeAction>();
+  modalActions1 = new EventEmitter<string|MaterializeAction>();
+  modalActions2 = new EventEmitter<string|MaterializeAction>();
 
   constructor(private groupService: GroupService,
               private headerService: HeaderService,
@@ -56,30 +57,52 @@ export class GroupDetailComponent implements OnInit {
     this.constructForm();
   }
 
-  onClickCreateTransaction() {
-    this.groupService.createTransaction(this.group.id, this.myForm.get('name').value)
+  onClickCreateTransaction(id) {
+
+    const name = id === 1 ? this.myForm.get('name').value : 'Transfer';
+    const type = id === 1 ? 'general' : 'give';
+    this.groupService.createTransaction(
+      this.group.id,
+      name,
+      type
+    )
       .subscribe((data) => {
-
         this.navService.transaction(this.group.id, data.transaction.id);
-        this.closeModal();
+        this.closeModal(id);
         this.toastService.success(dict['transaction.create.success']);
-
       }, (err) => {
         this.toastService.error(dict['transaction.create.error']);
-        this.closeModal()
+        this.closeModal(id)
       });
   }
 
-  openModal() {
-    this.modalActions.emit({action:"modal",params:['open']});
+  openModal(id: number) {
+    if (id ===1 ) {
+      this.modalActions1.emit({action: "modal", params: ['open']});
+    } else {
+      this.modalActions2.emit({action: "modal", params: ['open']});
+    }
   }
-  closeModal() {
-    this.modalActions.emit({action:"modal",params:['close']});
+  closeModal(id: number) {
+    if (id === 1) {
+      this.modalActions1.emit({action: "modal", params: ['close']});
+    } else {
+      this.modalActions2.emit({action: "modal", params: ['close']});
+    }
   }
 
   constructForm() {
     this.myForm = new FormGroup({
       name: new FormControl('')
     });
+  }
+
+  // TRANSFERS
+  getFromTransfer(payments) {
+    return Transaction.paymentsToTransfer(payments).from;
+  }
+
+  getToTransfer(payments) {
+    return Transaction.paymentsToTransfer(payments).to;
   }
 }

@@ -94,11 +94,11 @@ export class GroupService {
 
 
 
-  createTransaction(groupId: string, transName: string): Observable<{transaction: Transaction, members: Member[]}>{
+  createTransaction(groupId: string, transName: string, type: string): Observable<{transaction: Transaction, members: Member[]}>{
 
     return this.http2.post(
       host + '/groups/' + groupId + '/transactions/',
-      {transaction: {name: transName}},
+      {transaction: {name: transName, type: type}},
       {headers: this.getHeaders2()})
       .map((data) => {
       return {

@@ -7,14 +7,40 @@ export class Transaction {
 
   static JSONtoObject(body): Transaction {
 
-    return new Transaction(body.id, body.name, body.payments, body.createdAt);
+    return new Transaction(body.id, body.name, body.payments, body.createdAt, body.type);
 
   };
+
+  static transferToPayments(from: string, to: string, amount: number) {
+    const payments = [];
+
+    payments.push({member: from, amount: amount, debt: 0});
+    payments.push({member: to, amount: 0, debt: amount});
+    return payments;
+  }
+
+  static paymentsToTransfer(payments: any[]) {
+    if (payments[0].debt === 0) {
+      // from
+      return {
+        from: payments[0].member,
+        amount: payments[0].amount,
+        to: payments[1].member
+      }
+    } else {
+      return {
+        from: payments[1].member,
+        amount: payments[0].debt,
+        to: payments[0].member
+      };
+    }
+  }
 
   constructor(public id: string,
               public name: string,
               public payments: Payment[],
-              public createdAt: string) {
+              public createdAt: string,
+              public type: string) {
 
   }
 
