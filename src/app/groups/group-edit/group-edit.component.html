@@ -43,7 +43,7 @@
           </div>
 
 
-          <button class="btn btn-small red waves-effect waves-light autoWidth red col s2 input-field" type="button" (dblclick)="onClickDeleteMember(i, member.value)">
+          <button class="btn btn-small red waves-effect waves-light autoWidth red col s2 input-field" type="button" (click)="onClickDeleteMember(i, member.value)">
             <i class="large material-icons">clear</i>
           </button>
 
@@ -90,7 +90,7 @@
 
           <input type="text" class="input-field col s8" formControlName="email" >
           <div class="col s1"></div>
-          <button class="btn btn-small red waves-effect waves-light autoWidth red col s2 input-field" type="button" (dblclick)="onClickDeleteUser(i, user.value)">
+          <button class="btn btn-small red waves-effect waves-light autoWidth red col s2 input-field" type="button" (click)="onClickDeleteUser(i, user.value)">
             <i class="large material-icons">clear</i>
           </button>
           <!--<button class="btn btn-success" type="button" (click)="onClickUpdateUser(i, user.value)" [disabled]="user.value.email === ''">-->
