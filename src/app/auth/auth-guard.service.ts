@@ -18,7 +18,7 @@ export class AuthGuardService implements CanActivate {
     if (this.authService.isAuthenticated()) { return true; }
 
     // Store the attempted URL for redirecting
-    this.authService.redirectUrl = url;
+    // this.authService.redirectUrl = url;
 
     // Navigate to the login page with extras
     this.navService.signIn();

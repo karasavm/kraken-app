@@ -28,6 +28,7 @@ export class GroupDetailComponent implements OnInit {
   modalActions2 = new EventEmitter<string|MaterializeAction>();
   selectedMembers = [];
   searchKey: '';
+  routeNames = ["Buttons", "Carousel", "Chips", "Collapsible", "Dialogs", "Dropdown", "Forms", "Tabs", "DatePicker", "Parallax", "ModelBindings"];
 
   actions1 = new EventEmitter<string|MaterializeAction>();
   params = [

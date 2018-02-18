@@ -25,15 +25,17 @@ export class AuthService {
 
   removeToken() {
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('name');
   }
 
   registerUser(email: string, password: string, name: string) {
-    console.log('HTTP call POST /register');
+
     // this.groups[index].members.push(new Member(memberName));
     const body = {user: {email: email, password: password, name: name}};
     return this.http.post(host + '/users/register', body, {observe: 'response'})
       .subscribe((res) => {
-        this.storeToken(res.body['user']['token']);
+        this.storeToken(res.body['user']);
         this.navService.groupList();
         return res.body;
       }, (err) => {
@@ -41,8 +43,10 @@ export class AuthService {
       });
   }
 
-  storeToken(token) {
-    localStorage.setItem('token', token);
+  storeToken(user) {
+    localStorage.setItem('token', user['token']);
+    localStorage.setItem('email', user['email']);
+    localStorage.setItem('name', user['name']);
   }
 
   retriveToken() {
@@ -58,7 +62,7 @@ export class AuthService {
     return this.http.post<{ user: User }>(host + '/users/login', body, {observe: 'response'})
       .subscribe((res) => {
         console.log('Response', res);
-        this.storeToken(res.body.user.token);
+        this.storeToken(res.body.user);
         this.navService.toUrl(this.redirectUrl);
       }, (err) => {
         console.log('Error', err);
@@ -82,11 +86,13 @@ export class AuthService {
   }
 
   logout() {
+    console.log("logging out....");
     // this.token = null;
     this.removeToken();
 
     if (this.router.url !== this.navService.signInUri) {
-      this.redirectUrl = this.router.url;
+      // this.redirectUrl = this.router.url; // no redirect url cache functionality
+      this.redirectUrl = this.navService.groupListUri();
     }
 
     this.navService.signIn();

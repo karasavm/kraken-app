@@ -41,14 +41,10 @@ export class AppComponent implements OnInit{
 //todo: order by on transactions
 //todo: error messages
 
-//todo: when fail to sign up there is an error, redirects to sign in after sign in
-//todo: notification messaged when update and delete success
-//todo: when logged in can not navigate to singin/register
-//todo: delete buttons
 //todo: use table on transaction edit
 //todo: dekadika stoggulopoihsh
 //todo: hmerominies sta transaction
-//todo: tooltip on new transaction/transfer
+
 //todo: Memembers
 //todo:strogullopoihsh
 //todo: autocomplete off on signin/signup forms
@@ -61,18 +57,16 @@ export class AppComponent implements OnInit{
 
 
 // DONE FEATURES
-//tabs shifting when big screen
-//ashboat table bgainei apo ta oria
-//one click to delete a member
-//transfer
-//member selection on transactions
+// tabs shifting when big screen
+// ashboat table bgainei apo ta oria
+// one click to delete a member
+// transfer
+// member selection on transactions
+// delete buttons
+// notification messaged when update and delete success
+// tooltip on new transaction/transfer
 
 // DONE BUGS
 // new empty transfer issue on transaction list
-
-
-// Προφανώς και δεν θέλω να σε ενοχλώ από το μεσεντζερ,
-// ούτε και την ώρα που δουλεύεις.
-// Θέλω απλά να βγω μαζί σου για ένα ποτό
-// χωρίς να χαλάω το βαρύ πρόγραμμά σου.
-// Όταν έχεις χρόνο και όρεξη για αυτό, ξέρεις πλέον πού θα με βρεις
+// when logged in can not navigate to singin/register
+// when fail to sign up there is an error, redirects to sign in after sign in

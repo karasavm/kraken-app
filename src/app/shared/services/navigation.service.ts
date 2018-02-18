@@ -27,6 +27,7 @@ export class NavigationService {
 
 
   signIn() {
+    console.log("sign in")
     this.router.navigate(['/signin']);
   }
 

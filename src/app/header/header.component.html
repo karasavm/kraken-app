@@ -7,7 +7,7 @@
     <a
       [routerLink]="backPath()"
       *ngIf="router.url.split('/').length >= 4"
-       class="button-collapse"
+      class="button-collapse"
     >
       <i class="material-icons">arrow_back</i>
     </a>
@@ -15,32 +15,76 @@
     <ul class="right hide-on-sm-and-down">
       <!--<li><a routerLink="/signup" *ngIf="!authService.isAuthenticated()">Register</a></li>-->
       <!--<li ><a  routerLink="/signin" *ngIf="!authService.isAuthenticated()">Login</a></li>-->
-      <li><a (click)="onClickLogout()" *ngIf="authService.isAuthenticated()" routerLink="">Logout</a></li>
+      <!--<li><a (click)="onClickLogout()" *ngIf="authService.isAuthenticated()" routerLink="">Logout</a></li>-->
+
+      <li>
+        <a *ngIf="authService.isAuthenticated()"
+           materialize="sideNav"
+           [materializeParams]="[{edge:'right', closeOnClick: true, menuWidth: 300}]"
+           data-activates="slide-out"
+
+        >
+          <i class="material-icons">menu</i>
+        </a>
+      </li>
     </ul>
+
+    <!--<a materialize="sideNav"-->
+    <!--[materializeParams]="[{edge:'right'}]"-->
+    <!--data-activates="slide-out"-->
+    <!--class="brand-logo right"-->
+    <!--&gt;-->
+
+    <!--<i class="material-icons">menu</i>-->
+    <!--</a>-->
+
   </div>
 
 
-    <div class="nav-content " *ngIf="showGroupTabs">
-      <div class="row">
-        <div class="col s12">
-          <ul class="tabs tabs-transparent" materialize="tabs">
-            <li class="tab col s4"><a  [ngClass]="dashboardTab()" [routerLink]="navService.groupDashboardUri(groupId)" routerLinkActive="active">Dashboard</a></li>
-            <li class="tab col s4"><a [ngClass]="transactionsTab()" [routerLink]="navService.groupTransactionsUri(groupId)" routerLinkActive="active">Transactions</a></li>
-            <li class="tab col s4"><a [ngClass]="settingsTab()" [routerLink]="navService.groupSettingsUri(groupId)" routerLinkActive="active">Settings</a></li>
-          </ul>
-        </div>
+  <div class="nav-content " *ngIf="showGroupTabs">
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs tabs-transparent" materialize="tabs">
+          <li class="tab col s4"><a  [ngClass]="dashboardTab()" [routerLink]="navService.groupDashboardUri(groupId)" routerLinkActive="active">Dashboard</a></li>
+          <li class="tab col s4"><a [ngClass]="transactionsTab()" [routerLink]="navService.groupTransactionsUri(groupId)" routerLinkActive="active">Transactions</a></li>
+          <li class="tab col s4"><a [ngClass]="settingsTab()" [routerLink]="navService.groupSettingsUri(groupId)" routerLinkActive="active">Settings</a></li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <div class="nav-content" *ngIf="showAuthTabs">
-      <div class="row">
-        <div class="col s12">
-          <ul class="tabs tabs-transparent" materialize="tabs">
-            <li class="tab col s6"><a routerLink="/signin" routerLinkActive="active">Log In</a></li>
-            <li class="tab col s6"><a routerLink="/signup" routerLinkActive="active">New User</a></li>
-          </ul>
-        </div>
+  <div class="nav-content" *ngIf="showAuthTabs">
+    <div class="row">
+      <div class="col s12">
+        <ul class="tabs tabs-transparent" materialize="tabs">
+          <li class="tab col s6"><a routerLink="/signin" routerLinkActive="active">Log In</a></li>
+          <li class="tab col s6"><a routerLink="/signup" routerLinkActive="active">New User</a></li>
+        </ul>
       </div>
     </div>
+  </div>
 
 </nav>
+
+<!--SIDE NAV-->
+<ul id="slide-out" class="side-nav" >
+  <li>
+    <div class="user-view" style="background-color: teal">
+
+      <!--<div class="background">-->
+      <!--<img src="images/office.jpg">-->
+      <!--</div>-->
+
+      <a ><img class="circle" src="assets/images/user.png"></a>
+      <a ><span class="white-text name">{{userName()}}</span></a>
+      <a ><span class="white-text email">{{userEmail()}}</span></a>
+    </div>
+  </li>
+  <li><a ><i class="material-icons">settings</i>Settings (not working)</a></li>
+  <!--<li><a href="#!">Second Link</a></li>-->
+  <li><div class="divider"></div></li>
+  <li><a class="subheader"> </a></li>
+  <!--<li><a class="waves-effect" href="#!">Third Link With Waves</a></li>-->
+  <li><a (click)="onClickLogout()" ><i class="material-icons">power_settings_new</i>Logout</a></li>
+</ul>
+

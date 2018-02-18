@@ -36,10 +36,10 @@ export class ApiInterceptor implements HttpInterceptor {
 
         if (error instanceof HttpErrorResponse) {
           const elapsed = Date.now() - started;
-
           console.error(`RESPONSE ERROR(${elapsed}ms) =.`, error);
 
           if (error.status === 401) {
+            console.log("Unauthorized, force logout!")
             const authService = this.inj.get(AuthService);
             authService.logout();
 

@@ -63,7 +63,6 @@
 
 
 
-
 <!----------------------->
 
 <!--EMPTY TRANSACTION LIST MESSAGE-->
@@ -102,6 +101,7 @@
 
 
 
+
 <!--ADD BUTTON-->
 <div class="fixed-action-btn">
   <a href="#modal1" class="btn-floating btn-large green modal-trigger" (click)="openModal()">
@@ -114,11 +114,36 @@
     <i class="material-icons">add</i>
   </a>
   <ul>
-    <li><a href="#modal2" id="test"(click)="openModal(2)" class="btn-floating red modal-trigger"><i class="material-icons">trending_flat</i></a></li>
-    <li><a href="#modal1" (click)="openModal(1)" class="btn-floating blue modal-trigger"><i class="material-icons">swap_horiz</i></a></li>
+    <li>
+      <a href="#modal2" id="test"(click)="openModal(2)" class="btn-floating red modal-trigger"><i class="material-icons">trending_flat</i></a>
+      <a class="btn-floating mobile-fab-tip">Transfer</a> <!--tooltip-->
+    </li>
+    <li>
+      <a href="#modal1" (click)="openModal(1)" class="btn-floating blue modal-trigger"><i class="material-icons">swap_horiz</i></a>
+      <a class="btn-floating mobile-fab-tip">Transaction</a> <!--tooltip-->
+    </li>
 
   </ul>
 </div>
+
+
+<!--<div class="fixed-action-btn click-to-toggle" style="bottom:24px; right:24px;">-->
+  <!--<a class="btn-floating btn-large red"><i class="large material-icons">settings</i></a>-->
+  <!--<ul>-->
+    <!--<li>-->
+      <!--<a href="#" class="btn-floating amber darken-1"><i class="material-icons">create</i></a>-->
+      <!--<a href="#" class="btn-floating mobile-fab-tip">Edit</a> &lt;!&ndash;tooltip&ndash;&gt;-->
+    <!--</li>-->
+    <!--<li>-->
+      <!--<a href="#" class="btn-floating blue"><i class="material-icons">event</i></a>-->
+      <!--<a href="#" class="btn-floating mobile-fab-tip">Save to calendar</a> &lt;!&ndash;tooltip&ndash;&gt;-->
+    <!--</li>-->
+    <!--<li>-->
+      <!--<a href="#" class="btn-floating red modal-trigger"><i class="material-icons">supervisor_account</i></a>-->
+      <!--<a href="#" class="btn-floating mobile-fab-tip modal-trigger">Switch responsible</a> &lt;!&ndash;tooltip&ndash;&gt;-->
+    <!--</li>-->
+  <!--</ul>-->
+<!--</div>-->
 
 
 
