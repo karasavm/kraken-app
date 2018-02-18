@@ -20,6 +20,13 @@ export class Transaction {
   }
 
   static paymentsToTransfer(payments: any[]) {
+    if (payments.length === 0) {
+      return {
+        from: '',
+        to: '',
+        amount: null
+      }
+    }
     if (payments[0].debt === 0) {
       // from
       return {

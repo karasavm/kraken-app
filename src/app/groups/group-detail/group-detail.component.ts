@@ -26,6 +26,20 @@ export class GroupDetailComponent implements OnInit {
   searched_transactions: Transaction[];
   modalActions1 = new EventEmitter<string|MaterializeAction>();
   modalActions2 = new EventEmitter<string|MaterializeAction>();
+  selectedMembers = [];
+  searchKey: '';
+
+  actions1 = new EventEmitter<string|MaterializeAction>();
+  params = [
+    {
+      onOpen: (el) => {
+        // console.log("Collapsible open", el);
+      },
+      onClose: (el) => {
+        // console.log("Collapsible close", el);
+      }
+    }
+  ];
 
   constructor(private groupService: GroupService,
               private headerService: HeaderService,
@@ -35,12 +49,14 @@ export class GroupDetailComponent implements OnInit {
               private toastService: ToastMessagesService) {
 
 
+
+
+
   }
 
-  onSearch(key) {
-    this.searched_transactions = this.group.transactions
-      .filter(t => t.name.toLowerCase().indexOf(key.toLowerCase()) !== -1);
-  }
+
+
+
   ngOnInit() {
 
 
@@ -98,11 +114,57 @@ export class GroupDetailComponent implements OnInit {
   }
 
   // TRANSFERS
-  getFromTransfer(payments) {
-    return Transaction.paymentsToTransfer(payments).from;
+  getFromNameTransfer(payments) {
+    const transfer =  Transaction.paymentsToTransfer(payments);
+    if (transfer.from) {
+      return this.group.getMemberById(transfer.from).name;
+    } else {
+      return '';
+    }
   }
 
-  getToTransfer(payments) {
-    return Transaction.paymentsToTransfer(payments).to;
+  getToNameTransfer(payments) {
+    const transfer =  Transaction.paymentsToTransfer(payments);
+    if (transfer.to) {
+      return this.group.getMemberById(transfer.to).name;
+    } else {
+      return '';
+    }
   }
+
+  // -----------------TRANSACTIONS FILTERS
+  onClickResetFilters() {
+    this.selectedMembers = [];
+    this.searchKey = '';
+    this.searched_transactions = this.group.transactions;
+
+  }
+
+  filterTransactions() {
+
+    let searched = this.group.transactions.slice();
+
+    if (this.searchKey) {
+      searched = searched
+        .filter(t => t.name.toLowerCase().indexOf(this.searchKey.toLowerCase()) !== -1);
+    }
+
+    if (this.selectedMembers.length > 0) {
+      searched = searched
+        .filter((t) => {
+          for (let i=0; i < t.payments.length; i++) {
+            for (let j=0; j < this.selectedMembers.length ; j++) {
+              if (t.payments[i].member === this.selectedMembers[j]) {
+                return true;
+              }
+            }
+          }
+          return false;
+        })
+    }
+
+    this.searched_transactions = searched;
+
+  }
+  // --------------------------------------
 }
