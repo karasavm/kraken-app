@@ -1,58 +1,62 @@
 <nav class="nav-extended teal">
   <div class="nav-wrapper">
-    <a class="brand-logo center" style="font-size: big">{{getCurrTitle()}}</a>
 
-
-
-    <a
-      [routerLink]="backPath()"
-      *ngIf="router.url.split('/').length >= 4"
-      class="button-collapse"
-    >
-      <i class="material-icons">arrow_back</i>
-    </a>
-
-    <ul class="right hide-on-sm-and-down">
-      <!--<li><a routerLink="/signup" *ngIf="!authService.isAuthenticated()">Register</a></li>-->
-      <!--<li ><a  routerLink="/signin" *ngIf="!authService.isAuthenticated()">Login</a></li>-->
-      <!--<li><a (click)="onClickLogout()" *ngIf="authService.isAuthenticated()" routerLink="">Logout</a></li>-->
+    <ul class="left hide-on-sm-and-down">
 
       <li>
-        <a *ngIf="authService.isAuthenticated()"
-           materialize="sideNav"
-           [materializeParams]="[{edge:'right', closeOnClick: true, menuWidth: 300}]"
-           data-activates="slide-out"
+        <a [routerLink]="backPath()"
+          *ngIf="router.url.split('/').length >= 4"
+        >
+          <i class="material-icons">arrow_back</i>
+        </a>
+      </li>
 
+      <li>
+        <a *ngIf="stateName === 'groupList'"
+           materialize="sideNav"
+           [materializeParams]="[{edge:'left', closeOnClick: true, menuWidth: 300}]"
+           data-activates="slide-out"
         >
           <i class="material-icons">menu</i>
         </a>
       </li>
+      <li style="color: transparent"> tttt</li>
+      <li><a class="brand-logo-custom" >{{getCurrTitle()}}</a></li>
     </ul>
 
-    <!--<a materialize="sideNav"-->
-    <!--[materializeParams]="[{edge:'right'}]"-->
-    <!--data-activates="slide-out"-->
-    <!--class="brand-logo right"-->
-    <!--&gt;-->
 
-    <!--<i class="material-icons">menu</i>-->
-    <!--</a>-->
+    <ul class="right hide-on-sm-and-down" *ngIf="stateName === 'dashboard' || stateName === 'transactions'">
+      <li>
+        <a [routerLink]="">
+          <i class="material-icons">share</i>
+        </a>
+      </li>
+      
+      <li>
+        <a [routerLink]="navService.groupSettingsUri(groupId)">
+          <i class="material-icons">info_outline</i>
+        </a>
+      </li>
+
+
+    </ul>
 
   </div>
 
-
+  <!--GROUP TABS-->
   <div class="nav-content " *ngIf="showGroupTabs">
     <div class="row">
       <div class="col s12">
         <ul class="tabs tabs-transparent" materialize="tabs">
           <li class="tab col s4"><a  [ngClass]="dashboardTab()" [routerLink]="navService.groupDashboardUri(groupId)" routerLinkActive="active">Dashboard</a></li>
           <li class="tab col s4"><a [ngClass]="transactionsTab()" [routerLink]="navService.groupTransactionsUri(groupId)" routerLinkActive="active">Transactions</a></li>
-          <li class="tab col s4"><a [ngClass]="settingsTab()" [routerLink]="navService.groupSettingsUri(groupId)" routerLinkActive="active">Settings</a></li>
+          <!--<li class="tab col s4"><a [ngClass]="settingsTab()" [routerLink]="navService.groupSettingsUri(groupId)" routerLinkActive="active">Settings</a></li>-->
         </ul>
       </div>
     </div>
   </div>
 
+  <!--AUTH TABS-->
   <div class="nav-content" *ngIf="showAuthTabs">
     <div class="row">
       <div class="col s12">
@@ -64,6 +68,17 @@
     </div>
   </div>
 
+  <div
+    class="nav-content"
+    *ngIf="stateName === 'groupList'"
+  >
+    <div class="row">
+      <div class="col s12 left-align">
+        <h5>Groups</h5>
+      </div>
+
+    </div>
+  </div>
 </nav>
 
 <!--SIDE NAV-->
@@ -74,7 +89,6 @@
       <!--<div class="background">-->
       <!--<img src="images/office.jpg">-->
       <!--</div>-->
-
       <a ><img class="circle" src="assets/images/user.png"></a>
       <a ><span class="white-text name">{{userName()}}</span></a>
       <a ><span class="white-text email">{{userEmail()}}</span></a>

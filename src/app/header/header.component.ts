@@ -12,6 +12,8 @@ import {NavigationService} from '../shared/services/navigation.service';
 
 
 const defaultTitle = 'Kraken';
+const editGroupTitle = 'Group Details';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -65,29 +67,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // this.subscription = this.headerService.titleChanged
-    //   .subscribe((title) => {
-    //     console.log("Observer handler title", title)
-    //     this.curTitle = title;
-    //   });
-
-
-    // this.subscription2 = this.headerService.revealGroupTabs
-    //   .subscribe((v) => {
-    //     this.showTabs = v;
-    //
-    //     console.log("Observer Handler showtabs", this.showTabs);
-    //   });
-
-    // this.subscription3 = this.headerService.groupId
-    //   .subscribe((v) => {
-    //     this.groupId = v;
-    //
-    //     console.log("Observer Handler groupId", this.groupId);
-    //   });
-
     this.subscription4 = this.headerService.stateChanged
       .subscribe((state) => {
+
+        this.stateName = state.stateName;
 
         if (state.stateName === 'auth') {
           this.showAuthTabs = true;
@@ -97,13 +80,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.showAuthTabs = false;
           this.showGroupTabs = false;
           this.curTitle = defaultTitle;
-        } else if (state.stateName === 'dashboard' ||
-          state.stateName === 'transactions' ||
-          state.stateName === 'settings') {
-
-          this.stateName = state.stateName;
-          this.showGroupTabs = true;
+        } else if (state.stateName === 'dashboard' || state.stateName === 'transactions') {
           this.showAuthTabs = false;
+          this.showGroupTabs = true;
+          this.curTitle = state.title;
+          this.groupId = state.groupId;
+        } else if (state.stateName === 'settings') {
+          this.showAuthTabs = false;
+          this.showGroupTabs = false;
+          this.curTitle = editGroupTitle;
+          this.groupId = state.groupId;
+        } else if (state.stateName === 'transaction') {
+          this.showAuthTabs = false;
+          this.showGroupTabs = false;
           this.curTitle = state.title;
           this.groupId = state.groupId;
         } else {
@@ -119,8 +108,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   getCurrTitle() {
-    if (this.curTitle.length > 12) {
-      return this.curTitle.slice(0, 12) + '...';
+    if (this.curTitle.length > 16) {
+      return this.curTitle.slice(0, 16) + '...';
     }
     return this.curTitle;
   }
@@ -131,6 +120,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     if (url.length === 5) {
       return url.splice(0, url.length - 1);
+    } else if (this.stateName === 'settings') {
+      return this.navService.groupDashboardUri(this.groupId);
     } else {
       return '/groups';
     }

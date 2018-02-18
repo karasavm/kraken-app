@@ -8,3 +8,11 @@
   color: #FFF;
   width:auto;
 }
+
+
+
+.collection .collection-item.avatar-custom {
+  min-height: 60px;
+  padding-left: 72px;
+  position: relative;
+}

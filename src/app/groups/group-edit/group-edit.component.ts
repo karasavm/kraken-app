@@ -45,7 +45,7 @@ export class GroupEditComponent implements OnInit {
         this.group = data['group'];
         this.id = this.group.id;
         this.constructForm();
-        this.headerService.setState('settings', this.id, this.group.name);
+        this.headerService.setState('settings', this.id, '');
       });
   }
 
