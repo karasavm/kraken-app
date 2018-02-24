@@ -29,15 +29,23 @@
       </div>
 
 
-
-
       <br>
-      <div class="col s12">
-        <button class="btn btn-large waves-effect waves-light"
-                type="submit"
-                [disabled]="!f.valid"
-        >Log In</button>
+
+      <div class="row">
+        <div class="col s6 left-align">
+          <a class="btn btn-large waves-effect white grey-text z-depth-0"
+                  href="api/users/forgot"
+          >FORGOT PASSWORD</a>
+        </div>
+
+        <div class="col s6 right-align">
+          <button class="btn btn-large waves-effect waves-light"
+                  type="submit"
+                  [disabled]="!f.valid"
+          >Log In</button>
+        </div>
       </div>
+
 
     </form>
 

@@ -31,7 +31,7 @@
           <i class="material-icons">share</i>
         </a>
       </li>
-      
+
       <li>
         <a [routerLink]="navService.groupSettingsUri(groupId)">
           <i class="material-icons">info_outline</i>
@@ -48,8 +48,8 @@
     <div class="row">
       <div class="col s12">
         <ul class="tabs tabs-transparent" materialize="tabs">
-          <li class="tab col s4"><a  [ngClass]="dashboardTab()" [routerLink]="navService.groupDashboardUri(groupId)" routerLinkActive="active">Dashboard</a></li>
-          <li class="tab col s4"><a [ngClass]="transactionsTab()" [routerLink]="navService.groupTransactionsUri(groupId)" routerLinkActive="active">Transactions</a></li>
+          <li class="tab col s6"><a  [ngClass]="dashboardTab()" [routerLink]="navService.groupDashboardUri(groupId)" routerLinkActive="active">Dashboard</a></li>
+          <li class="tab col s6"><a [ngClass]="transactionsTab()" [routerLink]="navService.groupTransactionsUri(groupId)" routerLinkActive="active">Transactions</a></li>
           <!--<li class="tab col s4"><a [ngClass]="settingsTab()" [routerLink]="navService.groupSettingsUri(groupId)" routerLinkActive="active">Settings</a></li>-->
         </ul>
       </div>
