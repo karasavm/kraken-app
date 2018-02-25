@@ -1,6 +1,7 @@
 import {
-  AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, NgModule, OnChanges, OnDestroy,
-  OnInit
+  AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, NgModule,
+  OnChanges, OnDestroy,
+  OnInit, Output
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HeaderService} from './header.service';
@@ -8,6 +9,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {AuthService} from '../auth/auth.service';
 import {Location} from '@angular/common';
 import {NavigationService} from '../shared/services/navigation.service';
+import {getCurrentUser} from "../shared/helper";
+import {User} from "../models/user.model";
 // import {ChangeDetectionStrategy} from '@angular/compiler/src/core';
 
 
@@ -31,6 +34,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showGroupTabs = false;
   showAuthTabs = false;
   groupId = 'noGroupId';
+  currentUser: User;
+
+  @Output() onClickCollaboration = new EventEmitter();
 
   constructor(
     public router: Router,
@@ -42,12 +48,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
 
-  settingsTab() {
-    if (this.stateName === 'settings') {
-      return 'active';
-    }
-    return '';
-  }
 
   dashboardTab() {
     if (this.stateName === 'dashboard') {
@@ -67,6 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.currentUser = getCurrentUser();
     this.subscription4 = this.headerService.stateChanged
       .subscribe((state) => {
 
@@ -131,12 +132,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  userName() {
-    return localStorage.getItem('name');
-  }
-
-  userEmail() {
-    return localStorage.getItem('email');
+  onClickCollab() {
+    console.log("Collaboration button pressed")
+    this.headerService.onClickCollaboration.emit();
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

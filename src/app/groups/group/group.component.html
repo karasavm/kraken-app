@@ -2,40 +2,40 @@
 
 
 <!--<mz-tab-->
-  <!--[fixedTabWidth]="'true'"-->
+<!--[fixedTabWidth]="'true'"-->
 <!--&gt;-->
-  <!--<mz-tab-item [label]="'Transactions'" routerLinkActive="active" routerLink="transactions"></mz-tab-item>-->
-  <!--<mz-tab-item [label]="'Dashboard'" routerLinkActive="active" routerLink="dashboard"></mz-tab-item>-->
-  <!--<mz-tab-item [label]="'Settings'" (click)="console.log('aaaaaaaaaa')"></mz-tab-item>-->
+<!--<mz-tab-item [label]="'Transactions'" routerLinkActive="active" routerLink="transactions"></mz-tab-item>-->
+<!--<mz-tab-item [label]="'Dashboard'" routerLinkActive="active" routerLink="dashboard"></mz-tab-item>-->
+<!--<mz-tab-item [label]="'Settings'" (click)="console.log('aaaaaaaaaa')"></mz-tab-item>-->
 <!--</mz-tab>-->
 
 
 
 
 <!--<div class="row">-->
-  <!--<div class="col s12">-->
-    <!--<ul class="tabs tabs-fixed-width">-->
-      <!--<li class="tab col s3"><a routerLinkActive="active" routerLink="transactions">Transactions</a></li>-->
-      <!--<li class="tab col s3"><a routerLinkActive="active" routerLink="dashboard">Dashboard</a></li>-->
-      <!--<li class="tab col s3"><a routerLinkActive="active" routerLink="settings">Settings</a></li>-->
-    <!--</ul>-->
-  <!--</div>-->
+<!--<div class="col s12">-->
+<!--<ul class="tabs tabs-fixed-width">-->
+<!--<li class="tab col s3"><a routerLinkActive="active" routerLink="transactions">Transactions</a></li>-->
+<!--<li class="tab col s3"><a routerLinkActive="active" routerLink="dashboard">Dashboard</a></li>-->
+<!--<li class="tab col s3"><a routerLinkActive="active" routerLink="settings">Settings</a></li>-->
+<!--</ul>-->
+<!--</div>-->
 <!--</div>-->
 
 
 <!--<div class="row">-->
-  <!--<div class="col s12">-->
-    <!--<ul class="tabs" materialize="tabs">-->
-      <!--<li class="tab col s3"><a href="#test1">Test 1</a></li>-->
-      <!--<li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>-->
-      <!--<li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>-->
-      <!--<li class="tab col s3"><a href="#test4">Test 4</a></li>-->
-    <!--</ul>-->
-  <!--</div>-->
-  <!--<div id="test1" class="col s12">Test 1</div>-->
-  <!--<div id="test2" class="col s12">Test 2</div>-->
-  <!--<div id="test3" class="col s12">Test 3</div>-->
-  <!--<div id="test4" class="col s12">Test 4</div>-->
+<!--<div class="col s12">-->
+<!--<ul class="tabs" materialize="tabs">-->
+<!--<li class="tab col s3"><a href="#test1">Test 1</a></li>-->
+<!--<li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>-->
+<!--<li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>-->
+<!--<li class="tab col s3"><a href="#test4">Test 4</a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--<div id="test1" class="col s12">Test 1</div>-->
+<!--<div id="test2" class="col s12">Test 2</div>-->
+<!--<div id="test3" class="col s12">Test 3</div>-->
+<!--<div id="test4" class="col s12">Test 4</div>-->
 <!--</div>-->
 
 <div class="row">
@@ -45,11 +45,145 @@
 </div>
 
 <!--<div class="row">-->
-  <!--<div class="col s12">-->
-    <!--<ul class="tabs">-->
-      <!--<li class="tab col s3"><a >Test 1</a></li>-->
-      <!--<li class="tab col s3"><a >Test 2</a></li>-->
-      <!--<li class="tab col s3"><a >Test 4</a></li>-->
-    <!--</ul>-->
-  <!--</div>-->
+<!--<div class="col s12">-->
+<!--<ul class="tabs">-->
+<!--<li class="tab col s3"><a >Test 1</a></li>-->
+<!--<li class="tab col s3"><a >Test 2</a></li>-->
+<!--<li class="tab col s3"><a >Test 4</a></li>-->
+<!--</ul>-->
 <!--</div>-->
+<!--</div>-->
+
+<!--MODAL FOR EDIT MEMBER-->
+<div id="modal"
+     class="modal"
+     materialize="modal"
+     [materializeParams]="[{dismissible: true}]"
+     [materializeActions]="modalActions">
+  <div class="modal-content" *ngIf="group">
+
+    <h5>Share with others</h5>
+    <br>
+    <ul class="collection black-text with-header" >
+
+      <li
+        *ngFor="let user of group.users; let i=index"
+        class="collection-item"
+      >
+
+
+        <ng-container *ngIf="!isCurrentUser(user)">
+          {{user.name}} ({{user.email}})
+
+          <!--Dropdown Trigger-->
+          <a materialize="dropdown"
+             class='dropdown-button secondary-content'
+             href='#'
+             [attr.data-activates]= "i">
+            <i class="material-icons">more_vert</i>
+          </a>
+
+
+          <!-- Dropdown Structure -->
+          <ul [id]="i" class='dropdown-content' style="z-index: 4">
+            <!--<li><a (click)="openModal()">edit</a></li>-->
+            <!--<li class="divider"></li>-->
+            <li><a (click)="onClickDeleteUser(user)">delete</a></li>
+          </ul>
+        </ng-container>
+
+
+      </li>
+    </ul>
+
+
+    <br>
+
+    <form #f="ngForm">
+      <!--NEW MEMBER-->
+      <div class="row">
+        <div class="col s12">
+          <input type="email"
+                 class="input-field col s7"
+                 placeholder="Enter email addresses"
+                 name="email"
+                 email
+                 ngModel
+          >
+          <div class="col s1"></div>
+          <button
+            class="btn btn-small waves-effect waves-light autoWidth green col s4"
+            type="submit"
+            (click)="onClickAddUser(f)"
+            [disabled]="f.value.email === '' || f.invalid"
+          >
+
+            add
+          </button>
+        </div>
+
+
+      </div>
+    </form>
+
+
+    <div class="row">
+      <div class="col s6 grey-text">
+        Created By
+        <span *ngIf="!isCurrentUser(group.creator)">{{group.creator.name}} ({{group.creator.email}})</span>
+        <span *ngIf="isCurrentUser(group.creator)">You</span>
+      </div>
+      <div class="col s6 right-align">
+        <button
+          type="button"
+          class="btn waves-effect waves-light"
+          (click)="closeModal()"
+        >Close</button>
+      </div>
+
+      <!--<div class="col">-->
+        <!--<button-->
+          <!--type="button"-->
+          <!--class="btn waves-effect waves-light green"-->
+          <!--(click)="onClickUpdateMember(f)"-->
+          <!--[disabled]="f.value.memberName === '' || this.group.memberNameExist(f.value.memberName)"-->
+        <!--&gt;Update</button>-->
+      <!--</div>-->
+    </div>
+
+    <!--<form #f="ngForm">-->
+
+    <!--<div class="row">-->
+    <!--<div class="col s9">-->
+    <!--<div class="input-field">-->
+    <!--<input id="name" type="text" name="memberName" class="validate" ngModel>-->
+    <!--<label for="name" >Name</label>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<div class="row">-->
+    <!--<div class="col">-->
+    <!--<button-->
+    <!--type="button"-->
+    <!--class="btn waves-effect waves-light"-->
+    <!--(click)="closeModal()"-->
+    <!--&gt;Close</button>-->
+    <!--</div>-->
+
+    <!--<div class="col">-->
+    <!--<button-->
+    <!--type="button"-->
+    <!--class="btn waves-effect waves-light green"-->
+    <!--(click)="onClickUpdateMember(f)"-->
+    <!--[disabled]="f.value.memberName === '' || this.group.memberNameExist(f.value.memberName)"-->
+    <!--&gt;Update</button>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</form>-->
+
+
+  </div>
+</div>

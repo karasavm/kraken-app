@@ -67,6 +67,7 @@ export class GroupDetailComponent implements OnInit {
         this.group = data['group'];
         this.id = this.group.id;
         this.searched_transactions = this.group.transactions;
+        this.groupService.setGroupValue(this.group);
         // this.headerService.titleChanged.next(this.group.name);
         this.headerService.setState('transactions', this.id, this.group.name);
       });

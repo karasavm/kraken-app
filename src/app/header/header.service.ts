@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 
@@ -15,6 +15,7 @@ export class HeaderService {
   curTitle: string;
   stateChanged = new Subject<State>();
 
+  onClickCollaboration = new EventEmitter();
 
   setState(stateName: string, groupId: string = '', title: string = '') {
     console.log("setting state")

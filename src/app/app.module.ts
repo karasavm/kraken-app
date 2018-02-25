@@ -39,7 +39,8 @@ import {AuthComponent} from './auth/auth.component';
 import {ToastMessagesService} from './shared/services/toast-messages.service';
 
 import { ButtonsModule } from 'ngx-bootstrap';
-import { TransactionEditGiveComponent } from './groups/transaction-edit-give/transaction-edit-give.component';  //check box buttons on transaction edit
+import { TransactionEditGiveComponent } from './groups/transaction-edit-give/transaction-edit-give.component';
+import { GroupCollaboratorsComponent } from './groups/group-collaborators/group-collaborators.component';  //check box buttons on transaction edit
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { TransactionEditGiveComponent } from './groups/transaction-edit-give/tra
     GroupDashboardComponent,
     TransactionEditNewComponent,
     AuthComponent,
-    TransactionEditGiveComponent
+    TransactionEditGiveComponent,
+    GroupCollaboratorsComponent
   ],
   imports: [
     ButtonsModule.forRoot(),

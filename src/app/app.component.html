@@ -1,38 +1,4 @@
-<app-header></app-header>
-
-
-<!--<nav>-->
-<!--<ul id="slide-out" class="side-nav fixed">-->
-<!--<li *ngFor="let routeName of routeNames" routerLinkActive="active"><a [routerLink]="[routeName]">{{routeName}}</a></li>-->
-<!--</ul>-->
-<!--<a materialize="sideNav" [materializeParams]="[{edge:'left'}]" href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="mdi-navigation-menu"></i></a>-->
-<!--<a materialize="sideNav" [materializeParams]="[{edge:'left'}]" href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="mdi-navigation-menu"></i></a>-->
-<!--</nav>-->
-
-
-
-
-
-<!--<ul id="slide-out" class="side-nav fixed">-->
-<!--<li ><a >hello</a></li>-->
-<!--<li ><a >hello1</a></li>-->
-<!--<li ><a >hello2</a></li>-->
-<!--</ul>-->
-
-
-<!--<a materialize="sideNav"-->
-<!--[materializeParams]="[{edge:'left'}]"-->
-<!--href="#"-->
-<!--data-activates="slide-out"-->
-<!--class="button-collapse show-on-large"-->
-<!--&gt;-->
-<!--<i class="mdi-navigation-menu"></i>-->
-<!--</a>-->
-
-<!--<a materialize="sideNav" [materializeParams]="[{edge:'left'}]" href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="mdi-navigation-menu"></i></a>-->
-
-
-<!--<div *ngIf="showSpinner" class="loading">Loading&#8230;</div>-->
+<app-header (onClickCollaboration)="handler($event)"></app-header>
 
 <div class="container" style="max-width: 600px">
   <router-outlet></router-outlet>

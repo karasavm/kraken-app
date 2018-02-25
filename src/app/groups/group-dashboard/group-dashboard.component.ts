@@ -30,6 +30,8 @@ export class GroupDashboardComponent implements OnInit {
         // this.headerService.titleChanged.next(this.group.name);
         this.headerService.setState('dashboard', this.id, this.group.name);
         this.debts = this.group.calcDebts();
+
+        this.groupService.setGroupValue(this.group);
       });
 
 

@@ -22,3 +22,15 @@
   -webkit-tap-highlight-color: transparent;
 
 }
+
+.collection {
+  overflow: visible;
+  border: none;
+}
+
+.collection-item {
+  border: none;
+  width: 80%;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}

@@ -17,8 +17,9 @@ import {User} from '../models/user.model';
 
 @Injectable()
 export class GroupService {
-  groupsChanged = new Subject<any[]>();
-
+  usersChanged = new Subject<User[]>();
+  groupUsers: User[];
+  group: Group;
   // private groups: Group[] = GROUPS;
   private groups: Group[] = [];
 
@@ -33,6 +34,12 @@ export class GroupService {
     return new HttpHeaders().set('Authorization', this.authService.retriveToken());
   }
 
+  setGroupValue(group: Group) {
+    this.group = group;
+  }
+  getGroupValue() {
+    return this.group;
+  }
   getGroups(): Observable<Group[]> {
     return this.http2
       .get(host + '/groups', {headers: this.getHeaders2()})

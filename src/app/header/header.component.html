@@ -27,8 +27,8 @@
 
     <ul class="right hide-on-sm-and-down" *ngIf="stateName === 'dashboard' || stateName === 'transactions'">
       <li>
-        <a [routerLink]="">
-          <i class="material-icons">share</i>
+        <a [routerLink]="" (click)="onClickCollab()">
+          <i class="material-icons">person_add</i>
         </a>
       </li>
 
@@ -90,8 +90,8 @@
       <!--<img src="images/office.jpg">-->
       <!--</div>-->
       <a ><img class="circle" src="assets/images/user.png"></a>
-      <a ><span class="white-text name">{{userName()}}</span></a>
-      <a ><span class="white-text email">{{userEmail()}}</span></a>
+      <a ><span class="white-text name">{{currentUser.name}}</span></a>
+      <a ><span class="white-text email">{{currentUser.email}}</span></a>
     </div>
   </li>
   <li><a ><i class="material-icons">settings</i>Settings (not working)</a></li>

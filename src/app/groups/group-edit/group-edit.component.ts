@@ -10,6 +10,8 @@ import {ToastMessagesService} from '../../shared/services/toast-messages.service
 import dict from '../../shared/dictionary';
 import {MaterializeAction} from "angular2-materialize";
 import {NavigationService} from "../../shared/services/navigation.service";
+import {getCurrentUser, isCurrentUser} from "../../shared/helper";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-group-edit',
@@ -23,8 +25,14 @@ export class GroupEditComponent implements OnInit {
   id: string;
   nameChangeLog: string[] = [];
   modalActions = new EventEmitter<string|MaterializeAction>();
-  messagesDict = {deleteGroup: dict["group.delete.prompt_message"]};
-
+  modalActions2 = new EventEmitter<string|MaterializeAction>();
+  messagesDict = {
+    deleteGroup: dict["group.delete.prompt_message"],
+    leaveGroup: dict["group.leave.prompt_message"]
+  };
+  memberIdToUpdate = '';
+  memberNameToUpdate = '';
+  isCurrentUser = isCurrentUser;
 
   constructor(
     private groupService: GroupService,
@@ -32,7 +40,8 @@ export class GroupEditComponent implements OnInit {
     private headerService: HeaderService,
     private formBuilder: FormBuilder,
     private toastService: ToastMessagesService,
-    private navService: NavigationService
+    private navService: NavigationService,
+    private authService: AuthService
     ) {
   }
 
@@ -52,14 +61,12 @@ export class GroupEditComponent implements OnInit {
   constructForm() {
     this.groupForm = this.formBuilder.group({
       name: this.group.name,
-      members: this.formBuilder.array([]),
       newMemberName: new FormControl(''),
       users: this.formBuilder.array([]),
       newUserEmail: new FormControl('')
-      // members: new FormArray
     });
-    this.setMembersFormArray(this.group.members);
     this.setUsersFormArray(this.group.users);
+
   }
 
   logNameChange() {
@@ -92,45 +99,49 @@ export class GroupEditComponent implements OnInit {
   // -------------   MEMBERS HANDLING ------------------------
   onClickAddMember() {
 
+
+
     const name = this.groupForm.get('newMemberName').value;
     if (name) {
       // Save Member
       this.groupService.addMember(this.id, {name: name})
         .subscribe((members) => {
-          this.setMembersFormArray(members);
-          this.groupForm.get('newMemberName').reset('');
+          this.group.members = members;
+          this.groupForm.get('newMemberName').setValue('');
         }, (err) => {
+          this.groupForm.get('newMemberName').setValue('');
           this.toastService.error(dict['member.add.error']);
         });
     }
   }
 
-  onClickUpdateMember(i, member) {
 
-    // // const name = this.groupForm.get('newMemberName').value;
-    if (member.name) {
+  onClickUpdateMember2(form) {
+    const name = form.value.memberName;
 
+    if (name) {
       // Save Member
-      this.groupService.updateMember(this.id, member)
+      this.groupService.updateMember(this.id, {id: this.memberIdToUpdate, name: name})
         .subscribe(members => {
+          this.group.members = members;
+          this.memberIdToUpdate = '';
+          this.closeModal2();
           this.toastService.success(dict['member.update.success']);
         }, (err) => {
-          this.getMembersFormArray().at(i).setValue(this.group.members[i]);
+          this.closeModal2();
+          // this.getMembersFormArray().at(i).setValue(this.group.members[i]);
           this.toastService.error(dict['member.update.error']);
         });
+      form.reset();
     }
   }
 
 
   onClickDeleteMember(index: number, member: Member) {
-    // const index = (this.groupForm.get('members') as FormArray)
-    //   .getRawValue().findIndex(v => v.id === member.id);
-
-
     this.groupService.deleteMember(this.id, member.id)
-      .subscribe(members =>
-        (this.groupForm.get('members') as FormArray).removeAt(index),
-        (err) => {
+      .subscribe((members) => {
+          this.group.members = members
+      }, (err) => {
         this.toastService.error(dict['member.delete.error']);
         });
   }
@@ -151,26 +162,10 @@ export class GroupEditComponent implements OnInit {
         });
     }
   }
-  onClickDeleteUser(index: number, user: User) {
-    this.groupService.deleteUser(this.id, user.id)
-      .subscribe(users =>
-        (this.groupForm.get('users') as FormArray).removeAt(index),
-        (err) => {
-        this.toastService.error(dict['user.delete.error']);
-        });
-  }
+
   // ------------------------------------------------------------------------
 
   // -------------    FORMS HELPER FUNCTIONS -------------------------
-  getMembersFormArray(): FormArray {
-    return this.groupForm.get('members') as FormArray;
-  }
-
-  setMembersFormArray(members: Member[]) {
-    const membersGA = members.map(member => this.formBuilder.group(member));
-    const membersFA = this.formBuilder.array(membersGA);
-    this.groupForm.setControl('members', membersFA);
-  }
 
   setUsersFormArray(users: User[]) {
     const usersGA = users.map(user => this.formBuilder.group(user));
@@ -188,13 +183,36 @@ export class GroupEditComponent implements OnInit {
     this.modalActions.emit({action:"modal",params:['close']});
   }
 
+  openModal2(memberId) {
+    this.memberIdToUpdate = memberId;
+    this.modalActions2.emit({action:"modal",params:['open']});
+  }
+  closeModal2() {
+    this.memberIdToUpdate = '';
+    this.modalActions2.emit({action:"modal",params:['close']});
+  }
+
   onClickDeleteGroup() {
     this.groupService.deleteGroup(this.id)
       .subscribe((data) => {
-        this.toastService.error(dict['group.delete.success']);
+        this.toastService.success(dict['group.delete.success']);
         this.navService.groupList();
       }, (error) => {
         this.toastService.error(dict['group.delete.error']);
       });
   }
+
+  // delete user
+  onClickLeaveGroup() {
+
+    this.groupService.deleteUser(this.id, getCurrentUser().id)
+      .subscribe((users) => {
+        this.navService.groupList();
+        this.toastService.success(dict['user.left.success']);
+      }, (err) => {
+          this.toastService.error(dict['user.left.error']);
+        });
+  }
+
+
 }

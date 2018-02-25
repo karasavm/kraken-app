@@ -21,13 +21,13 @@ export class AuthService {
     this.redirectUrl = this.navService.groupListUri();
   }
 
-
+  //todo: get current user from token
 
   removeToken() {
     localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    localStorage.removeItem('name');
   }
+
+
 
   registerUser(email: string, password: string, name: string) {
 
@@ -35,7 +35,7 @@ export class AuthService {
     const body = {user: {email: email, password: password, name: name}};
     return this.http.post(host + '/users/register', body, {observe: 'response'})
       .subscribe((res) => {
-        this.storeToken(res.body['user']);
+        this.storeToken(res.body['user']); //todo: remove save current user to local
         this.navService.groupList();
         return res.body;
       }, (err) => {
@@ -45,8 +45,6 @@ export class AuthService {
 
   storeToken(user) {
     localStorage.setItem('token', user['token']);
-    localStorage.setItem('email', user['email']);
-    localStorage.setItem('name', user['name']);
   }
 
   retriveToken() {

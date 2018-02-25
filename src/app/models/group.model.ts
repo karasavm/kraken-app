@@ -8,18 +8,20 @@ export class Group {
               public name: string,
               public members: Member[] = [],
               public transactions: Transaction[] = [],
-              public users: User[] = []) {
+              public users: User[] = [],
+              public creator: User = null) {
 
   }
 
   static JSONtoObject(body): Group {
-
+    console.log("booodyy",body);
     return new Group(
       body.id,
       body.name,
       body.members.map(member => Member.JSONtoObject(member)),
       body.transactions.map(transaction => Transaction.JSONtoObject(transaction)),
-      body.users
+      body.users,
+      body.creator
     );
 
   }
@@ -54,6 +56,11 @@ export class Group {
     return this.members.find(m => m.id === id);
   }
 
+  memberNameExist(memberName: string) {
+    return this.members.findIndex(m => m.name === memberName) !== -1;
+
+
+  }
 }
 
 // export interface Group {

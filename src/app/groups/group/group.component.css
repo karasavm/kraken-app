@@ -11,53 +11,20 @@
 /*}*/
 
 
-
-.mytabs {
-  display: inline;
-  width: 100%;
-  text-align: center;
-  background-color: #009688;
-
-
-  position: relative;
-  overflow-x: auto;
-  overflow-y: hidden;
-  height: 48px;
-  margin: 0 auto;
-  white-space: nowrap;
+.collection {
+  overflow: visible;
+  border: none;
 }
 
-.tabitem {
-  display: inline-block;
-  width: 33%;
-  padding: .75rem 0;
-  margin: 0;
-  text-decoration: none;
-  color: #333;
-  text-align: center;
-  background-color: #009688;
-  font-weight: bold;
-
-
-}
-.tablink {
-  color: white;
-}
-.two:hover ~ hr {
-  margin-left: 33%;
-}
-
-.three:hover ~ hr {
-  margin-left: 66%;
+.collection-item {
+  border: none;
+  padding-left: 0 !important;
+  padding-right: 0;
+  background-color: transparent;
 }
 
 
-hr {
-  height: .25rem;
-  width: 33%;
-  margin: 0;
-  background: white;
-  border: 20px;
-  border-color: #009688;
-  transition: .3s ease-in-out;
+.zero-padding {
+  padding-left: 0;
+  padding-right: 0;
 }

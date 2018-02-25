@@ -34,6 +34,10 @@ export class AppComponent implements OnInit{
   ngOnInit() {
 
   }
+
+  handler(event) {
+    console.log(event," fffffff")
+  }
 }
 
 // TODOLIST New Features
