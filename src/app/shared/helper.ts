@@ -17,12 +17,11 @@ export function nulling(v) {
 }
 
 export function isCurrentUser(user: User) {
-  return localStorage.getItem('email') === user.email;
+
+  return getCurrentUser().email === user.email;
 }
 
-export function getCurrentUserEmail(user: User) {
-  return localStorage.getItem('email') === user.email;
-}
+
 
 
 export function getCurrentUser() {

@@ -57,8 +57,14 @@ export class Group {
 
   memberNameExist(memberName: string) {
     return this.members.findIndex(m => m.name === memberName) !== -1;
+  }
 
+  userEmailExists(userEmail: string) {
+    return this.users.findIndex(u => u.email === userEmail) !== -1;
+  }
 
+  isCreatorsEmail(userEmail : string) {
+    return this.creator.email === userEmail;
   }
 }
 

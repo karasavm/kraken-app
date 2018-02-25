@@ -44,24 +44,8 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-
-    // this.headerService.setGroupId(this.route.snapshot.paramMap['params']['id']);
-    // this.headerService.showTabs();
-    // this.headerService.setState('group', this.route.snapshot.paramMap['params']['id'])
-
-    //
-    // $(document).ready(function(){
-    //   $('ul.tabs').tabs();
-    //   console.log("dddddddddddddddddddddddddddddddddddddddddddd")
-    // });
-
-    // this.subscription = this.groupService.usersChanged
-    //   .subscribe((users)=> {
-    //     this.groupUsers = users;
-    //     this.checked = true;
-    //     console.log("checked")
-    //   })
-
+    this.group = this.groupService.getGroupValue();
+    console.log(this.group, "gggggggggggggggggggggggggggggg")
     this.headerService.onClickCollaboration
       .subscribe((data) => {
         console.log("on click collaporation event")
