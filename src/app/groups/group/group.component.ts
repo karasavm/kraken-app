@@ -34,6 +34,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   group: Group;
   modalActions = new EventEmitter<string|MaterializeAction>();
   isCurrentUser = isCurrentUser;
+  subscription = new Subscription();
 
   constructor(private navService: NavigationService,
               private headerService: HeaderService,
@@ -44,9 +45,7 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.group = this.groupService.getGroupValue();
-    console.log(this.group, "gggggggggggggggggggggggggggggg")
-    this.headerService.onClickCollaboration
+    this.subscription = this.headerService.onClickCollaboration
       .subscribe((data) => {
         console.log("on click collaporation event")
         this.group = this.groupService.getGroupValue();
@@ -62,6 +61,8 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.modalActions.emit({action:"modal",params:['open']});
   }
   closeModal() {
+    this.modalActions.emit({action:"modal",params:['close']});
+    this.modalActions.emit({action:"modal",params:['close']});
     this.modalActions.emit({action:"modal",params:['close']});
   }
 
@@ -100,6 +101,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   // ------------------------------------------------------------------------
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }
