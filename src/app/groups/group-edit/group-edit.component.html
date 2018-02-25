@@ -1,239 +1,213 @@
 
 <!--<div class="row">-->
 <!--<div class="col-12">-->
-<form [formGroup]="groupForm" *ngIf="groupForm" >
-  <br>
-  <!--MAIN PANEL-->
-  <div class="card">
-    <div class="card-content">
-      <h5 class="card-title">Name</h5>
 
-      <div class="row">
-        <div class="input-field col s8">
-          <input placeholder="Name"
-                 type="text" class="form-control"
-                 formControlName="name"
-          >
-        </div>
-        <div class="col s1"></div>
-        <button class="btn btn-small waves-effect waves-light autoWidth green input-field col s2"
-                type="button"
-                (click)="onClickUpdateGroup()"
-                [disabled]="groupForm.get('name').value === ''"
+
+<!--MAIN PANEL-->
+<div class="card">
+  <div class="card-content">
+
+    <ul class="collection black-text row">
+
+      <li class="collection-item">
+
+        {{group.name}}
+
+        <!-- Dropdown Trigger -->
+        <a materialize="dropdown"
+           class='dropdown-button secondary-content'
+           href='#' data-activates= "gName"
+           (click)="openModal2('groupUpdate', null)"
         >
-          <i class="large material-icons">done</i>
-        </button>
-      </div>
+          <i class="material-icons">mode_edit</i>
+        </a>
+      </li>
+    </ul>
 
-    </div>
+
   </div>
+</div>
 
-  <br>
-  <!--- --MEMBERS-- -->
-  <div class="card">
-    <div class="card-content">
-      <h5 class="card-title">Members</h5>
 
-      <ul class="collection black-text">
+<br>
+<!--- --MEMBERS-- -->
+<div class="card">
+  <div class="card-content">
+    <h5 class="card-title">Members</h5>
 
-        <li
-          *ngFor="let member of group.members; let i=index"
-          class="collection-item"
+    <ul class="collection black-text row">
+
+      <li
+        *ngFor="let member of group.members; let i=index"
+        class="collection-item"
+      >
+
+        {{member.name}}
+
+        <!-- Dropdown Trigger -->
+        <a materialize="dropdown"
+           class='dropdown-button secondary-content'
+           href='#'
+           [attr.data-activates]= "i"
         >
-
-          {{member.name}}
-
-          <!-- Dropdown Trigger -->
-          <a materialize="dropdown"
-             class='dropdown-button secondary-content'
-             href='#'
-             [attr.data-activates]= "i">
-            <i class="material-icons">more_vert</i>
-          </a>
+          <i class="material-icons">more_vert</i>
+        </a>
 
 
-          <!-- Dropdown Structure -->
-          <ul [id]="i" class='dropdown-content' style="z-index: 4">
-            <li><a (click)="openModal2(member.id)">edit</a></li>
-            <li class="divider"></li>
-            <li><a (click)="onClickDeleteMember(i, member)">delete</a></li>
-          </ul>
-        </li>
-      </ul>
+        <!-- Dropdown Structure -->
+        <ul [id]="i" class='dropdown-content' style="z-index: 4">
+          <li><a (click)="openModal2('memberUpdate', member)">edit</a></li>
+          <li class="divider"></li>
+          <li><a (click)="onClickDeleteMember(i, member)">delete</a></li>
+        </ul>
+      </li>
+    </ul>
 
-
-      <br>
-      <!--NEW MEMBER-->
+    <br>
+    <!--NEW MEMBER-->
+    <form #f2="ngForm">
       <div class="row">
-        <div class="col s12">
-          <input type="text" class="input-field col s7" placeholder="Insert New Member" formControlName="newMemberName">
-          <div class="col s1"></div>
+        <div class="col s8">
+          <input type="text" class="input-field"
+                 placeholder="Insert New Member"
+                 name="newMemberName"
+                 ngModel>
+        </div>
+
+        <div class="col s4 right-align">
           <button
-            class="btn btn-small waves-effect waves-light autoWidth green col s4"
-            type="button" (click)="onClickAddMember()"
-            [disabled]="groupForm.get('newMemberName').value === '' || this.group.memberNameExist(groupForm.get('newMemberName').value)"
+            class="btn btn-small waves-effect waves-light green"
+            type="submit" (click)="onClickAddMember(f2)"
+
           >
             add
           </button>
         </div>
-
-
       </div>
+    </form>
 
-    </div>
+
   </div>
+</div>
 
-  <br>
-
-  <!--&lt;!&ndash;SHARES&ndash;&gt;-->
-  <!--<div class="card">-->
-  <!--<div class="card-content">-->
-  <!--<h4 class="card-title">Sharing</h4>-->
-  <!--&lt;!&ndash;<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>&ndash;&gt;-->
-
-  <!--&lt;!&ndash;SHARING LIST&ndash;&gt;-->
-  <!--<div formArrayName="users" class="row">-->
-  <!--<div  class='col s12'*ngFor="let user of groupForm.get('users').controls; let i=index" [formGroupName]="i">-->
-
-  <!--<input type="text" class="input-field col s8" formControlName="email" >-->
-  <!--<div class="col s1"></div>-->
-  <!--<button class="btn btn-small red waves-effect waves-light autoWidth red col s2 input-field" type="button" (click)="onClickDeleteUser(i, user.value)">-->
-  <!--<i class="large material-icons">clear</i>-->
-  <!--</button>-->
-  <!--&lt;!&ndash;<button class="btn btn-success" type="button" (click)="onClickUpdateUser(i, user.value)" [disabled]="user.value.email === ''">&ndash;&gt;-->
-  <!--&lt;!&ndash;<span class="glyphicon glyphicon-ok"></span>&ndash;&gt;-->
-  <!--&lt;!&ndash;</button>&ndash;&gt;-->
-
-  <!--</div>-->
-  <!--</div>-->
-
-  <!--<br>-->
-  <!--<br>-->
-  <!--&lt;!&ndash;NEW SHARE&ndash;&gt;-->
-  <!--<div class="row">-->
-  <!--<div class="col s12">-->
-  <!--<input type="text" class="input-field col s7" placeholder="Insert New Member" formControlName="newUserEmail">-->
-  <!--<div class="col s1"></div>-->
-  <!--<button class="btn btn-small waves-effect waves-light green col s4" type="button" (click)="onClickAddUser()" [disabled]="groupForm.get('newUserEmail').value === ''">-->
-  <!--Add-->
-  <!--</button>-->
-  <!--</div>-->
+<br>
 
 
-  <!--</div>-->
+<!--DELETE GROUP BUTTON-->
+<div class="row" *ngIf="isCurrentUser(group.creator)">
+  <div class="col s12">
+    <a class="waves-effect waves-light btn-large red right" (click)="openModal()">
+      <i class="material-icons left">delete_forever</i>
+      delete
+    </a>
+  </div>
+</div>
 
-  <!--</div>-->
-  <!--</div>-->
+<!--LEAVE GROUP BUTTON-->
+<div class="row" *ngIf="!isCurrentUser(group.creator)">
+  <div class="col s12">
+    <a class="waves-effect waves-light btn-large red right" (click)="openModal()">
+      <!--<i class="material-icons left">delete_forever</i>-->
+      LEAVE GROUP
+    </a>
+  </div>
+</div>
 
+<!--DELETE/LEAVE GROUP CONFIRMATION MODAL-->
+<div id="modal1"
+     class="modal"
+     materialize="modal"
+     [materializeParams]="[{dismissible: false}]"
+     [materializeActions]="modalActions">
 
-  <!--</form>-->
-  <!--DELETE GROUP BUTTON-->
-  <div class="row" *ngIf="isCurrentUser(group.creator)">
-    <div class="col s12">
-      <a class="waves-effect waves-light btn-large red right" (click)="openModal()">
-        <i class="material-icons left">delete_forever</i>
-        delete
+  <!--CREATOR-->
+  <div *ngIf="isCurrentUser(group.creator)">
+    <div class="modal-content">
+      <h4>Delete Group</h4>
+      <p>{{messagesDict.deleteGroup}}</p>
+    </div>
+    <div class="modal-footer">
+      <a class="waves-effect waves-green btn" (click)="closeModal()">
+        cancel
+      </a>
+      <a class="modal-action modal-close waves-effect waves-green btn red" (click)="onClickDeleteGroup()">
+        Delete
       </a>
     </div>
   </div>
 
-  <!--LEAVE GROUP BUTTON-->
-  <div class="row" *ngIf="!isCurrentUser(group.creator)">
-    <div class="col s12">
-      <a class="waves-effect waves-light btn-large red right" (click)="openModal()">
-        <!--<i class="material-icons left">delete_forever</i>-->
-        LEAVE GROUP
+  <!--NOT CREATOR-->
+  <div *ngIf="!isCurrentUser(group.creator)">
+    <div class="modal-content">
+      <h4>Leave Group</h4>
+      <p>{{messagesDict.leaveGroup}}</p>
+    </div>
+    <div class="modal-footer">
+      <a class="waves-effect waves-green btn" (click)="closeModal()">
+        cancel
+      </a>
+      <a class="modal-action modal-close waves-effect waves-green btn red"
+         (click)="onClickLeaveGroup()"
+      >
+        Leave
       </a>
     </div>
   </div>
 
-  <!--DELETE GROUP CONFIRMATION MODAL-->
-  <div id="modal1"
-       class="modal"
-       materialize="modal"
-       [materializeParams]="[{dismissible: false}]"
-       [materializeActions]="modalActions">
+</div>
 
-    <!--CREATOR-->
-    <div *ngIf="isCurrentUser(group.creator)">
-      <div class="modal-content">
-        <h4>Delete Group</h4>
-        <p>{{messagesDict.deleteGroup}}</p>
-      </div>
-      <div class="modal-footer">
-        <a class="waves-effect waves-green btn" (click)="closeModal()">
-          cancel
-        </a>
-        <a class="modal-action modal-close waves-effect waves-green btn red" (click)="onClickDeleteGroup()">
-          Delete
-        </a>
-      </div>
-    </div>
+<!--EDIT MEMBER MODAL-->
+<div id="modal2"
+     class="modal"
+     materialize="modal"
+     [materializeParams]="[{dismissible: false, inDuration: 0, outDuration: 0}]"
+     [materializeActions]="modalActions2">
 
-    <!--NOT CREATOR-->
-    <div *ngIf="!isCurrentUser(group.creator)">
-      <div class="modal-content">
-        <h4>Leave Group</h4>
-        <p>{{messagesDict.leaveGroup}}</p>
-      </div>
-      <div class="modal-footer">
-        <a class="waves-effect waves-green btn" (click)="closeModal()">
-          cancel
-        </a>
-        <a class="modal-action modal-close waves-effect waves-green btn red"
-           (click)="onClickLeaveGroup()"
-        >
-          Leave
-        </a>
-      </div>
-    </div>
-
-  </div>
-
-  <!--EDIT MEMBER MODAL-->
-  <div id="modal2"
-       class="modal"
-       materialize="modal"
-       [materializeParams]="[{dismissible: false, inDuration: 0, outDuration: 0}]"
-       [materializeActions]="modalActions2">
+  <form #f="ngForm">
     <div class="modal-content">
 
+      <h5 *ngIf="nameUpdateMode==='memberUpdate'">Edit Member Name</h5>
+      <h5 *ngIf="nameUpdateMode==='groupUpdate'">Edit Group Name</h5>
+      <br>
 
-      <form #f="ngForm">
-
-        <div class="row">
-          <div class="col s9">
-            <div class="input-field">
-              <input id="name" type="text" name="memberName" class="validate" ngModel>
-              <label for="name" >Name</label>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <button
-              type="button"
-              class="btn waves-effect waves-light"
-              (click)="closeModal2()"
-            >Close</button>
-          </div>
-
-          <div class="col">
-            <button
-              type="button"
-              class="btn waves-effect waves-light green"
-              (click)="onClickUpdateMember2(f)"
-              [disabled]="f.value.memberName === '' || this.group.memberNameExist(f.value.memberName)"
-            >Update</button>
+      <div class="row">
+        <div class="col s12">
+          <div class="input-field">
+            <input materialize id="name"
+                   type="text" name="memberName"
+                   class="validate" [(ngModel)]="nameToUpdate">
           </div>
         </div>
+      </div>
+    </div>
 
-      </form>
+    <div class="modal-footer">
+
+      <button
+        type="button"
+        class="btn waves-effect waves-light btn-flat teal-text"
+        (click)="closeModal2()"
+      >Close</button>
+
+      <button
+        *ngIf="nameUpdateMode==='memberUpdate'"
+        type="submit"
+        class="btn waves-effect waves-light btn-flat teal-text"
+        (click)="onClickUpdateMember2(f)"
+        [disabled]="nameToUpdate === '' || this.group.memberNameExist(nameToUpdate)"
+      >Update</button>
+
+      <button
+        *ngIf="nameUpdateMode==='groupUpdate'"
+        type="submit"
+        class="btn waves-effect waves-light btn-flat teal-text"
+        (click)="onClickUpdateGroup()"
+        [disabled]="nameToUpdate === ''"
+      >Update</button>
 
 
     </div>
-  </div>
+  </form>
+</div>
 
 

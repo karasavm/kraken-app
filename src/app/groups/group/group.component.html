@@ -60,8 +60,8 @@
      materialize="modal"
      [materializeParams]="[{dismissible: true}]"
      [materializeActions]="modalActions">
-  <div class="modal-content" *ngIf="group">
 
+  <div class="modal-content" *ngIf="group">
     <h5>Share with others</h5>
     <br>
     <ul class="collection black-text with-header" >
@@ -73,7 +73,9 @@
 
 
         <ng-container *ngIf="!isCurrentUser(user)">
-          {{user.name}} ({{user.email}})
+
+          {{user.name}} <br>
+          ({{user.email}})
 
           <!--Dropdown Trigger-->
           <a materialize="dropdown"
@@ -86,104 +88,67 @@
 
           <!-- Dropdown Structure -->
           <ul [id]="i" class='dropdown-content' style="z-index: 4">
-            <!--<li><a (click)="openModal()">edit</a></li>-->
-            <!--<li class="divider"></li>-->
             <li><a (click)="onClickDeleteUser(user)">delete</a></li>
           </ul>
         </ng-container>
-
-
       </li>
     </ul>
 
 
+
+
     <br>
 
-    <form #f="ngForm">
+
+    <form #f="ngForm" class="row">
       <!--NEW MEMBER-->
-      <div class="row">
-        <div class="col s12">
-          <input type="email"
-                 class="input-field col s7"
-                 placeholder="Enter email addresses"
-                 name="email"
-                 email
-                 ngModel
-          >
-          <div class="col s1"></div>
-          <button
-            class="btn btn-small waves-effect waves-light autoWidth green col s4"
-            type="submit"
-            (click)="onClickAddUser(f)"
-            [disabled]="f.value.email === '' || f.invalid"
-          >
 
-            add
-          </button>
-        </div>
+      <div class="col s9">
 
+        <input type="email"
+               class="input-field"
+               placeholder="Enter email addresses"
+               name="email"
+               email
+               ngModel
+        >
+      </div>
 
+      <div class="col s3 right-align">
+        <button
+          class="btn btn-small waves-effect waves-light green"
+          type="submit"
+          (click)="onClickAddUser(f)"
+          [disabled]="f.value.email === '' || f.invalid"
+        >
+          <i class="material-icons">person_add</i>
+        </button>
       </div>
     </form>
 
+    <br>
 
-    <div class="row">
+    <div class="row" style="margin-bottom: 0">
+
       <div class="col s6 grey-text">
         Created By
         <span *ngIf="!isCurrentUser(group.creator)">{{group.creator.name}} ({{group.creator.email}})</span>
         <span *ngIf="isCurrentUser(group.creator)">You</span>
       </div>
+
       <div class="col s6 right-align">
         <button
           type="button"
-          class="btn waves-effect waves-light"
+          class="btn waves-effect waves-light btn-flat"
           (click)="closeModal()"
         >Close</button>
       </div>
 
-      <!--<div class="col">-->
-        <!--<button-->
-          <!--type="button"-->
-          <!--class="btn waves-effect waves-light green"-->
-          <!--(click)="onClickUpdateMember(f)"-->
-          <!--[disabled]="f.value.memberName === '' || this.group.memberNameExist(f.value.memberName)"-->
-        <!--&gt;Update</button>-->
-      <!--</div>-->
     </div>
 
-    <!--<form #f="ngForm">-->
-
-    <!--<div class="row">-->
-    <!--<div class="col s9">-->
-    <!--<div class="input-field">-->
-    <!--<input id="name" type="text" name="memberName" class="validate" ngModel>-->
-    <!--<label for="name" >Name</label>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div class="row">-->
-    <!--<div class="col">-->
-    <!--<button-->
-    <!--type="button"-->
-    <!--class="btn waves-effect waves-light"-->
-    <!--(click)="closeModal()"-->
-    <!--&gt;Close</button>-->
-    <!--</div>-->
-
-    <!--<div class="col">-->
-    <!--<button-->
-    <!--type="button"-->
-    <!--class="btn waves-effect waves-light green"-->
-    <!--(click)="onClickUpdateMember(f)"-->
-    <!--[disabled]="f.value.memberName === '' || this.group.memberNameExist(f.value.memberName)"-->
-    <!--&gt;Update</button>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</form>-->
-
-
   </div>
+
+
+
+
 </div>

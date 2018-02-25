@@ -20,10 +20,8 @@ import {AuthService} from "../../auth/auth.service";
 })
 export class GroupEditComponent implements OnInit {
 
-  groupForm: FormGroup;
   group: Group;
   id: string;
-  nameChangeLog: string[] = [];
   modalActions = new EventEmitter<string|MaterializeAction>();
   modalActions2 = new EventEmitter<string|MaterializeAction>();
   messagesDict = {
@@ -31,85 +29,64 @@ export class GroupEditComponent implements OnInit {
     leaveGroup: dict["group.leave.prompt_message"]
   };
   memberIdToUpdate = '';
-  memberNameToUpdate = '';
+  nameToUpdate = ''; //modale value for edit member and edit group name
   isCurrentUser = isCurrentUser;
+  nameUpdateMode: string;  //modal model. update groupname/edit member name
 
   constructor(
     private groupService: GroupService,
     private route: ActivatedRoute,
     private headerService: HeaderService,
-    private formBuilder: FormBuilder,
     private toastService: ToastMessagesService,
-    private navService: NavigationService,
-    private authService: AuthService
+    private navService: NavigationService
     ) {
   }
 
   ngOnInit() {
 
 
-
     this.route.data
       .subscribe((data: {group: Group}) => {
         this.group = data['group'];
         this.id = this.group.id;
-        this.constructForm();
+
         this.headerService.setState('settings', this.id, '');
       });
   }
 
-  constructForm() {
-    this.groupForm = this.formBuilder.group({
-      name: this.group.name,
-      newMemberName: new FormControl(''),
-      users: this.formBuilder.array([]),
-      newUserEmail: new FormControl('')
-    });
-    this.setUsersFormArray(this.group.users);
-
-  }
-
-  logNameChange() {
-
-    const nameControl = this.groupForm.get('name');
-    nameControl.valueChanges.forEach(
-      (value: string) => this.nameChangeLog.push(value)
-    );
-  }
 
 
 // -------------   z HANDLING ------------------------
   onClickUpdateGroup() {
 
-    this.groupService.updateGroup(this.id, this.groupForm.get('name').value)
+    this.groupService.updateGroup(this.id, this.nameToUpdate)
     // IT IS USED ONLY TO UPDATE GOUP'S NAME
       .subscribe(
 
         (group) => {
+          this.group = group;
           this.headerService.setState('settings', group.id, group.name);
           this.toastService.success(dict['groupName.update.success']);
+          this.closeModal2();
         },
         (err) => {
-          this.groupForm.get('name').setValue(this.group.name);
           this.toastService.error(dict['groupName.update.error']);
         }
       );
   }
 
   // -------------   MEMBERS HANDLING ------------------------
-  onClickAddMember() {
+  onClickAddMember(f) {
 
-
-
-    const name = this.groupForm.get('newMemberName').value;
+    const name = f.value.newMemberName;
     if (name) {
       // Save Member
       this.groupService.addMember(this.id, {name: name})
         .subscribe((members) => {
           this.group.members = members;
-          this.groupForm.get('newMemberName').setValue('');
+          f.reset();
         }, (err) => {
-          this.groupForm.get('newMemberName').setValue('');
+          f.reset();
           this.toastService.error(dict['member.add.error']);
         });
     }
@@ -117,7 +94,7 @@ export class GroupEditComponent implements OnInit {
 
 
   onClickUpdateMember2(form) {
-    const name = form.value.memberName;
+    const name = this.nameToUpdate;
 
     if (name) {
       // Save Member
@@ -145,34 +122,8 @@ export class GroupEditComponent implements OnInit {
         this.toastService.error(dict['member.delete.error']);
         });
   }
-
-  // -----------------------------   USERS HANDLING ------------------------
-  onClickAddUser() {
-
-    const email = this.groupForm.get('newUserEmail').value;
-
-    if (email) {
-      // Save Member
-      this.groupService.addUser(this.id, {email: email})
-        .subscribe((users) => {
-          this.setUsersFormArray(users);
-          this.groupForm.get('newUserEmail').reset('');
-        }, (err) => {
-          this.toastService.error(dict['user.add.error']);
-        });
-    }
-  }
-
-  // ------------------------------------------------------------------------
-
-  // -------------    FORMS HELPER FUNCTIONS -------------------------
-
-  setUsersFormArray(users: User[]) {
-    const usersGA = users.map(user => this.formBuilder.group(user));
-    const usersFA = this.formBuilder.array(usersGA);
-    this.groupForm.setControl('users', usersFA);
-  }
   // ---------------------------------------------------------------------------
+
 
   // -------------  MODAL ---------------------------------------
 
@@ -183,9 +134,20 @@ export class GroupEditComponent implements OnInit {
     this.modalActions.emit({action:"modal",params:['close']});
   }
 
-  openModal2(memberId) {
-    this.memberIdToUpdate = memberId;
+  openModal2(mode: string, data: any) {
+    console.log("openmodal2")
+    this.nameUpdateMode = mode;
+    if (mode === 'memberUpdate') {
+      const member = data;
+      this.memberIdToUpdate = member.id;
+      this.nameToUpdate = member.name;
+
+    } else if (mode === 'groupUpdate') {
+      this.nameToUpdate = this.group.name;
+    }
+
     this.modalActions2.emit({action:"modal",params:['open']});
+
   }
   closeModal2() {
     this.memberIdToUpdate = '';
