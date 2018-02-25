@@ -30,11 +30,15 @@ export function getCurrentUser() {
 
   const token = localStorage.getItem('token');
 
-  const tokenParts = token.split('.');
-  const encodedPayload = tokenParts[1];
-  const rawPayload = atob(encodedPayload);
-  const user = JSON.parse(rawPayload);
+  if (token){
+    const tokenParts = token.split('.');
+    const encodedPayload = tokenParts[1];
+    const rawPayload = atob(encodedPayload);
+    const user = JSON.parse(rawPayload);
 
-  return User.JSONtoObject(user);
+    return User.JSONtoObject(user);
+  }
+
+  return null;
 }
 

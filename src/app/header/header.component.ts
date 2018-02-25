@@ -11,6 +11,7 @@ import {Location} from '@angular/common';
 import {NavigationService} from '../shared/services/navigation.service';
 import {getCurrentUser} from "../shared/helper";
 import {User} from "../models/user.model";
+import {environment} from "../../environments/environment";
 // import {ChangeDetectionStrategy} from '@angular/compiler/src/core';
 
 

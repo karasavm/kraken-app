@@ -14,7 +14,6 @@ export class Group {
   }
 
   static JSONtoObject(body): Group {
-    console.log("booodyy",body);
     return new Group(
       body.id,
       body.name,

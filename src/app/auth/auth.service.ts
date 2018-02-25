@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {host} from '../config';
+
 import {User} from '../models/user.model';
 import {NavigationService} from '../shared/services/navigation.service';
+import {environment} from "../../environments/environment";
 
 // const uri = 'http://localhost:3000/api';
 
@@ -33,7 +34,7 @@ export class AuthService {
 
     // this.groups[index].members.push(new Member(memberName));
     const body = {user: {email: email, password: password, name: name}};
-    return this.http.post(host + '/users/register', body, {observe: 'response'})
+    return this.http.post(environment.apiHost + '/users/register', body, {observe: 'response'})
       .subscribe((res) => {
         this.storeToken(res.body['user']); //todo: remove save current user to local
         this.navService.groupList();
@@ -57,7 +58,7 @@ export class AuthService {
     console.log('HTTP call POST /login');
     // this.groups[index].members.push(new Member(memberName));
     const body = {user: {email: email, password: password}};
-    return this.http.post<{ user: User }>(host + '/users/login', body, {observe: 'response'})
+    return this.http.post<{ user: User }>(environment.apiHost + '/users/login', body, {observe: 'response'})
       .subscribe((res) => {
         console.log('Response', res);
         this.storeToken(res.body.user);

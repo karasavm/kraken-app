@@ -9,10 +9,10 @@ import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {host} from '../config';
 import {Transaction} from '../models/transaction.model';
 import {AuthService} from '../auth/auth.service';
 import {User} from '../models/user.model';
+import {environment} from "../../environments/environment";
 
 
 @Injectable()
@@ -26,6 +26,7 @@ export class GroupService {
   constructor(private router: Router,
               private http2: HttpClient,
               private authService: AuthService) {
+
   }
 
 
@@ -42,7 +43,7 @@ export class GroupService {
   }
   getGroups(): Observable<Group[]> {
     return this.http2
-      .get(host + '/groups', {headers: this.getHeaders2()})
+      .get(environment.apiHost + '/groups', {headers: this.getHeaders2()})
       .map(data => data['groups'].map(g => Group.JSONtoObject(g)))
       .pipe(
         tap(groups => {} )
@@ -52,7 +53,7 @@ export class GroupService {
   createGroup(name: string): Observable<Group> {
 
     return this.http2.post(
-      host + '/groups',
+      environment.apiHost + '/groups',
       {group: {name: name}},
       {observe: 'response', headers: this.getHeaders2()})
       .map(res => Group.JSONtoObject(res.body['group']))
@@ -64,7 +65,7 @@ export class GroupService {
 
   getGroup(id: string): Observable<Group> {
     return this.http2
-      .get(host + '/groups/' + id, {observe: 'response', headers: this.getHeaders2()})
+      .get(environment.apiHost + '/groups/' + id, {observe: 'response', headers: this.getHeaders2()})
       .map(res => Group.JSONtoObject(res.body['group']))
       .pipe(
         tap(groups => {} )
@@ -73,7 +74,7 @@ export class GroupService {
 
   deleteGroup(id: string): Observable<any> {
     return this.http2
-      .delete(host + '/groups/' + id, {observe: 'response', headers: this.getHeaders2()})
+      .delete(environment.apiHost + '/groups/' + id, {observe: 'response', headers: this.getHeaders2()})
   }
 
 
@@ -81,7 +82,7 @@ export class GroupService {
   getTransaction(groupId: string, transId: string): Observable<{transaction: Transaction, members: Member[]}> {
     return this.http2
       .get(
-        host + '/groups/' + groupId + '/transactions/' + transId,
+        environment.apiHost + '/groups/' + groupId + '/transactions/' + transId,
         {headers: this.getHeaders2()})
       .map(data => {
         return {
@@ -95,7 +96,7 @@ export class GroupService {
   deleteTransaction(groupId: string, transId: string): Observable<any> {
     return this.http2
       .delete(
-        host + '/groups/' + groupId + '/transactions/' + transId,
+        environment.apiHost + '/groups/' + groupId + '/transactions/' + transId,
         {headers: this.getHeaders2()})
   }
 
@@ -104,7 +105,7 @@ export class GroupService {
   createTransaction(groupId: string, transName: string, type: string): Observable<{transaction: Transaction, members: Member[]}>{
 
     return this.http2.post(
-      host + '/groups/' + groupId + '/transactions/',
+      environment.apiHost + '/groups/' + groupId + '/transactions/',
       {transaction: {name: transName, type: type}},
       {headers: this.getHeaders2()})
       .map((data) => {
@@ -118,7 +119,7 @@ export class GroupService {
   updateTransaction(groupId: string, transId: string, transaction: Transaction): Observable<Transaction> {
 
     return this.http2.put(
-      host + '/groups/' + groupId + '/transactions/' + transId,
+      environment.apiHost + '/groups/' + groupId + '/transactions/' + transId,
       {transaction: transaction},
       {headers: this.getHeaders2()}
     ).map(res => Transaction.JSONtoObject(res['transaction']));
@@ -129,14 +130,14 @@ export class GroupService {
 
     return this.http2
       .put(
-        host + '/groups/' + id,
+        environment.apiHost + '/groups/' + id,
         {group: {name: name}},
         {observe: 'response', headers: this.getHeaders2()})
       .map(res => Group.JSONtoObject(res.body['group']));
   }
 
   addMember(id: string, member: { name: string }): Observable<Member[]> {
-    return this.http2.post(host + '/groups/' + id + '/members', {member: member}, {observe: 'response', headers: this.getHeaders2()})
+    return this.http2.post(environment.apiHost + '/groups/' + id + '/members', {member: member}, {observe: 'response', headers: this.getHeaders2()})
       // .map(res => Member.JSONtoObject(res.body['member']))
       .map(res => res.body['group'].members.map(m => Member.JSONtoObject(m)));
 
@@ -144,7 +145,7 @@ export class GroupService {
 
   updateMember(id: string, member: { id: string, name: string }): Observable<Member[]> {
     return this.http2.put(
-      host + '/groups/' + id + '/members/' + member.id,
+      environment.apiHost + '/groups/' + id + '/members/' + member.id,
 
       {member: member},
       {observe: 'response', headers: this.getHeaders2()})
@@ -153,21 +154,21 @@ export class GroupService {
   }
 
   deleteMember(groupId: string, memberId: string): Observable<Member[]> {
-    return this.http2.delete(host + '/groups/' + groupId + '/members/' + memberId, {observe: 'response', headers: this.getHeaders2()})
+    return this.http2.delete(environment.apiHost + '/groups/' + groupId + '/members/' + memberId, {observe: 'response', headers: this.getHeaders2()})
       .map(res => res.body['group'].members.map(m => Member.JSONtoObject(m)));
   }
 
 ////////// ws edw
   // --------------------------------------------------------------
   addUser(id: string, user: { email: string }): Observable<User[]> {
-    return this.http2.post(host + '/groups/' + id + '/users', {user: user}, {observe: 'response', headers: this.getHeaders2()})
+    return this.http2.post(environment.apiHost + '/groups/' + id + '/users', {user: user}, {observe: 'response', headers: this.getHeaders2()})
       .map(res => res.body['group'].users.map(u => User.JSONtoObject(u)));
   }
 
   deleteUser(groupId: string, userId: string): Observable<User[]> {
     console.log('HTTP call DELETE /group/users');
     // this.groups[index].members.push(new Member(memberName));
-    return this.http2.delete(host + '/groups/' + groupId + '/users/' + userId, {observe: 'response', headers: this.getHeaders2()})
+    return this.http2.delete(environment.apiHost + '/groups/' + groupId + '/users/' + userId, {observe: 'response', headers: this.getHeaders2()})
       .map(res => res.body['group'].users.map(u => User.JSONtoObject(u)));
   }
 
