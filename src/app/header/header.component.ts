@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showGroupTabs = false;
   showAuthTabs = false;
   groupId = 'noGroupId';
-  currentUser: User;
+  currentUser = getCurrentUser;
 
   @Output() onClickCollaboration = new EventEmitter();
 
@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.currentUser = getCurrentUser();
+
     this.subscription4 = this.headerService.stateChanged
       .subscribe((state) => {
 
