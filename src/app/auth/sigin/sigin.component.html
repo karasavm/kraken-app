@@ -5,40 +5,44 @@
     <form (ngSubmit)="onSigin(f)" #f="ngForm">
 
       <div class="input-field">
-        <label for="email">Email</label>
+
         <input type="email"
+               class="validate"
                id="email"
                name="email"
                required
+               materialize
                #email="ngModel"
                email
                ngModel>
-        <span class="form-text text-muted" *ngIf="!email.valid && email.touched"> Please insert a valid email!</span>
+        <label materialize for="email" data-error="Insert a valid email">Email</label>
+        <!--<span class="form-text text-muted" *ngIf="!email.valid && email.touched"> Please insert a valid email!</span>-->
       </div>
 
-
       <div class="input-field">
-        <label for="password">Password</label>
+
         <input type="password"
                id="password"
+               class="validate"
                name="password"
                required
                #password="ngModel"
                ngModel>
-        <span class="form-text text-muted" *ngIf="!password.valid && password.touched"> Password can not be blank!</span>
+        <label for="password" data-error="Cant be blank">Password</label>
+        <!--<span class="form-text text-muted" *ngIf="!password.valid && password.touched"> Password can not be blank!</span>-->
       </div>
-
+      <span class="form-text red-text" style="font: inherit" *ngIf="status==='wrongCredentials'"> Wrong email or password.</span>
 
       <br>
 
       <div class="row">
-        <div class="col s6 left-align">
+        <div class="col s8 left-align">
           <a class="btn btn-large waves-effect white grey-text z-depth-0"
                   href="api/users/forgot"
           >FORGOT PASSWORD</a>
         </div>
 
-        <div class="col s6 right-align">
+        <div class="col s4 right-align">
           <button class="btn btn-large waves-effect waves-light"
                   type="submit"
                   [disabled]="!f.valid"

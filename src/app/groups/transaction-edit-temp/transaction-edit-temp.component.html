@@ -1,0 +1,304 @@
+
+
+<br>
+<!--<div class="row">-->
+  <!--<div class="col s12">-->
+    <!--<ul class="tabs" materialize="tabs">-->
+      <!--<li class="tab col s4"><a href="#page1">USERS</a></li>-->
+      <!--<li class="tab col s4"><a href="#page2">PAYMENTS</a></li>-->
+      <!--<li class="tab col s4"><a href="#page3">PARTICIPATIONS</a></li>-->
+    <!--</ul>-->
+  <!--</div>-->
+
+
+  <!-- ----------- PAGE 1 ----------------- -->
+  <div id="page1" class="col s12" *ngIf="currentPage == 100">
+
+
+    <div class="card">
+
+
+      <div class="card-content">
+        <h5 class="center-align">Select who participates in transaction.</h5>
+
+        <button
+           (click)="currentPage = 2"
+           [disabled]="checkedPaymentsNum() == 0"
+           class="btn-floating right-border waves-effect waves-light teal">
+          <i class="material-icons">navigate_next</i>
+        </button>
+        <br>
+        <br>
+        <br>
+        <div class="row"
+             *ngFor="let payment of payments;let i=index">
+          <div class="col s12 center-align">
+            <button
+              type="button"
+              [ngClass]="{true: 'btn waves-effect waves-light green', false: 'btn waves-effect waves-light grey'}[payment.checked]"
+              (click)="togglePayment(i)"
+            >
+              {{getMemberById(payment.member).name}}
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+  <!-- ----------- PAGE 1-B ----------------- -->
+<div id="page1b" class="col s12" *ngIf="currentPage == 1">
+
+
+  <div class="card">
+
+
+    <div class="card-content">
+      <h5 class="center-align">Select who participates in transaction.</h5>
+
+      <button
+        (click)="currentPage = 2"
+        [disabled]="checkedPaymentsNum() == 0"
+        class="btn-floating right-border waves-effect waves-light teal">
+        <i class="material-icons">navigate_next</i>
+      </button>
+      <br>
+      <br>
+      <br>
+
+
+      <ul class="collection with-header">
+        <!--<a class="collection-header"><h4>First Names</h4></a>-->
+
+        <li
+          class="collection-item"[ngClass]="{true: 'active', false: ''}[payment.checked]"
+          (click)="togglePayment(i)"
+          *ngFor="let payment of payments;let i=index"
+        >
+          <div>{{getMemberById(payment.member).name}}
+            <a class="secondary-content"
+              *ngIf="payment.checked">
+              <i class="material-icons">check_circle</i>
+            </a>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+
+  </div>
+
+
+
+
+</div>
+
+  <!-- ----------- PAGE 2 ----------------- -->
+  <div id="page2" class="col s12" *ngIf="currentPage == 2">
+
+
+    <div class="card">
+
+      <div class="card-content">
+
+        <h5 class="center-align">Who has payed and how much???</h5>
+        <button (click)="currentPage = 3"
+           [disabled]="amountPaymentsSum() === 0"
+           class="btn-floating right-border waves-effect waves-light "><i class="material-icons">navigate_next</i></button>
+        <button (click)="currentPage = 1"
+          class="btn-floating left-border waves-effect waves-light"><i class="material-icons">navigate_before</i></button>
+        <br>
+        <br>
+        <br>
+
+
+        <ng-container *ngFor="let payment of payments;let i=index">
+          <div class="row" *ngIf="payment.checked">
+
+            <div class="col s5 right-align">
+              <button
+                type="button"
+                [ngClass]="{false: 'btn waves-effect waves-light teal', true: 'btn waves-effect waves-light grey'}[payment.amount === null || payment.amount === 0]"
+                (click)="payment.amount = null"
+              >
+                {{getMemberById(payment.member).name}}
+              </button>
+            </div>
+
+
+            <div class="input-field col s4">
+              <input
+                type="number"
+                placeholder="0 euros"
+                class="center-align"
+                [(ngModel)]="payment.amount"
+              >
+
+            </div>
+
+            <!--<div class="col s3 left-align">-->
+              <!--<a-->
+                <!--class="btn-floating waves-effect waves-light red"-->
+                <!--(click)="payment.amount = null"-->
+              <!--&gt;<i class="material-icons">clear</i></a>-->
+            <!--</div>-->
+
+
+
+          </div>
+        </ng-container>
+
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+
+<!-- ----------- PAGE 2-B ----------------- -->
+<div id="page2b" class="col s12" *ngIf="currentPage == 20">
+
+  <div class="card">
+
+    <div class="card-content">
+
+      <h5 class="center-align">Who has payed and how much???</h5>
+      <button (click)="currentPage = 3"
+              [disabled]="amountPaymentsSum() === 0"
+              class="btn-floating right-border waves-effect waves-light "><i class="material-icons">navigate_next</i></button>
+      <button (click)="currentPage = 1"
+              class="btn-floating left-border waves-effect waves-light"><i class="material-icons">navigate_before</i></button>
+      <br>
+      <br>
+      <br>
+
+        <div class="row"
+          *ngFor="let payment of getCheckedPayments();let i=index"
+        >
+          <div class="col s4">
+            {{getMemberById(payment.member).name}}
+          </div>
+
+
+          <div class="col s3 input-field">
+            <input type="text">
+          </div>
+
+        </div>
+
+      <ng-container *ngFor="let payment of payments;let i=index">
+        <div class="row" *ngIf="payment.checked">
+          <div class="col s6 right-align">
+
+            <button
+              type="button"
+              [ngClass]="{false: 'btn waves-effect waves-light green', true: 'btn waves-effect waves-light grey'}[payment.amount === null || payment.amount === 0]"
+              (click)="payment.amount = null"
+            >
+              {{getMemberById(payment.member).name}}
+            </button>
+          </div>
+
+
+          <div class="col s4 left-align">
+            <input
+              type="number"
+              placeholder="0 euros"
+              class="input-field center-align"
+              [(ngModel)]="payment.amount"
+            >
+
+          </div>
+
+        </div>
+      </ng-container>
+
+    </div>
+
+  </div>
+
+
+
+
+</div>
+
+  <!-- ----------- PAGE 3 ----------------- -->
+  <div id="page3" class="col s12" *ngIf="currentPage == 3">
+    <div class="card">
+
+
+      <div class="card-content">
+        <h5 class="center-align">What is the share of each user!</h5>
+        <!--<a href="#page2" class="btn-floating btn-largeright-border waves-effect waves-light teal"><i class="material-icons">navigate_next</i></a>-->
+        <a (click)="currentPage = 2"
+          class="btn-floating left-border waves-effect waves-light teal"><i class="material-icons">navigate_before</i></a>
+        <br>
+        <br>
+        <br>
+
+        <ng-container *ngFor="let payment of payments;let i=index">
+          <div class="row" *ngIf="payment.checked">
+
+
+            <div class="col s6 right-align">
+
+              <button
+                type="button"
+                [ngClass]="{false: 'btn waves-effect waves-light green', true: 'btn waves-effect waves-light grey'}[payment.debt === null ]"
+                (click)="payment.debt = null"
+              >
+                {{getMemberById(payment.member).name}}
+              </button>
+            </div>
+
+            <div class="col s4 left-align">
+              <input
+                type="number"
+                placeholder="AUTO"
+                class="input-field center-align"
+                [(ngModel)]="payment.debt"
+              >
+
+            </div>
+
+
+
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+
+  </div>
+
+<br>
+<!--<div class="col right-align">-->
+  <!--<button-->
+    <!--[disabled]="!transactionIsValid()"-->
+    <!--class="btn waves-effect waves-light teal green"> save-->
+  <!--</button>-->
+<!--</div>-->
+
+<br>
+
+<!--</div>-->
+
+<!--<div class="row">-->
+<!--<button-->
+<!--type="button"-->
+<!--class="btn waves-effect waves-light teal"-->
+<!--&gt;-->
+<!--save-->
+<!--</button>-->
+<!--</div>-->

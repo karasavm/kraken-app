@@ -117,7 +117,7 @@ export class GroupService {
   }
 
   updateTransaction(groupId: string, transId: string, transaction: Transaction): Observable<Transaction> {
-
+    console.log("ddd",transaction)
     return this.http2.put(
       environment.apiHost + '/groups/' + groupId + '/transactions/' + transId,
       {transaction: transaction},

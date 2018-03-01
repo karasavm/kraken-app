@@ -15,6 +15,7 @@ const dict = {
   'groupName.update.error': 'Unable to update name',
 
   'transaction.save.error': 'Unable to save transaction',
+  'transaction.save.error.invalid': 'Invalid transaction!',
   'transaction.save.success': 'Transaction saved',
 
   'group.create.error': 'Unable to create group',

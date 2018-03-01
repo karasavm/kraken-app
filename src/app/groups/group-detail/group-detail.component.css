@@ -16,3 +16,17 @@
   padding-left: 72px;
   position: relative;
 }
+
+
+/*.input-field .postfix ~ input { width: 80%; width:calc(100% - 3rem);  margin-left:0px; margin-right: 3rem!important; }*/
+.input-field .postfix {
+  position: absolute;
+  width: 3rem;
+  right: 0px;
+  font-size: 2rem;
+  -webkit-transition: color .2s;
+  transition: color .2s;
+}
+.input-field .postfix.active {
+  color: #26a69a;
+}

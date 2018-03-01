@@ -1,0 +1,13 @@
+.btn-floating.right-border {
+  position: absolute;
+  right: -17px;
+  top: 100px;
+  color: transparent;
+}
+
+.btn-floating.left-border {
+  position: absolute;
+  left: -17px;
+  top: 100px;
+}
+

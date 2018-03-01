@@ -37,8 +37,20 @@
           <i class="material-icons">info_outline</i>
         </a>
       </li>
+    </ul>
 
-
+    <ul
+      class="right hide-on-sm-and-down"
+      *ngIf="stateName === 'transaction'"
+    >
+      <li>
+        <a
+          disabled="true"
+          [routerLink]="" (click)="onClickTransactionSave()"
+        >
+          SAVE
+        </a>
+      </li>
     </ul>
 
   </div>

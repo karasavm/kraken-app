@@ -85,7 +85,7 @@
 <div class="collection" *ngIf="group.transactions.length">
 
   <a class="collection-item avatar avatar-custom"
-     routerLink="/groups/{{group.id}}/transactions/{{transaction.id}}"
+     [routerLink]="tempGetTransactionUri(transaction)"
      *ngFor="let transaction of searched_transactions"
   >
     <i *ngIf="transaction.type === 'give'" class="material-icons circle red">trending_flat</i>
@@ -121,7 +121,7 @@
     </li>
     <li>
       <a href="#modal1" (click)="openModal(1)" class="btn-floating blue modal-trigger"><i class="material-icons">swap_horiz</i></a>
-      <a class="btn-floating mobile-fab-tip">Transaction</a> <!--tooltip-->
+      <a class="btn-floating mobile-fab-tip">TransactionTemp</a> <!--tooltip-->
     </li>
 
   </ul>
@@ -151,6 +151,14 @@
       </div>
 
       <div class="row">
+        <div class="col">
+          <button
+            type="button"
+            class="btn waves-effect waves-light green"
+            (click)="onClickCreateTransactionTemp(1)"
+            [disabled]="this.myForm.get('name').value === ''"
+          >CreateTemp</button>
+        </div>
         <div class="col">
           <button
             type="button"
@@ -205,3 +213,4 @@
 
   </div>
 </div>
+

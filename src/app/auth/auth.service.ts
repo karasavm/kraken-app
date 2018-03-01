@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {User} from '../models/user.model';
 import {NavigationService} from '../shared/services/navigation.service';
 import {environment} from "../../environments/environment";
+import {Subject} from "rxjs/Subject";
 
 // const uri = 'http://localhost:3000/api';
 
@@ -13,6 +14,7 @@ export class AuthService {
 
   // token: string = null;
   redirectUrl: string;
+  loginStatusChanged = new Subject<string>();
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -64,7 +66,7 @@ export class AuthService {
         this.storeToken(res.body.user);
         this.navService.toUrl(this.redirectUrl);
       }, (err) => {
-        console.log('Error', err);
+        this.loginStatusChanged.next("wrongCredentials");
       })
       ;
   }

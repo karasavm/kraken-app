@@ -16,9 +16,9 @@ export class HeaderService {
   stateChanged = new Subject<State>();
 
   onClickCollaboration = new EventEmitter();
+  onClickTransactionSave = new EventEmitter();
 
   setState(stateName: string, groupId: string = '', title: string = '') {
-    console.log("setting state")
     this.stateChanged.next({
       stateName: stateName,
       groupId: groupId,

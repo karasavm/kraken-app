@@ -143,4 +143,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription3.unsubscribe();
     this.subscription4.unsubscribe();
   }
+
+  onClickTransactionSave() {
+    console.log("Transaction save pressed");
+    this.headerService.onClickTransactionSave.emit();
+  }
 }

@@ -94,6 +94,25 @@ export class GroupDetailComponent implements OnInit {
       });
   }
 
+  onClickCreateTransactionTemp(id) {
+
+    const name = id === 1 ? this.myForm.get('name').value : 'Transfer';
+    const type = id === 1 ? 'general' : 'give';
+    this.groupService.createTransaction(
+      this.group.id,
+      name,
+      type
+    )
+      .subscribe((data) => {
+        this.navService.transactionTemp(this.group.id, data.transaction.id);
+        this.closeModal(id);
+        this.toastService.success(dict['transaction.create.success']);
+      }, (err) => {
+        this.toastService.error(dict['transaction.create.error']);
+        this.closeModal(id)
+      });
+  }
+
   openModal(id: number) {
     if (id ===1 ) {
       this.modalActions1.emit({action: "modal", params: ['open']});
@@ -169,4 +188,9 @@ export class GroupDetailComponent implements OnInit {
 
   }
   // --------------------------------------
+  tempGetTransactionUri(transaction) {
+    if (transaction.type === "general") {
+      return `/groups/${this.group.id}/transactions_temp/${transaction.id}`
+    } else return `/groups/${this.group.id}/transactions/${transaction.id}`
+  }
 }
