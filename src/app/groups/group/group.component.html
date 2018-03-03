@@ -66,7 +66,7 @@
   <div class="modal-content" *ngIf="group">
 
 
-      <h5>Share with others</h5>
+      <h5>Collaborate Group with others</h5>
       <br>
       <ul class="collection black-text with-header" >
 
@@ -111,7 +111,7 @@
 
           <input type="email"
                  class="input-field"
-                 placeholder="Enter email addresses"
+                 placeholder="Enter email address"
                  name="email"
                  email
                  ngModel
@@ -135,9 +135,12 @@
       <div class="row" style="margin-bottom: 0">
 
         <div class="col s6 grey-text">
-          Created By
-          <span *ngIf="!isCurrentUser(group.creator)">{{group.creator.name}} ({{group.creator.email}})</span>
-          <span *ngIf="isCurrentUser(group.creator)">You</span>
+          Group Owner
+          <b>
+            <span *ngIf="!isCurrentUser(group.creator)">{{group.creator.name}} ({{group.creator.email}})</span>
+            <span *ngIf="isCurrentUser(group.creator)">You</span>
+          </b>
+
         </div>
 
         <div class="col s6 right-align">

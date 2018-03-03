@@ -43,21 +43,23 @@ export class AppComponent implements OnInit{
 // TODOLIST New Features
 
 //todo: order by on transactions
-//todo: error messages
+//todo: error messages sign up
 
-//todo: use table on transaction edit
+
 //todo: dekadika stoggulopoihsh
 //todo: hmerominies sta transaction
 
-//todo: Memembers
+
 //todo:strogullopoihsh
 //todo: autocomplete off on signin/signup forms
-//todo: after sign in redirects always on /groups
+//todo: email account for forgot password
+//todo: forgot password pages
 //
 
 // BUGS
 //todo: back arrow does not work on full browser screen
-
+// todo: null name error at login page
+// todo: not fixed pages on some components after compile
 
 
 // DONE FEATURES
