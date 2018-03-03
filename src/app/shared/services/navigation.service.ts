@@ -56,6 +56,9 @@ export class NavigationService {
   transaction(groupId: string, transId: string) {
     this.router.navigate(['/groups/' + groupId + '/transactions/' + transId]);
   }
+  transactionUri(groupId: string, transId: string) {
+    return '/groups/' + groupId + '/transactions/' + transId;
+  }
 
   transactionTemp(groupId: string, transId: string) {
     this.router.navigate(['/groups/' + groupId + '/transactions_temp/' + transId]);

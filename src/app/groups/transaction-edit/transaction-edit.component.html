@@ -1,0 +1,251 @@
+<br>
+<ul materialize="collapsible"
+    class="collapsible"
+    *ngIf="members.length && transaction.type === 'general'"
+    data-collapsible="accordion"
+    [materializeParams]="params"
+    [materializeActions]="actions1"
+>
+  <li>
+    <div class="collapsible-header active"><i class="material-icons">perm_identity</i>Step 1... Participants</div>
+    <div class="collapsible-body">
+      <span class="grey-text"
+            *ngIf="transactionIsValid() === 1"
+      > Select at least one participant.
+      </span>
+      <br>
+      <ul class="collection with-header">
+        <!--<a class="collection-header"><h4>First Names</h4></a>-->
+
+        <li
+          class="collection-item"[ngClass]="{true: 'active', false: ''}[payment.checked]"
+          (click)="togglePayment(i)"
+          *ngFor="let payment of payments;let i=index"
+        >
+          <div>{{getMemberById(payment.member).name}}
+            <a class="secondary-content"
+               *ngIf="payment.checked">
+              <i class="material-icons">check_circle</i>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </li>
+  <li *ngIf="transactionIsValid() != 1">
+    <div class="collapsible-header">
+      <i class="col s10 material-icons">payment</i>Step 2... Payments
+      <div class="right-align">-----------------------------Total: <b>{{amountPaymentsSum()}}</b></div>
+
+    </div>
+    <div class="collapsible-body">
+
+      <span class="grey-text"
+            *ngIf="transactionIsValid() === 2"
+      > Insert payment to at least one participant.
+      </span>
+
+      <div class="row" *ngFor="let payment of getCheckedPayments();let i=index">
+
+        <div class="input-field col s4 center-align">
+          <button
+            style="padding: 0 0.5rem"
+
+            type="button"
+            [ngClass]="{false: 'btn teal', true: 'btn grey'}[payment.amount === null || payment.amount === 0]"
+
+          >
+            {{getMemberById(payment.member).name}}
+          </button>
+        </div>
+
+
+        <div class="col s4 left-align">
+          <input
+            type="number"
+            placeholder="0 euros"
+            class="center-align"
+            [(ngModel)]="payment.amount"
+          >
+        </div>
+
+
+        <div class="input-field col s2 left-align">
+          <i
+            (click)="payment.amount = null"
+            class="material-icons">clear</i>
+        </div>
+
+        <div class="input-field col s2 right-align">
+          <i
+
+            (click)="unCheckPayment(i)"
+            class="material-icons">delete</i>
+        </div>
+
+
+      </div>
+
+      <!-- Switch -->
+
+      <div class="row">
+        <div class="col s8">
+
+          Each participant has to pay different amount of money.
+        </div>
+
+        <div class="col s4">
+          <div class="switch">
+            <label>
+              Off
+              <input
+                [disabled]="getCheckedPayments().length == 0"
+                type="checkbox" [(ngModel)]="unequalCost">
+              <span class="lever"></span>
+              On
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </li>
+  <li *ngIf="transactionIsValid() !=1 && transactionIsValid() != 2 && unequalCost">
+    <div class="collapsible-header">
+      <i class="material-icons">view_quilt</i>Step 3... Set Costs
+    </div>
+    <div class="collapsible-body">
+
+      <div
+        class="row col s12 form-text red-text"
+        style="font: inherit"
+        *ngIf="transactionIsValid() === 3"
+      > Costs are greater than total payments!</div>
+
+
+      <div class="row" *ngFor="let payment of getCheckedPayments();let i=index">
+
+
+        <div class="col s4 center-align">
+
+          <button
+            type="button"
+            style="padding: 0 0.5rem"
+            [ngClass]="{false: 'btn teal', true: 'btn grey'}[payment.debt === null ]"
+            (click)="payment.debt = null"
+          >
+            {{getMemberById(payment.member).name}}
+          </button>
+        </div>
+
+        <div class="col s4 left-align">
+          <input
+            type="number"
+            placeholder="AUTO"
+            class="input-field center-align"
+            [(ngModel)]="payment.debt"
+          >
+        </div>
+
+        <div class="input-field col s2 left-align">
+          <i
+            (click)="payment.debt = null"
+            class="material-icons">clear</i>
+        </div>
+
+        <div class="input-field col s2 right-align">
+          <i
+
+            (click)="unCheckPayment(i)"
+            class="material-icons">delete</i>
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </li>
+</ul>
+
+
+
+<!-------------------------TRANSFER FORM------------------------->
+<div *ngIf="members.length && transaction.type === 'give'">
+
+  <h4>Money Transfer</h4>
+  <br>
+  <form #f="ngForm" >
+
+    <div class="row">
+      <div class="input-field col s6">
+
+        <select name="fromSelection" materialize="material_select" [(ngModel)]="fromTransfer">
+          <option value="" disabled selected>Choose</option>
+          <option *ngFor="let member of members" [value]="member.id">{{member.name}}</option>
+        </select>
+        <label>From</label>
+      </div>
+      <div class="input-field col s6">
+        <select name="toSelection" materialize="material_select" [(ngModel)]="toTransfer">
+          <option value="" disabled selected>Choose</option>
+          <option *ngFor="let member of members" [value]="member.id">{{member.name}}</option>
+        </select>
+        <label>To</label>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="input-field col s6">
+        <input type="number" name="amount" id="amount" required materialize placeholder="0 euros" [(ngModel)]="amountTransfer">
+        <label for="amount"> Amount </label>
+      </div>
+
+
+
+    </div>
+
+
+  </form>
+</div>
+
+
+<!-------------------------------------------------------------->
+<br>
+<br>
+<hr>
+
+<!--DELETE BUTTON-->
+<div class="row">
+  <div class="col s12">
+    <a class="waves-effect waves-light btn red right" (click)="openModal()">
+      <i class="material-icons left">delete_forever</i>
+      delete
+    </a>
+  </div>
+
+</div>
+
+
+<!--MODAL-->
+<div id="modal1"
+     class="modal bottom-sheet"
+     materialize="modal"
+     [materializeParams]="[{dismissible: false}]"
+     [materializeActions]="modalActions">
+  <div class="modal-content">
+    <h4>Delete Transaction</h4>
+    <p>{{messagesDict.deleteTrans}}</p>
+  </div>
+  <div class="modal-footer">
+    <a class="waves-effect waves-green btn" (click)="closeModal()">
+      cancel
+    </a>
+    <a class="modal-action modal-close waves-effect waves-green btn red" (click)="onClickDeleteGroup()">
+      Delete
+    </a>
+  </div>
+</div>

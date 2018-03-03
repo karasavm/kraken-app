@@ -46,7 +46,7 @@ export class GroupDetailComponent implements OnInit {
               private headerService: HeaderService,
               private route: ActivatedRoute,
               private router: Router,
-              private navService: NavigationService,
+              public navService: NavigationService,
               private toastService: ToastMessagesService) {
 
 
@@ -188,9 +188,5 @@ export class GroupDetailComponent implements OnInit {
 
   }
   // --------------------------------------
-  tempGetTransactionUri(transaction) {
-    if (transaction.type === "general") {
-      return `/groups/${this.group.id}/transactions_temp/${transaction.id}`
-    } else return `/groups/${this.group.id}/transactions/${transaction.id}`
-  }
+
 }

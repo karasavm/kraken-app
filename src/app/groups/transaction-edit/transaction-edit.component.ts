@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnDestroy, OnInit, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnDestroy, OnInit, ViewChildren} from '@angular/core';
 import {Transaction} from "../../models/transaction.model";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, NgForm} from "@angular/forms";
 import {HeaderService} from "../../header/header.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NavigationService} from "../../shared/services/navigation.service";
@@ -14,10 +14,10 @@ import {nulling} from "../../shared/helper";
 
 @Component({
   selector: 'app-transaction-edit-temp',
-  templateUrl: './transaction-edit-temp.component.html',
-  styleUrls: ['./transaction-edit-temp.component.css']
+  templateUrl: './transaction-edit.component.html',
+  styleUrls: ['./transaction-edit.component.css']
 })
-export class TransactionEditTempComponent implements OnInit, OnDestroy {
+export class TransactionEditComponent implements OnInit, OnDestroy {
 
   members: Member[];
   transaction: Transaction;
@@ -26,16 +26,24 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   auto = true;
   paymentsTotal = 0;
+  modalActions = new EventEmitter<string|MaterializeAction>();
+  messagesDict = {deleteTrans: dict['transaction.delete.prompt_message']};
 
   // FORMS
   checked = false;
   payments = [];
   currentPage = 1;
   unequalCost = false;
-
+  showInvalid = false;
   paymentValue = null;
   actions1 = new EventEmitter<string|MaterializeAction>();
 
+
+  // TRANSFERS
+  fromTransfer: string;
+  toTransfer: string;
+  amountTransfer: number;
+  transferForm: any;
 
   params = [
     {
@@ -70,40 +78,57 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
       this.headerService.setState('transaction', this.groupId, this.transaction.name);
 
       if (this.transaction.type === 'general') {
-
+        this.initPayments();
       } else if(this.transaction.type === 'give') {
-        // payments.push({member: from, amount: amount, debt: 0});
-        // payments.push({member: to, amount: 0, debt: amount});
+
+        //TRANSFERS
+
+        if (this.transaction.payments.length !== 0) {
+
+          const transfer = Transaction.paymentsToTransfer(this.transaction.payments);
+          this.fromTransfer = transfer.from;
+          this.toTransfer = transfer.to;
+          this.amountTransfer = transfer.amount;
+        }
 
       }
+
+
 
       ///////////////////////
-      this.initPayments();
+
     });
 
-    this.subscription = this.headerService.onClickTransactionSave.subscribe((data) => {
-      if (this.transactionIsValid()) {
+    this.subscription = this.headerService.onClickTransactionSave
+      .subscribe((data) => {
 
-        this.transaction.payments = this.getCheckedPayments();
-        console.log(this.transaction.payments)
-        this.groupService.updateTransaction(
-          this.groupId,
-          this.transId,
-          this.transaction
-        ).subscribe((trans) => {
-          this.toastService.success(dict['transaction.save.success']);
-          this.navService.groupDashboard(this.groupId);
-        }, (err) => {
-          this.toastService.error(dict['transaction.save.error']);
-        });
+        if(this.transaction.type === 'general'){
+          if (this.transactionIsValid() === -1) {
 
-      } else {
-        this.toastService.error(dict['transaction.save.error.invalid']);
-      }
-    })
+            this.transaction.payments = this.getCheckedPayments();
+            console.log(this.transaction.payments)
+            this.groupService.updateTransaction(
+              this.groupId,
+              this.transId,
+              this.transaction
+            ).subscribe((trans) => {
+              this.toastService.success(dict['transaction.save.success']);
+              this.navService.groupDashboard(this.groupId);
+            }, (err) => {
+              this.toastService.error(dict['transaction.save.error']);
+            });
+
+          } else {
+
+            this.toastService.error(dict['transaction.save.error.invalid']);
+          }
+        } else {
+          this.onClickTransferSave()
+        }
+
+      })
 
   }
-
   togglePayment(i) {
     //todo: maybe we need to reset payment when becomes unchecked
     this.payments[i].checked = !this.payments[i].checked;
@@ -170,13 +195,32 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
     return sum;
   }
 
+  debtPaymentsSum() {
+    let sum = 0;
+
+    for (let i=0; i < this.payments.length; i++) {
+      if (this.payments[i].checked && this.payments[i].debt > 0) {
+        sum += this.payments[i].debt;
+      }
+    }
+
+    return sum;
+  }
+
   getCheckedPayments() {
     return this.payments.filter(p => p.checked);
   }
   transactionIsValid() {
-    if (this.checkedPaymentsNum() === 0 || this.amountPaymentsSum() === 0 ) {
-      return false;
-    } else {return true;}
+
+    if (this.checkedPaymentsNum() === 0) {
+      return 1
+    } else if (this.amountPaymentsSum() === 0) {
+      return 2
+    } else if (this.amountPaymentsSum() < this.debtPaymentsSum()) {
+      return 3
+    }else {
+      return -1;
+    }
   }
 
   getMemberById(id: string) {
@@ -195,6 +239,63 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
   closeFirst() {
     this.actions1.emit({action:"collapsible",params:['close',0]});
   }
+
+  //------------- TRANSFERS -------------------
+  onClickTransferSave() {
+
+
+    const from = this.fromTransfer;
+    const to = this.toTransfer;
+    const amount = this.amountTransfer;
+
+    if (!this.transferIsValid()) {
+      this.toastService.error(dict['transfer.save.error.invalid']);
+      return;
+    }
+
+    this.transaction.payments = Transaction.transferToPayments(from, to, amount);
+
+    this.groupService.updateTransaction(
+      this.groupId,
+      this.transId,
+      this.transaction
+    ).subscribe((trans) => {
+      this.toastService.success(dict['transaction.save.success']);
+      this.navService.groupDashboard(this.groupId);
+    }, (err) => {
+      this.toastService.error(dict['transaction.save.error']);
+    });
+  }
+
+  onClickDeleteGroup() {
+
+    this.groupService.deleteTransaction(this.groupId, this.transId).subscribe(
+      (data) => {
+        this.toastService.success(dict['transaction.delete.success']);
+        this.navService.groupTransactions(this.groupId);
+      }, (err) => {
+        this.toastService.error(dict['transaction.delete.error'])
+      }
+    )
+  }
+  transferIsValid() {
+    if (this.fromTransfer === this.toTransfer || !this.amountTransfer || this.amountTransfer <= 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // -------------  MODAL ---------------------------------------
+
+  openModal() {
+    this.modalActions.emit({action:"modal",params:['open']});
+  }
+  closeModal() {
+    this.modalActions.emit({action:"modal",params:['close']});
+  }
+
+  // ------------------------------------------------------------
 
 }
 //todo: check that total amount equal with total has to pay

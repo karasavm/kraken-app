@@ -13,7 +13,7 @@ import {TransactionEditNewComponent} from './groups/transaction-edit-new/transac
 import {GroupResolver} from './groups/group-detail/group.resolver';
 import {TransactionResolver} from './groups/transaction-edit-new/transaction.resolver';
 import {AuthComponent} from './auth/auth.component';
-import {TransactionEditTempComponent} from "./groups/transaction-edit-temp/transaction-edit-temp.component";
+import {TransactionEditComponent} from "./groups/transaction-edit/transaction-edit.component";
 const routes: Routes = [
   { path: '', redirectTo: '/groups', pathMatch: 'full', canActivate: [AuthGuardService] },
   { path: 'groups', component: GroupListComponent, resolve: {groups: GroupsResolver}, canActivate: [AuthGuardService]},
@@ -30,9 +30,8 @@ const routes: Routes = [
   // { path: 'groups/:id/edit', component: GroupEditComponent, resolve: {group: GroupsResolver}, canActivate: [AuthGuardService]},
   // { path: 'groups/:id/new-transaction', component: TransactionEditComponent, canActivate: [AuthGuardService]},
   // { path: 'groups/:id/transactions/:transId', component: TransactionEditComponent, canActivate: [AuthGuardService]},
-  { path: 'groups/:id/transactions/:transId', resolve: {transData: TransactionResolver}, component: TransactionEditNewComponent, canActivate: [AuthGuardService]},
-  { path: 'groups/:id/transactions_temp/:transId', resolve: {transData: TransactionResolver}, component: TransactionEditTempComponent, canActivate: [AuthGuardService]},
-  { path: 'groups/:id/transactions_temp', redirectTo: 'groups/:id/transactions', pathMatch: 'full', canActivate: [AuthGuardService] },
+  { path: 'groups/:id/transactions_OLD/:transId', resolve: {transData: TransactionResolver}, component: TransactionEditNewComponent, canActivate: [AuthGuardService]},
+  { path: 'groups/:id/transactions/:transId', resolve: {transData: TransactionResolver}, component: TransactionEditComponent, canActivate: [AuthGuardService]},
   //
   // { path: 'new', component: GroupEditComponent, canActivate: [AuthGuardService] },
   // { path: 'auth', component: AuthComponent, children: [
