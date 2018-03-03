@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, ViewChildren} from '@angular/core';
 import {Transaction} from "../../models/transaction.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HeaderService} from "../../header/header.service";
@@ -10,6 +10,7 @@ import dict from "../../shared/dictionary";
 import {Member} from "../../models/member.model";
 import {MaterializeAction} from "angular2-materialize";
 import {Subscription} from "rxjs/Subscription";
+import {nulling} from "../../shared/helper";
 
 @Component({
   selector: 'app-transaction-edit-temp',
@@ -29,8 +30,26 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
   // FORMS
   checked = false;
   payments = [];
-  currentPage = 2;
-  //
+  currentPage = 1;
+  unequalCost = false;
+
+  paymentValue = null;
+  actions1 = new EventEmitter<string|MaterializeAction>();
+
+
+  params = [
+    {
+      onOpen: (el) => {
+        console.log("Collapsible open", el);
+      },
+      onClose: (el) => {
+        console.log("Collapsible close", el);
+      }
+    }
+  ];
+
+  values = ["First", "Second", "Third"];
+
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -89,6 +108,10 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
     //todo: maybe we need to reset payment when becomes unchecked
     this.payments[i].checked = !this.payments[i].checked;
   }
+
+  unCheckPayment(i) {
+    this.getCheckedPayments()[i].checked = false;
+  }
   initPayments() {
 
 
@@ -106,11 +129,16 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
       for(let j=0; j < this.payments.length; j++) {
 
         if (this.transaction.payments[i].member === this.payments[j].member) {
-          this.payments[j].amount = this.transaction.payments[i].amount;
+
+          this.payments[j].amount = nulling(this.transaction.payments[i].amount);
+
           this.payments[j].debt = this.transaction.payments[i].debt;
 
           if (this.payments[j].debt == -1) {
             this.payments[j].debt = null;// auto functionality
+          } else {
+            this.unequalCost = true;
+
           }
           this.payments[j].checked = true;
         }
@@ -157,6 +185,15 @@ export class TransactionEditTempComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+
+  openFirst() {
+    this.actions1.emit({action:"collapsible",params:['open',0]});
+  }
+
+  closeFirst() {
+    this.actions1.emit({action:"collapsible",params:['close',0]});
   }
 
 }

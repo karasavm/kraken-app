@@ -16,7 +16,7 @@
                email
                ngModel>
         <label materialize for="email" data-error="Insert a valid email">Email</label>
-        <!--<span class="form-text text-muted" *ngIf="!email.valid && email.touched"> Please insert a valid email!</span>-->
+        <!--<span class="form-text text-muted red-text" *ngIf="!email.valid && email.touched"> Insert a valid email!</span>-->
       </div>
 
       <div class="input-field">
@@ -28,7 +28,7 @@
                required
                #password="ngModel"
                ngModel>
-        <label for="password" data-error="Cant be blank">Password</label>
+        <label materialize for="password" data-error="Cant be blank">Password</label>
         <!--<span class="form-text text-muted" *ngIf="!password.valid && password.touched"> Password can not be blank!</span>-->
       </div>
       <span class="form-text red-text" style="font: inherit" *ngIf="status==='wrongCredentials'"> Wrong email or password.</span>
