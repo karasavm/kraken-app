@@ -28,13 +28,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   curTitle: string = '';
   subscription: Subscription;
-  subscription2: Subscription;
-  subscription3: Subscription;
-  subscription4: Subscription;
-  stateName: string = '';
+  routeName: string = '';
   showGroupTabs = false;
   showAuthTabs = false;
-  groupId = 'noGroupId';
+  groupId = null;
+  transId = null;
   currentUser = getCurrentUser;
 
   @Output() onClickCollaboration = new EventEmitter();
@@ -51,7 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   dashboardTab() {
-    if (this.stateName === 'dashboard') {
+    if (this.routeName === 'dashboard') {
       return 'active';
     }
     return '';
@@ -59,7 +57,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   transactionsTab() {
 
-    if (this.stateName === 'transactions') {
+    if (this.routeName === 'transactions') {
       return 'active';
     }
     return '';
@@ -69,41 +67,59 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
 
-    this.subscription4 = this.headerService.stateChanged
-      .subscribe((state) => {
+    this.subscription = this.navService.routeChanged.subscribe((routeStatus) => {
 
-        this.stateName = state.stateName;
+      const data = routeStatus.data;
+      const params = routeStatus.params;
+      const routeName = routeStatus.routeName;
 
-        if (state.stateName === 'auth') {
-          this.showAuthTabs = true;
-          this.showGroupTabs = false;
-          this.curTitle = defaultTitle;
-        } else if (state.stateName === 'groupList') {
-          this.showAuthTabs = false;
-          this.showGroupTabs = false;
-          this.curTitle = defaultTitle;
-        } else if (state.stateName === 'dashboard' || state.stateName === 'transactions') {
-          this.showAuthTabs = false;
-          this.showGroupTabs = true;
-          this.curTitle = state.title;
-          this.groupId = state.groupId;
-        } else if (state.stateName === 'settings') {
-          this.showAuthTabs = false;
-          this.showGroupTabs = false;
-          this.curTitle = editGroupTitle;
-          this.groupId = state.groupId;
-        } else if (state.stateName === 'transaction') {
-          this.showAuthTabs = false;
-          this.showGroupTabs = false;
-          this.curTitle = state.title;
-          this.groupId = state.groupId;
-        } else {
-          // default
-          this.showAuthTabs = false;
-          this.showGroupTabs = false;
-          this.curTitle = defaultTitle;
-        }
-      })
+      this.routeName = routeName;
+
+
+      // set title
+      if (data.title) {
+        this.curTitle = data.title;
+      } else {
+        this.curTitle = defaultTitle;
+      }
+
+      // set group id
+      if (params.id) {
+        this.groupId = params.id;
+      } else {
+        this.groupId = null;
+      }
+
+      // set transaction id
+      if (params.transId) {
+        this.transId = params.transId;
+      } else {
+        this.transId = null;
+      }
+
+
+      if (routeName === 'signin' || routeName === 'signup') {
+        this.showAuthTabs = true;
+        this.showGroupTabs = false;
+      } else if (routeName === 'groups') {
+        this.showAuthTabs = false;
+        this.showGroupTabs = false;
+      } else if (routeName === 'dashboard' || routeName === 'transactions') {
+        this.showAuthTabs = false;
+        this.showGroupTabs = true;
+
+      } else if (routeName === 'settings') {
+        this.showAuthTabs = false;
+        this.showGroupTabs = false;
+      } else if (routeName === 'transaction-edit') {
+        this.showAuthTabs = false;
+        this.showGroupTabs = false;
+      } else {
+        // default
+        this.showAuthTabs = false;
+        this.showGroupTabs = false;
+      }
+    });
 
   }
 
@@ -122,7 +138,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     if (url.length === 5) {
       return url.splice(0, url.length - 1);
-    } else if (this.stateName === 'settings') {
+    } else if (this.routeName === 'settings') {
       return this.navService.groupDashboardUri(this.groupId);
     } else {
       return '/groups';
@@ -139,9 +155,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
-    this.subscription3.unsubscribe();
-    this.subscription4.unsubscribe();
   }
 
   onClickTransactionSave() {

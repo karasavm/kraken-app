@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {Group} from '../../models/group.model';
 import {GroupService} from '../group.service';
@@ -17,7 +17,7 @@ import dict from '../../shared/dictionary';
   styleUrls: ['./group-detail.component.css']
 })
 
-export class GroupDetailComponent implements OnInit {
+export class GroupDetailComponent implements OnInit, OnDestroy {
 
   group: Group;
   subscription: Subscription;
@@ -60,19 +60,19 @@ export class GroupDetailComponent implements OnInit {
 
   ngOnInit() {
 
-
-
-    this.route.data
-      .subscribe((data: {group: Group}) => {
-        this.group = data['group'];
-        this.id = this.group.id;
-        this.searched_transactions = this.group.transactions;
-        this.groupService.setGroupValue(this.group);
-        // this.headerService.titleChanged.next(this.group.name);
-        this.headerService.setState('transactions', this.id, this.group.name);
-      });
+    this.initOnData(this.groupService.getGroupValue());
 
     this.constructForm();
+
+    this.subscription = this.groupService.groupChanged.subscribe((group) => {
+      this.initOnData(group);
+    })
+  }
+
+  initOnData(group) {
+    this.group = group;
+    this.searched_transactions = this.group.transactions;
+    this.headerService.setState('transactions', this.group.id, this.group.name);
   }
 
   onClickCreateTransaction(id) {
@@ -86,25 +86,6 @@ export class GroupDetailComponent implements OnInit {
     )
       .subscribe((data) => {
         this.navService.transaction(this.group.id, data.transaction.id);
-        this.closeModal(id);
-        this.toastService.success(dict['transaction.create.success']);
-      }, (err) => {
-        this.toastService.error(dict['transaction.create.error']);
-        this.closeModal(id)
-      });
-  }
-
-  onClickCreateTransactionTemp(id) {
-
-    const name = id === 1 ? this.myForm.get('name').value : 'Transfer';
-    const type = id === 1 ? 'general' : 'give';
-    this.groupService.createTransaction(
-      this.group.id,
-      name,
-      type
-    )
-      .subscribe((data) => {
-        this.navService.transactionTemp(this.group.id, data.transaction.id);
         this.closeModal(id);
         this.toastService.success(dict['transaction.create.success']);
       }, (err) => {
@@ -189,4 +170,7 @@ export class GroupDetailComponent implements OnInit {
   }
   // --------------------------------------
 
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
 }

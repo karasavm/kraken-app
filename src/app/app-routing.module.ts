@@ -16,29 +16,20 @@ import {AuthComponent} from './auth/auth.component';
 import {TransactionEditComponent} from "./groups/transaction-edit/transaction-edit.component";
 const routes: Routes = [
   { path: '', redirectTo: '/groups', pathMatch: 'full', canActivate: [AuthGuardService] },
-  { path: 'groups', component: GroupListComponent, resolve: {groups: GroupsResolver}, canActivate: [AuthGuardService]},
-  { path: 'groups/:id/old', component: GroupDetailComponent, resolve: {group: GroupsResolver}, canActivate: [AuthGuardService]},
+  { data: {routeName: "groups"}, path: 'groups', component: GroupListComponent, resolve: {groups: GroupsResolver}, canActivate: [AuthGuardService]},
 
-  { path: 'groups/:id', redirectTo: '/groups/:id/dashboard', pathMatch: 'full', canActivate: [AuthGuardService]},
 
-  { path: 'groups/:id', component: GroupComponent, canActivate: [AuthGuardService], children: [
-      { path: 'transactions',  component: GroupDetailComponent, resolve: {group: GroupResolver}, canActivate: [AuthGuardService]},
-      { path: 'settings', component: GroupEditComponent, resolve: {group: GroupResolver}, canActivate: [AuthGuardService]},
-      { path: 'dashboard', component: GroupDashboardComponent, resolve: {group: GroupResolver}, canActivate: [AuthGuardService]}
+  { path: 'groups/:id', component: GroupComponent, canActivate: [AuthGuardService], resolve: {group: GroupResolver}, children: [
+      { data: {routeName: "transactions"}, path: 'transactions',  component: GroupDetailComponent, canActivate: [AuthGuardService]},
+      { data: {routeName: "settings"}, path: 'settings', component: GroupEditComponent, canActivate: [AuthGuardService]},
+      { data: {routeName: "dashboard"}, path: 'dashboard', component: GroupDashboardComponent, canActivate: [AuthGuardService]},
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full', canActivate: [AuthGuardService]}
     ]},
-  { path: 'edit', component: GroupEditComponent, canActivate: [AuthGuardService]},
-  // { path: 'groups/:id/edit', component: GroupEditComponent, resolve: {group: GroupsResolver}, canActivate: [AuthGuardService]},
-  // { path: 'groups/:id/new-transaction', component: TransactionEditComponent, canActivate: [AuthGuardService]},
-  // { path: 'groups/:id/transactions/:transId', component: TransactionEditComponent, canActivate: [AuthGuardService]},
-  { path: 'groups/:id/transactions_OLD/:transId', resolve: {transData: TransactionResolver}, component: TransactionEditNewComponent, canActivate: [AuthGuardService]},
-  { path: 'groups/:id/transactions/:transId', resolve: {transData: TransactionResolver}, component: TransactionEditComponent, canActivate: [AuthGuardService]},
-  //
-  // { path: 'new', component: GroupEditComponent, canActivate: [AuthGuardService] },
-  // { path: 'auth', component: AuthComponent, children: [
-  //     { path: 'signup', component: SignupComponent },
-  //   ]},
-  { path: 'signup', component: SignupComponent },
-  { path: 'signin', component: SiginComponent }
+
+  { data: {routeName: "transaction-edit"}, path: 'groups/:id/transactions/:transId', resolve: {transData: TransactionResolver}, component: TransactionEditComponent, canActivate: [AuthGuardService]},
+
+  { data: {routeName: "signup"}, path: 'signup', component: SignupComponent },
+  { data: {routeName: "signin"}, path: 'signin', component: SiginComponent }
 ];
 
 @NgModule({

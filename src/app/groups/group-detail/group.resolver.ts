@@ -15,8 +15,8 @@ export class GroupResolver implements Resolve<Group> {
 
   resolve (route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
   Observable<Group> {
-
-    const id = route.parent.paramMap.get('id');
+    // const id = route.parent.paramMap.get('id');
+    const id = route.paramMap.get('id');
     return this.groupService.getGroup(id)
       .take(1)
       .delay(0) //todo: remove delay

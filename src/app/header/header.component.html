@@ -12,7 +12,7 @@
       </li>
 
       <li>
-        <a *ngIf="stateName === 'groupList'"
+        <a *ngIf="routeName === 'groups'"
            materialize="sideNav"
            [materializeParams]="[{edge:'left', closeOnClick: true, menuWidth: 300}]"
            data-activates="slide-out"
@@ -25,7 +25,7 @@
     </ul>
 
 
-    <ul class="right hide-on-sm-and-down" *ngIf="stateName === 'dashboard' || stateName === 'transactions'">
+    <ul class="right hide-on-sm-and-down" *ngIf="routeName === 'dashboard' || routeName === 'transactions'">
       <li>
         <a [routerLink]="" (click)="onClickCollab()">
           <i class="material-icons">person_add</i>
@@ -41,7 +41,7 @@
 
     <ul
       class="right hide-on-sm-and-down"
-      *ngIf="stateName === 'transaction'"
+      *ngIf="routeName === 'transaction-edit'"
     >
       <li>
         <a
@@ -82,7 +82,7 @@
 
   <div
     class="nav-content"
-    *ngIf="stateName === 'groupList'"
+    *ngIf="routeName === 'groups'"
   >
     <div class="row">
       <div class="col s12 left-align">
@@ -94,7 +94,7 @@
 </nav>
 
 <!--SIDE NAV-->
-<ul id="slide-out" class="side-nav" *ngIf="currentUser">
+<ul id="slide-out" class="side-nav" *ngIf="currentUser()">
   <li>
     <div class="user-view" style="background-color: teal">
 

@@ -45,11 +45,20 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    console.log("inside group component")
+
+    this.route.data
+      .subscribe((data: {group: Group}) => {
+        console.log("Initial group value has been set");
+        this.group = data['group'];
+        this.groupService.setGroupValue(this.group);
+      });
+
+
     this.subscription = this.headerService.onClickCollaboration
       .subscribe((data) => {
-        console.log("on click collaporation event")
-        this.group = this.groupService.getGroupValue();
-        console.log(this.group);
+
+        // this.group = this.groupService.getGroupValue();
         this.openModal();
     });
 

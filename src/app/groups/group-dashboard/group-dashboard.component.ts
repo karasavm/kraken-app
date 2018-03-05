@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {HeaderService} from '../../header/header.service';
 import {GroupService} from '../group.service';
 import {Group} from '../../models/group.model';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-group-dashboard',
   templateUrl: './group-dashboard.component.html',
   styleUrls: ['./group-dashboard.component.css']
 })
-export class GroupDashboardComponent implements OnInit {
+export class GroupDashboardComponent implements OnInit, OnDestroy {
 
   group: Group;
-  id: string;
   debts: any;
-  nameChangeLog: string[] = [];
+  subscription: Subscription;
 
   constructor(
     private groupService: GroupService,
@@ -23,19 +23,29 @@ export class GroupDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data
-      .subscribe((data: {group: Group}) => {
-        this.group = data['group'];
-        this.id = this.group.id;
-        // this.headerService.titleChanged.next(this.group.name);
-        this.headerService.setState('dashboard', this.id, this.group.name);
-        this.debts = this.group.calcDebts();
 
-        this.groupService.setGroupValue(this.group);
+    this.initOnData(this.groupService.getGroupValue());
+
+    this.subscription = this.groupService.groupChanged
+      .subscribe( (group) => {
+        this.initOnData(group);
+
+        // this.group = group;
+
+        // this.headerService.setState('dashboard', this.group.id, this.group.name); //todo: check this after migration
+        // this.debts = this.group.calcDebts();
       });
-
-
-
-
   }
+
+  initOnData(group) {
+    this.group = group;
+    this.debts = this.group.calcDebts();
+    this.headerService.setState('dashboard', this.group.id, this.group.name);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+
 }

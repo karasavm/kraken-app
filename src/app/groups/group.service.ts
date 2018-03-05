@@ -18,6 +18,8 @@ import {environment} from "../../environments/environment";
 @Injectable()
 export class GroupService {
   usersChanged = new Subject<User[]>();
+  groupChanged = new Subject<Group>();
+
   groupUsers: User[];
   group: Group;
   // private groups: Group[] = GROUPS;
@@ -35,12 +37,19 @@ export class GroupService {
     return new HttpHeaders().set('Authorization', this.authService.retriveToken());
   }
 
+  //////////////
   setGroupValue(group: Group) {
     this.group = group;
+    this.groupChanged.next(this.group);
   }
+
   getGroupValue() {
     return this.group;
   }
+  ////////////////////
+
+
+  // API Handlers
   getGroups(): Observable<Group[]> {
     return this.http2
       .get(environment.apiHost + '/groups', {headers: this.getHeaders2()})

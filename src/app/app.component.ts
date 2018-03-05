@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+import {
+  ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route,
+  Router
+} from '@angular/router';
+import {NavigationService} from "./shared/services/navigation.service";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +17,9 @@ export class AppComponent implements OnInit{
   showSpinner = false;
 
   constructor(
-              private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private navService: NavigationService) {
 
     // Assign the selected theme name to the `theme` property of the instance of ToastyConfig.
     // Possible values: default, bootstrap, material
@@ -32,6 +38,45 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.router.events
+      .filter((event) => event instanceof NavigationEnd)
+      .map(() => this.activatedRoute)
+
+      .map((route) => {
+        while (route.firstChild) route = route.firstChild;
+        return route;
+      })
+      .filter((route) => route.outlet === 'primary')
+      // .mergeMap((route) => route.data)
+      .subscribe((route) => {
+
+        const routeName = route.snapshot.data['routeName'];
+        let data = {};
+
+        // traverse tree to fetch route params and data for title
+        let params = {};
+        while (route.parent) {
+
+          // route params
+          if (route.snapshot.params['id']) {
+            params['id'] = route.snapshot.params['id'];
+          }
+          if (route.snapshot.params['transId']) {
+            params['transId'] = route.snapshot.params['transId'];
+          }
+
+          // route data transactioName or GroupName
+          if (route.snapshot.data['group']) {
+            data['title'] = route.snapshot.data['group']['name'];
+          }
+
+          if (route.snapshot.data['transData']) {
+            data['title'] = route.snapshot.data['transData']['transaction']['name'];
+          }
+          route = route.parent;
+        }
+        this.navService.setRouteStatus(routeName, params, data);
+      });
 
   }
 

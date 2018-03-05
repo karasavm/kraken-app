@@ -1,14 +1,34 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class NavigationService {
+
+  routeName: string = '';
+  params: any = {};
+  data: any = {};
+  routeChanged = new Subject<{routeName: string, params: any, data: any}>();
 
   constructor(private router: Router) { }
 
   signInUri = '/signin';
 
 
+  //////////////////////////////////////////////
+  setRouteStatus(routeName, params, data) {
+    console.log("Route Status Set: ", routeName, params, data);
+    this.routeName = routeName;
+    this.params = params;
+    this.data = data;
+
+    this.routeChanged.next({routeName: this.routeName, params: this.params, data: this.data});
+  }
+
+  getRouteStatus() {
+    return {routeName: this.routeName, params: this.params};
+  }
+  //////////////////////////////////////////////
   groupListUri() {
     return '/groups';
   }

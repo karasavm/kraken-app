@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validator} from '@angular/forms';
 import {Group} from '../../models/group.model';
 import {GroupService} from '../group.service';
@@ -12,15 +12,17 @@ import {MaterializeAction} from "angular2-materialize";
 import {NavigationService} from "../../shared/services/navigation.service";
 import {getCurrentUser, isCurrentUser} from "../../shared/helper";
 import {AuthService} from "../../auth/auth.service";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-group-edit',
   templateUrl: './group-edit.component.html',
   styleUrls: ['./group-edit.component.css']
 })
-export class GroupEditComponent implements OnInit {
+export class GroupEditComponent implements OnInit, OnDestroy {
 
   group: Group;
+  subscription: Subscription;
   id: string;
   modalActions = new EventEmitter<string|MaterializeAction>();
   modalActions2 = new EventEmitter<string|MaterializeAction>();
@@ -44,17 +46,24 @@ export class GroupEditComponent implements OnInit {
 
   ngOnInit() {
 
+    this.initOnData(this.groupService.getGroupValue());
 
-    this.route.data
-      .subscribe((data: {group: Group}) => {
-        this.group = data['group'];
-        this.id = this.group.id;
-
-        this.headerService.setState('settings', this.id, '');
-      });
+    this.subscription = this.groupService.groupChanged.subscribe((group) => {
+      this.initOnData(group);
+    })
+    // this.route.data
+    //   .subscribe((data: {group: Group}) => {
+    //     this.group = data['group'];
+    //     this.id = this.group.id;
+    //
+    //     this.headerService.setState('settings', this.id, '');
+    //   });
   }
 
-
+  initOnData(group) {
+    this.group = group;
+    this.headerService.setState('settings', this.group.id, '');
+  }
 
 // -------------   z HANDLING ------------------------
   onClickUpdateGroup() {
@@ -174,6 +183,10 @@ export class GroupEditComponent implements OnInit {
       }, (err) => {
           this.toastService.error(dict['user.left.error']);
         });
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
 
