@@ -22,12 +22,15 @@ export class EditMembersComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log("Init Edit Members Component");
+
     this.group = this.groupService.getGroupValue();
 
     this.groupService.groupChanged.subscribe((group) => {
       this.group = group;
     })
+
+
+    // this.groupService.getGroup(this.group.id).subscribe(g => this.group = g);
   }
 
 

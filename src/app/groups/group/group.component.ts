@@ -72,8 +72,15 @@ export class GroupComponent implements OnInit, OnDestroy {
           this.nameToUpdate = this.group.name;
         }
 
+        // update group before modal opens
+        this.groupService.getGroup(this.group.id).subscribe((g) => {
+          this.group = g;
+          this.nameToUpdate = this.group.name;
+          this.groupService.setGroupValue(this.group)
+          this.openModal();
+        });
 
-        this.openModal();
+        // this.openModal();
     });
 
 
