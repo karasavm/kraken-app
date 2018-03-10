@@ -40,7 +40,6 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
   initOnData(group) {
     this.group = group;
     this.debts = this.group.calcDebts();
-    this.headerService.setState('dashboard', this.group.id, this.group.name);
   }
 
   ngOnDestroy() {

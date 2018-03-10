@@ -62,7 +62,6 @@ export class GroupEditComponent implements OnInit, OnDestroy {
 
   initOnData(group) {
     this.group = group;
-    this.headerService.setState('settings', this.group.id, '');
   }
 
 // -------------   z HANDLING ------------------------
@@ -74,7 +73,6 @@ export class GroupEditComponent implements OnInit, OnDestroy {
 
         (group) => {
           this.group = group;
-          this.headerService.setState('settings', group.id, group.name);
           this.toastService.success(dict['groupName.update.success']);
           this.closeModal2();
         },

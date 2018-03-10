@@ -4,15 +4,29 @@ import {
   Router
 } from '@angular/router';
 import {NavigationService} from "./shared/services/navigation.service";
-
+import { trigger, style, animate, transition } from '@angular/animations';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({transform: 'translateX(100%)', opacity: 0}),
+          animate('500ms', style({transform: 'translateX(0)', opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({transform: 'translateX(0)', opacity: 1}),
+          animate('500ms', style({transform: 'translateX(100%)', opacity: 0}))
+        ])
+      ]
+    )
+  ],
 })
 export class AppComponent implements OnInit{
   title = 'app';
-
+  show = false;
   name = 'mike';
   showSpinner = false;
 
@@ -87,6 +101,8 @@ export class AppComponent implements OnInit{
 
 // TODOLIST New Features
 
+
+//todo: backend ----------------     push group creator on group.users -- only leave group functionality -- remove delete group end point -- find usages on front end
 //todo: order by on transactions
 //todo: error messages sign up
 
@@ -105,7 +121,7 @@ export class AppComponent implements OnInit{
 //todo: back arrow does not work on full browser screen
 // todo: null name error at login page
 // todo: not fixed pages on some components after compile
-
+// todo: group namde does not updated when edit name modal ok
 
 // DONE FEATURES
 // tabs shifting when big screen

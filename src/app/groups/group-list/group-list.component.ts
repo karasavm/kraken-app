@@ -40,7 +40,6 @@ export class GroupListComponent implements OnInit, OnDestroy {
     // this.headerService.hideGroupTabs();
     // this.headerService.setDefault();
 
-    this.headerService.setState('groupList');
     this.subscription = this.route.data
       .subscribe((data: Group[] ) => {
         this.groups = data['groups'];

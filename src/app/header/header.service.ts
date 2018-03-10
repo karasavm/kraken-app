@@ -12,19 +12,12 @@ interface State {
 @Injectable()
 export class HeaderService {
 
-  curTitle: string;
-  stateChanged = new Subject<State>();
 
   onClickCollaboration = new EventEmitter();
+  onClickEditMembers = new EventEmitter();
   onClickTransactionSave = new EventEmitter();
 
-  setState(stateName: string, groupId: string = '', title: string = '') {
-    this.stateChanged.next({
-      stateName: stateName,
-      groupId: groupId,
-      title: title
-    });
-  }
+  onClickHeaderButton = new EventEmitter<string>();
 
   constructor() {
   }

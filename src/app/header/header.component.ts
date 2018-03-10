@@ -126,8 +126,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   getCurrTitle() {
-    if (this.curTitle.length > 16) {
-      return this.curTitle.slice(0, 16) + '...';
+    if (this.curTitle.length > 10) {
+      return this.curTitle.slice(0, 8) + '...';
     }
     return this.curTitle;
   }
@@ -150,15 +150,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onClickCollab() {
-    console.log("Collaboration button pressed")
     this.headerService.onClickCollaboration.emit();
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+
+  onClickEditMembers() {
+
+  }
+
+  onClickHeaderButton(button) {
+    this.headerService.onClickHeaderButton.emit(button);
   }
 
   onClickTransactionSave() {
     console.log("Transaction save pressed");
     this.headerService.onClickTransactionSave.emit();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

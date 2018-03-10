@@ -34,16 +34,16 @@
       <span class="form-text red-text" style="font: inherit" *ngIf="status==='wrongCredentials'"> Wrong email or password.</span>
 
       <br>
-
       <div class="row">
-        <div class="col s8 left-align">
-          <a class="btn btn-large waves-effect white grey-text z-depth-0"
+        <div class="col s6 left-align" style="padding: 0">
+          <a class="btn waves-effect white grey-text z-depth-0"
+             style="padding-left: 12px; padding-right: 0"
                   href="api/users/forgot"
           >FORGOT PASSWORD</a>
         </div>
 
-        <div class="col s4 right-align">
-          <button class="btn btn-large waves-effect waves-light"
+        <div class="col s6 right-align">
+          <button class="btn waves-effect waves-light"
                   type="submit"
                   [disabled]="!f.valid"
           >Log In</button>

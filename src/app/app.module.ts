@@ -42,6 +42,7 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import { TransactionEditGiveComponent } from './groups/transaction-edit-give/transaction-edit-give.component';
 import { GroupCollaboratorsComponent } from './groups/group-collaborators/group-collaborators.component';
 import {TransactionEditComponent} from "./groups/transaction-edit/transaction-edit.component";
+import { EditMembersComponent } from './groups/group/edit-members/edit-members.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import {TransactionEditComponent} from "./groups/transaction-edit/transaction-ed
     AuthComponent,
     TransactionEditGiveComponent,
     GroupCollaboratorsComponent,
-    TransactionEditComponent
+    TransactionEditComponent,
+    EditMembersComponent
   ],
   imports: [
     ButtonsModule.forRoot(),

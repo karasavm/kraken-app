@@ -1,0 +1,83 @@
+<h5>Edit group participants</h5>
+<br>
+<ul class="collection black-text with-header" >
+
+
+
+  <li
+    *ngFor="let member of group.members; let i=index"
+    class="collection-item"
+  >
+      {{member.name}}
+
+      <!--Dropdown Trigger-->
+      <a materialize="dropdown"
+         [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
+         class='dropdown-button secondary-content'
+         [attr.data-activates]= "i">
+        <i class="material-icons">more_vert</i>
+      </a>
+
+
+      <!-- Dropdown Structure -->
+      <ul [id]="i" class='dropdown-content' style="z-index: 4">
+        <li><a (click)="onClickDeleteMember(member)">Remove from group</a></li>
+      </ul>
+
+  </li>
+
+
+</ul>
+
+
+
+
+<br>
+
+
+<form #f="ngForm" class="row">
+  <!--NEW MEMBER-->
+
+  <div class="col s9">
+
+    <input type="email"
+           class="input-field"
+           placeholder="Enter participant"
+           name="member"
+           ngModel>
+  </div>
+
+  <div class="col s3 right-align">
+    <button
+      class="btn btn-small waves-effect waves-light teal"
+      type="submit"
+      (click)="onClickAddMember(f)"
+      [disabled]="f.value.member === '' || f.invalid || group.memberNameExist(f.value.member)"
+    >
+      <i class="material-icons">person_add</i>
+    </button>
+  </div>
+</form>
+
+<br>
+
+<!--<div class="row" style="margin-bottom: 0">-->
+
+  <!--<div class="col s6 grey-text">-->
+    <!--Group Owner-->
+    <!--<b>-->
+      <!--<span *ngIf="!isCurrentUser(group.creator)">{{group.creator.name}} ({{group.creator.email}})</span>-->
+      <!--<span *ngIf="isCurrentUser(group.creator)">You</span>-->
+    <!--</b>-->
+
+  <!--</div>-->
+
+  <!--<div class="col s6 right-align">-->
+    <!--<button-->
+      <!--type="button"-->
+      <!--class="btn waves-effect waves-light btn-flat"-->
+      <!--(click)="closeModal()"-->
+    <!--&gt;Close</button>-->
+  <!--</div>-->
+
+<!--</div>-->

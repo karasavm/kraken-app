@@ -19,5 +19,23 @@
   max-font-size: 13pt;
   vertical-align: middle;
   -webkit-tap-highlight-color: transparent;
-
 }
+
+
+/*.carousel {*/
+  /*height: 800px;*/
+/*}*/
+
+/*.carousel .carousel-item {*/
+  /*height: 100%;*/
+/*}*/
+
+i.icon-teal {
+  color: teal;
+}
+
+.tabs .indicator {
+  background-color: teal;
+}
+
+

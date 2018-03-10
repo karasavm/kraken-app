@@ -1,4 +1,7 @@
-import {AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterViewChecked, Component, ElementRef, EventEmitter, OnDestroy, OnInit, ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {NavigationService} from '../../shared/services/navigation.service';
 
 
@@ -18,7 +21,7 @@ import {FormArray} from "@angular/forms";
 import dict from "../../shared/dictionary";
 import {Group} from "../../models/group.model";
 import {ToastMessagesService} from "../../shared/services/toast-messages.service";
-import {isCurrentUser} from "../../shared/helper";
+import {getCurrentUser, isCurrentUser} from "../../shared/helper";
 // $ = jQuery;
 
 
@@ -35,6 +38,14 @@ export class GroupComponent implements OnInit, OnDestroy {
   modalActions = new EventEmitter<string|MaterializeAction>();
   isCurrentUser = isCurrentUser;
   subscription = new Subscription();
+  headerButton = '';
+  // modals
+  nameToUpdate= '';
+  messagesDict = {
+    deleteGroup: dict["group.delete.prompt_message"],
+    leaveGroup: dict["group.leave.prompt_message"]
+  };
+
 
   constructor(private navService: NavigationService,
               private headerService: HeaderService,
@@ -45,28 +56,32 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    console.log("inside group component")
-
     this.route.data
       .subscribe((data: {group: Group}) => {
-        console.log("Initial group value has been set");
         this.group = data['group'];
         this.groupService.setGroupValue(this.group);
       });
 
 
-    this.subscription = this.headerService.onClickCollaboration
-      .subscribe((data) => {
+    this.subscription = this.headerService.onClickHeaderButton
+      .subscribe((button) => {
+        this.headerButton = button;
 
-        // this.group = this.groupService.getGroupValue();
+        // init according to pressed button
+        if (this.headerButton === 'edit-name') {
+          this.nameToUpdate = this.group.name;
+        }
+
+
         this.openModal();
     });
 
 
 
   }
-
+  // MODAL
   openModal() {
+    Materialize.updateTextFields();
     this.modalActions.emit({action:"modal",params:['open']});
   }
   closeModal() {
@@ -74,7 +89,6 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.modalActions.emit({action:"modal",params:['close']});
     this.modalActions.emit({action:"modal",params:['close']});
   }
-
 
   // -----------------------------   USERS HANDLING ------------------------
   onClickAddUser(f) {
@@ -95,7 +109,6 @@ export class GroupComponent implements OnInit, OnDestroy {
     }
   }
 
-
   onClickDeleteUser(user: User) {
     this.groupService.deleteUser(this.group.id, user.id)
       .subscribe((users) =>
@@ -108,6 +121,51 @@ export class GroupComponent implements OnInit, OnDestroy {
         });
   }
   // ------------------------------------------------------------------------
+
+  // ------------------------------- MEMBER HANDLIGN ---------------------
+  onClickUpdateGroup(f) {
+    this.groupService.updateGroup(this.group.id, this.nameToUpdate)
+    // IT IS USED ONLY TO UPDATE GOUP'S NAME
+      .subscribe(
+
+        (group) => {
+          this.group = group;
+          this.groupService.setGroupValue(group);
+          this.toastService.success(dict['groupName.update.success']);
+          this.closeModal();
+
+        },
+        (err) => {
+          this.toastService.error(dict['groupName.update.error']);
+        }
+      );
+  }
+  // -----------------------------------------------------------
+
+  onClickDeleteGroup() {
+    this.groupService.deleteGroup(this.group.id)
+      .subscribe((data) => {
+        this.toastService.success(dict['group.delete.success']);
+        this.navService.groupList();
+      }, (error) => {
+        this.toastService.error(dict['group.delete.error']);
+      });
+  }
+
+  onClickLeaveGroup() {
+
+    this.groupService.deleteUser(this.group.id, getCurrentUser().id)
+      .subscribe((users) => {
+
+        this.group.users = users;
+        this.groupService.setGroupValue(this.group);
+        this.navService.groupList();
+        this.toastService.success(dict['user.left.success']);
+      }, (err) => {
+        this.toastService.error(dict['user.left.error']);
+      });
+  }
+
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

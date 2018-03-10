@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnChanges, OnDestroy, OnInit, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnDestroy, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {Transaction} from "../../models/transaction.model";
 import {FormBuilder, FormGroup, NgForm} from "@angular/forms";
 import {HeaderService} from "../../header/header.service";
@@ -32,12 +32,11 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
   // FORMS
   checked = false;
   payments = [];
-  currentPage = 1;
-  unequalCost = false;
+  currentPage = 2;
+  equalCost = true;
   showInvalid = false;
   paymentValue = null;
   actions1 = new EventEmitter<string|MaterializeAction>();
-
 
   // TRANSFERS
   fromTransfer: string;
@@ -58,6 +57,8 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
 
   values = ["First", "Second", "Third"];
 
+  @ViewChild('carousel') carouselElement;
+  actions = new EventEmitter<string>();
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -65,7 +66,15 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
               private groupService: GroupService,
               private navService: NavigationService,
               private headerService: HeaderService,
-              private toastService: ToastMessagesService) { }
+              private toastService: ToastMessagesService) {
+
+    window.setTimeout(() => {
+      // this.imageURLs = [this.imageURLs[0], ...this.imageURLs]; // duplicate the first iamge
+      this.carouselElement.nativeElement.classList.toggle("initialized")
+      this.actions.emit("carousel");
+    },1000);
+
+  }
 
   ngOnInit() {
 
@@ -75,7 +84,6 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
       this.transId = this.route.snapshot.paramMap.get('transId');
       this.transaction = data['transData']['transaction'];
       this.members = data['transData']['members'];
-      this.headerService.setState('transaction', this.groupId, this.transaction.name);
 
       if (this.transaction.type === 'general') {
         this.initPayments();
@@ -93,9 +101,13 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
 
       }
 
+    });
 
+    this.headerService.onClickHeaderButton.subscribe((button) => {
 
-      ///////////////////////
+      if (button === 'delete-transaction') {
+        this.openModal(); // delete transaction modal
+      }
 
     });
 
@@ -162,7 +174,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
           if (this.payments[j].debt == -1) {
             this.payments[j].debt = null;// auto functionality
           } else {
-            this.unequalCost = true;
+            this.equalCost = false;
 
           }
           this.payments[j].checked = true;

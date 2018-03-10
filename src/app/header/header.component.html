@@ -26,17 +26,40 @@
 
 
     <ul class="right hide-on-sm-and-down" *ngIf="routeName === 'dashboard' || routeName === 'transactions'">
+
       <li>
-        <a [routerLink]="" (click)="onClickCollab()">
+        <a [routerLink]="" (click)="onClickHeaderButton('edit-member')">
           <i class="material-icons">person_add</i>
         </a>
       </li>
 
+      <!--<li>-->
+        <!--<a [routerLink]="navService.groupSettingsUri(groupId)">-->
+          <!--<i class="material-icons">info_outline</i>-->
+        <!--</a>-->
+      <!--</li>-->
+
       <li>
-        <a [routerLink]="navService.groupSettingsUri(groupId)">
-          <i class="material-icons">info_outline</i>
+        <!-- Dropdown Trigger -->
+        <a materialize="dropdown"
+           [materializeParams]="[{constrainWidth: false, belowOrigin: true, stopPropagation: true}]"
+           class='dropdown-button'
+           data-activates= "groupEdit"
+        >
+          <i class="material-icons">more_vert</i>
         </a>
+
+        <!-- Dropdown Structure -->
+        <ul id="groupEdit" class='dropdown-content' style="z-index: 4">
+          <li><a (click)="onClickHeaderButton('edit-name')">Edit Name</a></li>
+          <li><a (click)="onClickHeaderButton('collaboration')">Collaborate</a></li>
+          <li class="divider"></li>
+          <li><a (click)="onClickHeaderButton('delete-group')">Delete Group</a></li>
+          <li><a (click)="onClickHeaderButton('leave-group')">Leave Group</a></li>
+        </ul>
+
       </li>
+
     </ul>
 
     <ul
@@ -50,6 +73,23 @@
         >
           SAVE
         </a>
+      </li>
+
+      <li>
+        <!-- Dropdown Trigger -->
+        <a materialize="dropdown"
+           [materializeParams]="[{constrainWidth: false, belowOrigin: true, stopPropagation: true}]"
+           class='dropdown-button'
+           data-activates= "transEdit"
+        >
+          <i class="material-icons">more_vert</i>
+        </a>
+
+        <!-- Dropdown Structure -->
+        <ul id="transEdit" class='dropdown-content' style="z-index: 4">
+          <li><a (click)="onClickHeaderButton('delete-transaction')">Delete Transaction</a></li>
+        </ul>
+
       </li>
     </ul>
 

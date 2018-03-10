@@ -60,7 +60,6 @@ export class TransactionEditNewComponent implements OnInit {
       this.transId = this.route.snapshot.paramMap.get('transId');
       this.transaction = data['transData']['transaction'];
       this.members = data['transData']['members'];
-      this.headerService.setState('transaction', this.groupId, this.transaction.name);
 
       if (this.transaction.type === 'general') {
         this.initForm();

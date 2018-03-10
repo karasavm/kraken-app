@@ -1,60 +1,14 @@
 
 
 
-<!--<mz-tab-->
-<!--[fixedTabWidth]="'true'"-->
-<!--&gt;-->
-<!--<mz-tab-item [label]="'Transactions'" routerLinkActive="active" routerLink="transactions"></mz-tab-item>-->
-<!--<mz-tab-item [label]="'Dashboard'" routerLinkActive="active" routerLink="dashboard"></mz-tab-item>-->
-<!--<mz-tab-item [label]="'Settings'" (click)="console.log('aaaaaaaaaa')"></mz-tab-item>-->
-<!--</mz-tab>-->
-
-
-
-
-<!--<div class="row">-->
-<!--<div class="col s12">-->
-<!--<ul class="tabs tabs-fixed-width">-->
-<!--<li class="tab col s3"><a routerLinkActive="active" routerLink="transactions">Transactions</a></li>-->
-<!--<li class="tab col s3"><a routerLinkActive="active" routerLink="dashboard">Dashboard</a></li>-->
-<!--<li class="tab col s3"><a routerLinkActive="active" routerLink="settings">Settings</a></li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
-
-
-<!--<div class="row">-->
-<!--<div class="col s12">-->
-<!--<ul class="tabs" materialize="tabs">-->
-<!--<li class="tab col s3"><a href="#test1">Test 1</a></li>-->
-<!--<li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>-->
-<!--<li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>-->
-<!--<li class="tab col s3"><a href="#test4">Test 4</a></li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--<div id="test1" class="col s12">Test 1</div>-->
-<!--<div id="test2" class="col s12">Test 2</div>-->
-<!--<div id="test3" class="col s12">Test 3</div>-->
-<!--<div id="test4" class="col s12">Test 4</div>-->
-<!--</div>-->
-
 <div class="row">
   <div class="col-12">
     <router-outlet></router-outlet>
   </div>
 </div>
 
-<!--<div class="row">-->
-<!--<div class="col s12">-->
-<!--<ul class="tabs">-->
-<!--<li class="tab col s3"><a >Test 1</a></li>-->
-<!--<li class="tab col s3"><a >Test 2</a></li>-->
-<!--<li class="tab col s3"><a >Test 4</a></li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>-->
 
-<!--MODAL FOR EDIT MEMBER-->
+<!--MODAL-->
 <div id="modal"
      class="modal"
      materialize="modal"
@@ -63,9 +17,10 @@
 
 >
 
-  <div class="modal-content" *ngIf="group">
 
-
+  <!--COLLABORATION-->
+  <ng-container *ngIf="headerButton === 'collaboration'">
+    <div class="modal-content">
       <h5>Collaborate Group with others</h5>
       <br>
       <ul class="collection black-text with-header" >
@@ -74,7 +29,15 @@
           *ngFor="let user of group.users; let i=index"
           class="collection-item"
         >
+          <ng-container *ngIf="isCurrentUser(user)">
+            {{user.name}} (You)
+          </ng-container>
+        </li>
 
+        <li
+          *ngFor="let user of group.users; let i=index"
+          class="collection-item"
+        >
 
           <ng-container *ngIf="!isCurrentUser(user)">
 
@@ -83,8 +46,8 @@
 
             <!--Dropdown Trigger-->
             <a materialize="dropdown"
+               [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
                class='dropdown-button secondary-content'
-               href='#'
                [attr.data-activates]= "i">
               <i class="material-icons">more_vert</i>
             </a>
@@ -92,7 +55,7 @@
 
             <!-- Dropdown Structure -->
             <ul [id]="i" class='dropdown-content' style="z-index: 4">
-              <li><a (click)="onClickDeleteUser(user)">delete</a></li>
+              <li><a (click)="onClickDeleteUser(user)">Remove from group</a></li>
             </ul>
           </ng-container>
         </li>
@@ -152,11 +115,115 @@
         </div>
 
       </div>
+    </div>
+  </ng-container>
+
+  <!--EDIT NAME-->
+  <ng-container *ngIf="headerButton === 'edit-name'">
+    <div class="modal-content">
+      <h5>Edit Group Name</h5>
+      <br>
+
+      <div class="row">
+        <div class="col s12">
+          <form #f1="ngForm">
+            <div class="input-field">
+              <input autofocus
+                 id="name"
+                     type="text" name="memberName"
+                      [(ngModel)]="nameToUpdate">
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+
+      <button
+        type="button"
+        class="btn waves-effect waves-light btn-flat teal-text"
+        (click)="closeModal()"
+      >close</button>
+
+      <button
+        type="submit"
+        class="btn waves-effect waves-light btn-flat teal-text"
+        (click)="onClickUpdateGroup(f1)"
+        [disabled]="nameToUpdate === ''"
+      >Update</button>
+
+
+    </div>
+  </ng-container>
+
+  <!--DELETE GROUP-->
+  <ng-container *ngIf="headerButton === 'delete-group'">
+
+
+    <div class="modal-content">
+      <h4>Delete Group</h4>
+      <p>{{messagesDict.deleteGroup}}</p>
+    </div>
+    <div class="modal-footer">
+      <a class="waves-effect waves-green btn btn-flat" (click)="closeModal()">
+        close
+      </a>
+      <a class="modal-action modal-close waves-effect waves-green btn red" (click)="onClickDeleteGroup()">
+        Delete
+      </a>
+    </div>
+
+
+
+  </ng-container>
+
+  <!--DELETE GROUP-->
+  <ng-container *ngIf="headerButton === 'leave-group'">
+
+
+    <div class="modal-content">
+      <h4>Delete Group</h4>
+      <p>{{messagesDict.leaveGroup}}</p>
+    </div>
+    <div class="modal-footer">
+      <a class="waves-effect waves-green btn btn-flat" (click)="closeModal()">
+        close
+      </a>
+      <a class="modal-action modal-close waves-effect waves-green btn red" (click)="onClickLeaveGroup()">
+        Leave
+      </a>
+    </div>
+
+
+
+  </ng-container>
+
+
+  <!--EDIT MEMBERS-->
+  <ng-container *ngIf="headerButton === 'edit-member'">
+
+
+    <div class="modal-content">
+      <app-edit-members></app-edit-members>
+    </div>
+
+
+
+    <div class="modal-footer">
+        <button
+          type="button"
+          class="btn waves-effect waves-light btn-flat"
+          (click)="closeModal()"
+        >Close</button>
+    </div>
+  </ng-container>
 
 
 
 
-  </div>
+
+
 
 
 

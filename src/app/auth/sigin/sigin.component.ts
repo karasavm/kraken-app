@@ -27,7 +27,6 @@ export class SiginComponent implements OnInit, OnDestroy {
       });
 
     // this.headerService.hideGroupTabs();
-    this.headerService.setState('auth');
   }
 
 

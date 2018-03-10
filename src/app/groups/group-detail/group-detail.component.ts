@@ -72,7 +72,6 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
   initOnData(group) {
     this.group = group;
     this.searched_transactions = this.group.transactions;
-    this.headerService.setState('transactions', this.group.id, this.group.name);
   }
 
   onClickCreateTransaction(id) {

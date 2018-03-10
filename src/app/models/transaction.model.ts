@@ -76,7 +76,7 @@ export class Transaction {
     for (let i = 0; i < this.payments.length; i++) {
       amountSum += this.payments[i].amount;
 
-      // manual mode
+      // manual headerButton
       if (this.payments[i].debt >= 0) {
         manualSum += this.payments[i].debt;
         manualNum ++;

@@ -1,8 +1,7 @@
 .btn-floating.right-border {
   position: absolute;
-  right: -17px;
-  top: 100px;
-  color: transparent;
+  right: -19px;
+  top: 90px;
 }
 
 .btn-floating.left-border {
@@ -10,3 +9,60 @@
   left: -17px;
   top: 100px;
 }
+
+
+
+
+.collection {
+  border: none;
+}
+
+.clear-btn {
+  height: 18px;
+  width: 18px;
+
+  line-height: 1px !important;
+  padding: 0 0.rem;
+  font-size: 1.2;
+}
+
+.btn-floating i {
+  line-height: 20px;
+}
+
+.tabs .tab a{
+  color: teal;
+} /*Black color to the text*/
+
+.tabs .indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: teal;
+  will-change: left, right;
+}
+
+/*.tabs .tab.disabled a{*/
+  /*color: green;*/
+  /*cursor: default;*/
+/*}*/
+
+.roundbutton{
+  display:block;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 1px solid red;
+
+}
+
+
+
+/*.btn-floating.btn-small {*/
+  /*height: 20px;*/
+  /*width: 20px;*/
+  /*line-height: 20px;*/
+  /*font-size: 1.6rem;*/
+  /**/
+/*}*/
+

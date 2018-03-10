@@ -17,7 +17,6 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.headerService.setState('auth');
   }
 
   onSignup(form: NgForm) {

@@ -1,7 +1,7 @@
 <br>
 <ul materialize="collapsible"
     class="collapsible"
-    *ngIf="members.length && transaction.type === 'general'"
+    *ngIf="members.length && transaction.type === 'general' && false"
     data-collapsible="accordion"
     [materializeParams]="params"
     [materializeActions]="actions1"
@@ -71,6 +71,7 @@
 
 
         <div class="input-field col s2 left-align">
+
           <i
             (click)="payment.amount = null"
             class="material-icons">clear</i>
@@ -214,38 +215,254 @@
 
 
 <!-------------------------------------------------------------->
-<br>
-<br>
-<hr>
-
-<!--DELETE BUTTON-->
-<div class="row">
-  <div class="col s12">
-    <a class="waves-effect waves-light btn red right" (click)="openModal()">
-      <i class="material-icons left">delete_forever</i>
-      delete
-    </a>
-  </div>
-
-</div>
 
 
-<!--MODAL-->
+
+<!--MODAL - DELETE TRANSACTION -->
 <div id="modal1"
-     class="modal bottom-sheet"
+     class="modal"
      materialize="modal"
-     [materializeParams]="[{dismissible: false}]"
+     [materializeParams]="[{dismissible: true}]"
      [materializeActions]="modalActions">
   <div class="modal-content">
     <h4>Delete Transaction</h4>
     <p>{{messagesDict.deleteTrans}}</p>
   </div>
+
   <div class="modal-footer">
-    <a class="waves-effect waves-green btn" (click)="closeModal()">
-      cancel
+    <a class="waves-effect waves-light btn-flat" (click)="closeModal()">
+      close
     </a>
     <a class="modal-action modal-close waves-effect waves-green btn red" (click)="onClickDeleteGroup()">
       Delete
     </a>
   </div>
 </div>
+
+<!-------------------- TABS ------------------------>
+
+
+<div class="row">
+  <div class="col s12">
+    <ul class="tabs" materialize="tabs" [materializeParams]="[{swipeable: false}]" >
+      <li class="tab col s4">
+        <a class="waves-effect waves-teal"
+           (click)="currentPage = 1"
+           [ngClass]="{'true': 'active', 'false': ''}[(currentPage === 1).toString()]"
+           href="#test1">Step 1</a></li>
+      <li class="tab col s4">
+        <a class="waves-effect waves-teal"
+           (click)="currentPage = 1"
+           [ngClass]="{'true': 'active', 'false': ''}[(currentPage === 2).toString()]"
+           href="#test2">Step 2</a></li>
+      <li class="tab col s4" [ngClass]="{'true': 'disabled', 'false': ''}[equalCost.toString()]">
+        <a class="waves-effect waves-teal"
+           (click)="currentPage = 1"
+           [ngClass]="{'true': 'active', 'false': ''}[(currentPage === 3).toString()]  + {'true': ' grey-text', 'false': ''}[equalCost.toString()]"
+           href="#test3">Step 3</a></li>
+    </ul>
+  </div>
+  <br>
+
+  <div id="test1" class="col s12">
+    <div class="card">
+      <div class="card-content">
+
+        <span class="grey-text"
+              *ngIf="transactionIsValid() === 1"
+        > Select at least one participant.
+      </span>
+        <br>
+        <ul class="collection with-header">
+          <!--<a class="collection-header"><h4>First Names</h4></a>-->
+
+          <li
+            class="collection-item"[ngClass]="{true: 'active', false: ''}[payment.checked]"
+            (click)="togglePayment(i)"
+            *ngFor="let payment of payments;let i=index"
+          >
+            <div>{{getMemberById(payment.member).name}}
+              <a class="secondary-content"
+                 *ngIf="payment.checked">
+                <i class="material-icons">check_circle</i>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div id="test2" class="col s12">
+
+    <div class="card">
+      <div class="card-content">
+
+        <ng-container *ngIf="getCheckedPayments().length == 0">
+          <span class="grey-text">
+            Select at least one participant at step one.
+          </span>
+        </ng-container>
+        <ng-container *ngIf="getCheckedPayments().length > 0">
+          <span class="grey-text"
+                *ngIf="transactionIsValid() === 2"
+          > Insert payment to at least one participant.
+      </span>
+
+          <div class="row" *ngFor="let payment of getCheckedPayments();let i=index">
+
+            <div class="input-field col s5 center-align">
+              <button
+                style="padding: 0 0.5rem"
+
+                type="button"
+                [ngClass]="{false: 'btn teal', true: 'btn grey'}[payment.amount === null || payment.amount === 0]"
+
+              >
+                {{getMemberById(payment.member).name}}
+              </button>
+            </div>
+
+
+            <div class="col s5 left-align" style="padding-right: 0">
+              <input
+                type="number"
+                placeholder="0 euros"
+                class="center-align"
+
+                [(ngModel)]="payment.amount"
+              >
+            </div>
+
+
+            <div class="input-field col s2 left-align"
+                 *ngIf="payment.amount"
+                 style="padding-left: 0">
+
+
+              <button class="btn-floating clear-btn grey lighten-1">
+                <i
+                  (click)="payment.amount = null"
+                  class="material-icons" style="font-size: 15px">clear</i>
+              </button>
+
+
+
+            </div>
+
+            <!--<div class="input-field col s2 right-align">-->
+            <!--<i-->
+
+            <!--(click)="unCheckPayment(i)"-->
+            <!--class="material-icons">delete</i>-->
+            <!--</div>-->
+
+
+          </div>
+
+          <!-- Switch -->
+
+          <div class="row">
+            <div class="col s6">
+              Everyone has to pay the same.
+            </div>
+
+            <div class="col s6">
+              <div class="switch" >
+                <label>
+                  No
+
+                  <input
+                    [disabled]="amountPaymentsSum() == 0"
+                    type="checkbox" [(ngModel)]="equalCost">
+                  <span class="lever"></span>
+                  Yes
+                </label>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="test3" class="col s12">
+    <div class="card">
+      <div class="card-content">
+
+        <ng-container *ngIf="amountPaymentsSum() == 0">
+          <span class="grey-text">
+            Insert payments at step 2.
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="amountPaymentsSum() > 0">
+          <div
+            class="row col s12 form-text red-text"
+            style="font: inherit"
+            *ngIf="transactionIsValid() === 3"
+          > Costs are greater than total payments!</div>
+
+
+          <div class="row" *ngFor="let payment of getCheckedPayments();let i=index">
+
+
+            <div class="col s5 center-align input-field">
+
+              <button
+                type="button"
+                style="padding: 0 0.5rem"
+                [ngClass]="{false: 'btn teal', true: 'btn grey'}[payment.debt === null ]"
+                (click)="payment.debt = null"
+              >
+                {{getMemberById(payment.member).name}}
+              </button>
+            </div>
+
+            <div class="col s5 left-align"
+              style="padding-right: 0">
+              <input
+                type="number"
+                placeholder="AUTO"
+                class="input-field center-align"
+                [(ngModel)]="payment.debt"
+              >
+            </div>
+
+            <div class="input-field col s2 left-align"
+              style="padding-left: 0">
+              <button class="btn-floating clear-btn grey lighten-1">
+                <i
+                  (click)="payment.debt = null"
+                  class="material-icons" style="font-size: 15px">clear</i>
+              </button>
+            </div>
+
+
+
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!--<hr>-->
+<!--&lt;!&ndash;DELETE BUTTON&ndash;&gt;-->
+<!--<div class="row">-->
+<!--<div class="col s12">-->
+<!--<a class="waves-effect waves-light btn red right" (click)="openModal()">-->
+<!--<i class="material-icons left">delete_forever</i>-->
+<!--delete-->
+<!--</a>-->
+<!--</div>-->
+
+<!--</div>-->
+
+
