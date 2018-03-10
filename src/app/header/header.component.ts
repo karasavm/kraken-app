@@ -12,6 +12,7 @@ import {NavigationService} from '../shared/services/navigation.service';
 import {getCurrentUser} from "../shared/helper";
 import {User} from "../models/user.model";
 import {environment} from "../../environments/environment";
+import {GroupService} from "../groups/group.service";
 // import {ChangeDetectionStrategy} from '@angular/compiler/src/core';
 
 
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   curTitle: string = '';
   subscription: Subscription;
+  subscription1: Subscription;
   routeName: string = '';
   showGroupTabs = false;
   showAuthTabs = false;
@@ -43,7 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public authService: AuthService,
     private location: Location,
-    private navService: NavigationService
+    private navService: NavigationService,
+    private groupService: GroupService
   ) {}
 
 
@@ -66,10 +69,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.subscription1 = this.headerService.titleChanged.subscribe(title => this.curTitle = title);
 
     this.subscription = this.navService.routeChanged.subscribe((routeStatus) => {
 
+
       const data = routeStatus.data;
+      // console.log("dddddddddddaaaaaaaaaaattttt", data)
       const params = routeStatus.params;
       const routeName = routeStatus.routeName;
 
@@ -77,11 +83,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
       // set title
-      if (data.title) {
-        this.curTitle = data.title;
-      } else {
-        this.curTitle = defaultTitle;
-      }
+      // if (data.title) {
+      //   this.curTitle = data.title;
+      // } else {
+      //   this.curTitle = defaultTitle;
+      // }
 
       // set group id
       if (params.id) {
@@ -101,16 +107,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (routeName === 'signin' || routeName === 'signup') {
         this.showAuthTabs = true;
         this.showGroupTabs = false;
+        this.curTitle = defaultTitle;
       } else if (routeName === 'groups') {
+        this.curTitle = defaultTitle;
         this.showAuthTabs = false;
         this.showGroupTabs = false;
       } else if (routeName === 'dashboard' || routeName === 'transactions') {
         this.showAuthTabs = false;
         this.showGroupTabs = true;
-
-      } else if (routeName === 'settings') {
-        this.showAuthTabs = false;
-        this.showGroupTabs = false;
+      // } else if (routeName === 'settings') {
+      //   this.showAuthTabs = false;
+      //   this.showGroupTabs = false;
       } else if (routeName === 'transaction-edit') {
         this.showAuthTabs = false;
         this.showGroupTabs = false;

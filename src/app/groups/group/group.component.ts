@@ -59,7 +59,7 @@ export class GroupComponent implements OnInit, OnDestroy {
     this.route.data
       .subscribe((data: {group: Group}) => {
         this.group = data['group'];
-        this.groupService.setGroupValue(this.group);
+        this.groupService.setGroupValue(this.group, true);
       });
 
 

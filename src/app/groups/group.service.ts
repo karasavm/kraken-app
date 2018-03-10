@@ -13,6 +13,7 @@ import {Transaction} from '../models/transaction.model';
 import {AuthService} from '../auth/auth.service';
 import {User} from '../models/user.model';
 import {environment} from "../../environments/environment";
+import {HeaderService} from "../header/header.service";
 
 
 @Injectable()
@@ -27,7 +28,9 @@ export class GroupService {
 
   constructor(private router: Router,
               private http2: HttpClient,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private headerService: HeaderService
+  ) {
 
   }
 
@@ -38,8 +41,13 @@ export class GroupService {
   }
 
   //////////////
-  setGroupValue(group: Group) {
+  setGroupValue(group: Group, updateTitle=true) {
     this.group = group;
+
+    if (updateTitle) {
+      this.headerService.setTitle(this.group.name);
+    }
+
     this.groupChanged.next(this.group);
   }
 

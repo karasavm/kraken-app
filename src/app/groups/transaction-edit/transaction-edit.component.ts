@@ -66,15 +66,8 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
               private groupService: GroupService,
               private navService: NavigationService,
               private headerService: HeaderService,
-              private toastService: ToastMessagesService) {
-
-    window.setTimeout(() => {
-      // this.imageURLs = [this.imageURLs[0], ...this.imageURLs]; // duplicate the first iamge
-      this.carouselElement.nativeElement.classList.toggle("initialized")
-      this.actions.emit("carousel");
-    },1000);
-
-  }
+              private toastService: ToastMessagesService
+  ) {}
 
   ngOnInit() {
 
@@ -84,6 +77,8 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
       this.transId = this.route.snapshot.paramMap.get('transId');
       this.transaction = data['transData']['transaction'];
       this.members = data['transData']['members'];
+
+      this.headerService.setTitle(this.transaction.name);
 
       if (this.transaction.type === 'general') {
         this.initPayments();

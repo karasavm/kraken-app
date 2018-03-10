@@ -19,8 +19,12 @@ export class HeaderService {
 
   onClickHeaderButton = new EventEmitter<string>();
 
+  titleChanged = new Subject<string>();
+
   constructor() {
   }
 
-
+  setTitle(title) {
+    this.titleChanged.next(title);
+  }
 }

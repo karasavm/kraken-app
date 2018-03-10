@@ -28,6 +28,7 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
 
     this.subscription = this.groupService.groupChanged
       .subscribe( (group) => {
+        // this.groupService.setGroupValue(group);
         this.initOnData(group);
 
         // this.group = group;
