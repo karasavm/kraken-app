@@ -22,7 +22,6 @@ export class EditMembersComponent implements OnInit {
 
   ngOnInit() {
 
-
     this.group = this.groupService.getGroupValue();
 
     this.groupService.groupChanged.subscribe((group) => {
@@ -30,7 +29,15 @@ export class EditMembersComponent implements OnInit {
     })
 
 
-    // this.groupService.getGroup(this.group.id).subscribe(g => this.group = g);
+
+    // this.groupService.getGroup(this.group.id).subscribe((g) => {
+    //   console.log("getting group")
+    //   setTimeout(() => {
+    //     console.log("time ouuuutttttt")
+    //     this.group = g
+    //   }, 1000)
+    //
+    // });
   }
 
 

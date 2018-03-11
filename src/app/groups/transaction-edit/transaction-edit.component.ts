@@ -32,7 +32,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
   // FORMS
   checked = false;
   payments = [];
-  currentPage = 2;
+  currentPage = 1;
   equalCost = true;
   showInvalid = false;
   paymentValue = null;

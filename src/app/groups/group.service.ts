@@ -42,6 +42,7 @@ export class GroupService {
 
   //////////////
   setGroupValue(group: Group, updateTitle=true) {
+    console.log("Setting group value")
     this.group = group;
 
     if (updateTitle) {

@@ -22,6 +22,8 @@ import dict from "../../shared/dictionary";
 import {Group} from "../../models/group.model";
 import {ToastMessagesService} from "../../shared/services/toast-messages.service";
 import {getCurrentUser, isCurrentUser} from "../../shared/helper";
+import {MatDialog, MatDialogRef} from "@angular/material";
+import {EditMembersComponent} from "./edit-members/edit-members.component";
 // $ = jQuery;
 
 
@@ -46,13 +48,16 @@ export class GroupComponent implements OnInit, OnDestroy {
     leaveGroup: dict["group.leave.prompt_message"]
   };
 
+  dialogRefEditMembers : MatDialogRef<EditMembersComponent>;
 
   constructor(private navService: NavigationService,
               private headerService: HeaderService,
               private groupService: GroupService,
               private router: Router,
               private toastService: ToastMessagesService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
 
@@ -74,11 +79,24 @@ export class GroupComponent implements OnInit, OnDestroy {
 
         // update group before modal opens
         this.groupService.getGroup(this.group.id).subscribe((g) => {
-          this.group = g;
-          this.nameToUpdate = this.group.name;
-          this.groupService.setGroupValue(this.group)
-          this.openModal();
+
+          setTimeout(() => {
+            this.group = g;
+            this.nameToUpdate = this.group.name;
+            this.groupService.setGroupValue(this.group);
+
+          }, 100);
+
+          // this.openModal();
         });
+
+        // this.openModal()
+
+        if (this.headerButton === 'edit-member') {
+          this.openDialogEditMembers();
+        } else {
+          this.openModal();
+        }
 
         // this.openModal();
     });
@@ -88,7 +106,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   }
   // MODAL
   openModal() {
-    Materialize.updateTextFields();
+
     this.modalActions.emit({action:"modal",params:['open']});
   }
   closeModal() {
@@ -177,5 +195,10 @@ export class GroupComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  openDialogEditMembers( ) {
+    this.dialogRefEditMembers = this.dialog.open(EditMembersComponent);
+  }
+
 
 }

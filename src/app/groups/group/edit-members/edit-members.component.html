@@ -1,13 +1,11 @@
-<h5>Edit group participants</h5>
+<h5 >Edit group participants</h5>
 <br>
-<ul class="collection black-text with-header" >
-
-
-
-  <li
-    *ngFor="let member of group.members; let i=index"
-    class="collection-item"
-  >
+<mat-dialog-content>
+  <ul class="collection black-text with-header" >
+    <li
+      *ngFor="let member of group.members; let i=index"
+      class="collection-item"
+    >
       {{member.name}}
 
       <!--Dropdown Trigger-->
@@ -24,60 +22,57 @@
         <li><a (click)="onClickDeleteMember(member)">Remove from group</a></li>
       </ul>
 
-  </li>
+    </li>
+
+  </ul>
 
 
-</ul>
 
 
+  <br>
 
 
-<br>
+  <form #f="ngForm" class="row">
+    <!--NEW MEMBER-->
+
+    <div class="col s9">
+
+      <input
+        tabindex="-1"
+        type="email"
+        class="input-field"
+        placeholder="Enter participant"
+        name="member"
+        ngModel
+      >
+
+    </div>
+
+    <div class="col s3 right-align">
+      <button
+        class="btn btn-small waves-effect waves-light teal"
+        type="submit"
+        (click)="onClickAddMember(f)"
+        [disabled]="f.value.member === '' || f.invalid || group.memberNameExist(f.value.member)"
+      >
+        <i class="material-icons">person_add</i>
+      </button>
+    </div>
+  </form>
+
+</mat-dialog-content>
 
 
-<form #f="ngForm" class="row">
-  <!--NEW MEMBER-->
+<div class="col s12 right-align">
+  <button
+    type="button"
+    class="btn waves-effect waves-light btn-flat"
+    mat-dialog-close
+    tabindex="-1"
+  >Close</button>
+</div>
 
-  <div class="col s9">
 
-    <input type="email"
-           class="input-field"
-           placeholder="Enter participant"
-           name="member"
-           ngModel>
-  </div>
-
-  <div class="col s3 right-align">
-    <button
-      class="btn btn-small waves-effect waves-light teal"
-      type="submit"
-      (click)="onClickAddMember(f)"
-      [disabled]="f.value.member === '' || f.invalid || group.memberNameExist(f.value.member)"
-    >
-      <i class="material-icons">person_add</i>
-    </button>
-  </div>
-</form>
-
-<br>
-
-<!--<div class="row" style="margin-bottom: 0">-->
-
-  <!--<div class="col s6 grey-text">-->
-    <!--Group Owner-->
-    <!--<b>-->
-      <!--<span *ngIf="!isCurrentUser(group.creator)">{{group.creator.name}} ({{group.creator.email}})</span>-->
-      <!--<span *ngIf="isCurrentUser(group.creator)">You</span>-->
-    <!--</b>-->
-
-  <!--</div>-->
-
-  <!--<div class="col s6 right-align">-->
-    <!--<button-->
-      <!--type="button"-->
-      <!--class="btn waves-effect waves-light btn-flat"-->
-      <!--(click)="closeModal()"-->
-    <!--&gt;Close</button>-->
-  <!--</div>-->
-
-<!--</div>-->
+<!--<mat-dialog-actions>-->
+  <!--<button mat-button mat-dialog-close tabindex="-1">Close</button>-->
+<!--</mat-dialog-actions>-->

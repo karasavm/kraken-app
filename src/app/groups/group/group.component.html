@@ -2,7 +2,7 @@
 
 
 <div class="row">
-  <div class="col-12">
+  <div class="col s12">
     <router-outlet></router-outlet>
   </div>
 </div>
@@ -25,29 +25,29 @@
       <br>
       <ul class="collection black-text with-header" >
 
-        <li
-          *ngFor="let user of group.users; let i=index"
-          class="collection-item"
-        >
-          <ng-container *ngIf="isCurrentUser(user)">
-            {{user.name}} (You)
-          </ng-container>
-        </li>
+        <!--<li-->
+          <!--*ngFor="let user of group.users; let i=index"-->
+          <!--class="collection-item"-->
+        <!--&gt;-->
+          <!--<ng-container *ngIf="isCurrentUser(user)">-->
+            <!--{{user.name}} (You)-->
+          <!--</ng-container>-->
+        <!--</li>-->
 
         <li
           *ngFor="let user of group.users; let i=index"
           class="collection-item"
         >
 
-          <ng-container *ngIf="!isCurrentUser(user)">
 
-            {{user.name}} <br>
-            ({{user.email}})
+
+            {{user.name}} <b *ngIf="isCurrentUser(user)"> (You)</b> <b *ngIf="user.id === group.creator.id"> (Owner)</b>
 
             <!--Dropdown Trigger-->
             <a materialize="dropdown"
                [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
                class='dropdown-button secondary-content'
+               *ngIf="!(isCurrentUser(user) || group.creator.id === user.id)"
                [attr.data-activates]= "i">
               <i class="material-icons">more_vert</i>
             </a>
@@ -57,7 +57,7 @@
             <ul [id]="i" class='dropdown-content' style="z-index: 4">
               <li><a (click)="onClickDeleteUser(user)">Remove from group</a></li>
             </ul>
-          </ng-container>
+
         </li>
       </ul>
 
@@ -183,7 +183,7 @@
 
 
     <div class="modal-content">
-      <h4>Delete Group</h4>
+      <h4>Leave Group</h4>
       <p>{{messagesDict.leaveGroup}}</p>
     </div>
     <div class="modal-footer">
@@ -201,7 +201,7 @@
 
 
   <!--EDIT MEMBERS-->
-  <ng-container *ngIf="headerButton === 'edit-member'">
+  <ng-container *ngIf="false && headerButton === 'edit-member'">
 
 
     <div class="modal-content">
@@ -210,22 +210,15 @@
 
 
 
-    <div class="modal-footer">
-        <button
-          type="button"
-          class="btn waves-effect waves-light btn-flat"
-          (click)="closeModal()"
-        >Close</button>
-    </div>
+    <!--<div class="modal-footer">-->
+        <!--<button-->
+          <!--type="button"-->
+          <!--class="btn waves-effect waves-light btn-flat"-->
+          <!--(click)="closeModal()"-->
+        <!--&gt;Close</button>-->
+    <!--</div>-->
+
+
   </ng-container>
-
-
-
-
-
-
-
-
-
-
 </div>
+

@@ -30,6 +30,8 @@ export class AppComponent implements OnInit{
   name = 'mike';
   showSpinner = false;
 
+
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -97,6 +99,9 @@ export class AppComponent implements OnInit{
   handler(event) {
     console.log(event," fffffff")
   }
+
+
+
 }
 
 // TODOLIST New Features
@@ -105,7 +110,8 @@ export class AppComponent implements OnInit{
 //todo: backend ----------------     push group creator on group.users -- only leave group functionality -- remove delete group end point -- find usages on front end
 //todo: order by on transactions
 //todo: error messages sign up
-
+//todo: change modal to mat-dialog especial these with auto focus
+//todo: dropdown with mat- angular io
 
 //todo: dekadika stoggulopoihsh
 //todo: hmerominies sta transaction
@@ -115,12 +121,11 @@ export class AppComponent implements OnInit{
 //todo: autocomplete off on signin/signup forms
 //todo: email account for forgot password
 //todo: forgot password pages
-//
-
+//todo: refresh button on /groups page
+//todo: deprecate DELETE /group/:id chech where it used. only leave
 // BUGS
-//todo: back arrow does not work on full browser screen
+// todo: back arrow does not work on android app
 // todo: null name error at login page
-// todo: not fixed pages on some components after compile
 // todo: group namde does not updated when edit name modal ok
 
 // DONE FEATURES
@@ -134,6 +139,8 @@ export class AppComponent implements OnInit{
 // tooltip on new transaction/transfer
 
 // DONE BUGS
+// back arrow does not work on full browser screen
+// not fixed pages on some components after compile
 // new empty transfer issue on transaction list
 // when logged in can not navigate to singin/register
 // when fail to sign up there is an error, redirects to sign in after sign in
