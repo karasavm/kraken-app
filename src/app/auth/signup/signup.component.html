@@ -1,18 +1,22 @@
 <form (ngSubmit)="onSignup(f)" #f="ngForm" >
 
   <div class="input-field">
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" ngModel>
+
+    <input type="text" id="name" name="name" class="validate" required ngModel>
+    <label materialize for="name" data-error="Can't be blank">Name</label>
   </div>
 
   <div class="input-field">
-    <label for="email">Mail</label>
-    <input type="text" id="email" name="email" materialize ngModel>
+    <input class="validate" type="text" id="email" name="email" materialize required email ngModel>
+    <label materialize for="email" data-error="Insert a valid email">Mail</label>
   </div>
 
+
   <div class="input-field">
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" materialize ngModel>
+
+    <input class="validate" type="password" id="password" name="password" materialize required ngModel>
+    <label for="password" data-error="Can't be blank">Password</label>
+
   </div>
 
 

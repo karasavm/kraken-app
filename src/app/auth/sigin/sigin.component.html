@@ -28,7 +28,8 @@
                required
                #password="ngModel"
                ngModel>
-        <label materialize for="password" data-error="Cant be blank">Password</label>
+        <label materialize for="password"
+               data-error="Cant be blank">Password</label>
         <!--<span class="form-text text-muted" *ngIf="!password.valid && password.touched"> Password can not be blank!</span>-->
       </div>
       <span class="form-text red-text" style="font: inherit" *ngIf="status==='wrongCredentials'"> Wrong email or password.</span>

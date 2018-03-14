@@ -76,7 +76,7 @@
 <!--TRANSACTION LIST-->
 <div class="collection" *ngIf="group.transactions.length">
 
-  <a class="collection-item avatar avatar-custom"
+  <a class="collection-item avatar avatar-custom waves-effect waves-light"
      [routerLink]="navService.transactionUri(group.id, transaction.id)"
      *ngFor="let transaction of searched_transactions"
   >

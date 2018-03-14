@@ -116,6 +116,7 @@ export class AppComponent implements OnInit{
 //todo: dekadika stoggulopoihsh
 //todo: hmerominies sta transaction
 
+//todo: MIGRATE MATERIALIZECSS TO MATERIAL IO INPUTS/MODALS/DROPDOWNS
 
 //todo:strogullopoihsh
 //todo: autocomplete off on signin/signup forms

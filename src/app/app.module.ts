@@ -44,8 +44,7 @@ import { GroupCollaboratorsComponent } from './groups/group-collaborators/group-
 import {TransactionEditComponent} from "./groups/transaction-edit/transaction-edit.component";
 import { EditMembersComponent } from './groups/group/edit-members/edit-members.component';
 
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatButtonModule, MatDialogModule} from "@angular/material";
+import {MatButtonModule, MatDialogModule } from "@angular/material";
 
 
 @NgModule({

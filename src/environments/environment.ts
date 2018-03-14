@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  // apiHost: 'http://localhost:3000/api'
+  apiHost: 'http://localhost:3000/api'
   // apiHost: 'http://138.68.180.1/api'
-  apiHost: 'http://192.168.1.9:3000/api'
+  // apiHost: 'http://192.168.1.9:3000/api'
   // apiHost: 'http://10.0.0.153/api'
 };

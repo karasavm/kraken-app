@@ -17,6 +17,10 @@
   position: relative;
 }
 
+.collection {
+  border: none;
+}
+
 
 /*.input-field .postfix ~ input { width: 80%; width:calc(100% - 3rem);  margin-left:0px; margin-right: 3rem!important; }*/
 .input-field .postfix {
