@@ -167,16 +167,6 @@ export class GroupComponent implements OnInit, OnDestroy {
   }
   // -----------------------------------------------------------
 
-  onClickDeleteGroup() {
-    this.groupService.deleteGroup(this.group.id)
-      .subscribe((data) => {
-        this.toastService.success(dict['group.delete.success']);
-        this.navService.groupList();
-      }, (error) => {
-        this.toastService.error(dict['group.delete.error']);
-      });
-  }
-
   onClickLeaveGroup() {
 
     this.groupService.deleteUser(this.group.id, getCurrentUser().id)

@@ -90,10 +90,10 @@ export class GroupService {
       );
   }
 
-  deleteGroup(id: string): Observable<any> {
-    return this.http2
-      .delete(environment.apiHost + '/groups/' + id, {observe: 'response', headers: this.getHeaders2()})
-  }
+  // deleteGroup(id: string): Observable<any> {
+  //   return this.http2
+  //     .delete(environment.apiHost + '/groups/' + id, {observe: 'response', headers: this.getHeaders2()})
+  // }
 
 
 

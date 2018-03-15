@@ -32,41 +32,42 @@
      [materializeParams]="[{dismissible: true}]"
      [materializeActions]="modalActions"
 >
-  <div class="modal-content">
-    <h4>New Group</h4>
+
 
     <form  [formGroup]="groupForm">
-
-      <div class="row">
-        <div class="col s9">
-          <div class="input-field">
-            <input id="name" type="text" class="validate" formControlName="name">
-            <label for="name" >Name</label>
+      <div class="modal-content">
+        <h4>New Group</h4>
+        <div class="row">
+          <div class="col s12">
+            <div class="input-field">
+              <input id="name" type="text" class="validate" autofocus formControlName="name">
+              <label for="name" >Name</label>
+            </div>
           </div>
         </div>
+
       </div>
 
-        <div class="row">
-          <div class="col">
-            <button
-              type="button"
-              class="btn waves-effect waves-light green"
-              (click)="onClickCreateGroup()"
-              [disabled]="this.groupForm.get('name').value === ''"
-            >Create</button>
-          </div>
-          <div class="col">
-            <button
-              type="button"
-              class="btn waves-effect waves-light"
-              (click)="closeModal()"
-            >Close</button>
 
-          </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-flat waves-effect waves-light"
+          (click)="closeModal()"
+        >Close</button>
+        <button
+          type="button"
+          class="btn btn-flat waves-effect waves-light"
+          (click)="onClickCreateGroup()"
+          [disabled]="this.groupForm.get('name').value === ''"
+        >Create</button>
       </div>
+
+
 
     </form>
-  </div>
+
+
 </div>
 
 

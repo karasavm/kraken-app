@@ -128,41 +128,44 @@
      [materializeParams]="[{dismissible: true}]"
      [materializeActions]="modalActions1"
 >
-  <div class="modal-content">
-    <h4>New Transaction</h4>
 
-    <form  [formGroup]="myForm">
+
+  <form  [formGroup]="myForm">
+
+    <div class="modal-content">
+      <h4>New Transaction</h4>
 
       <div class="row">
-        <div class="col s9">
+        <div class="col s12">
           <div class="input-field">
-            <input id="name" type="text" class="validate" formControlName="name">
+
+            <input id="name" type="text" autofocus class="validate" formControlName="name">
             <label for="name" >Name</label>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col">
-          <button
-            type="button"
-            class="btn waves-effect waves-light green"
-            (click)="onClickCreateTransaction(1)"
-            [disabled]="this.myForm.get('name').value === ''"
-          >Create</button>
-        </div>
-        <div class="col">
-          <button
-            type="button"
-            class="btn waves-effect waves-light"
-            (click)="closeModal(1)"
-          >Close</button>
-        </div>
-      </div>
 
-    </form>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-flat waves-effect waves-light"
+        (click)="closeModal(1)"
+      >Close</button>
 
-  </div>
+      <button
+        type="button"
+        class="btn btn-flat waves-effect waves-light"
+        (click)="onClickCreateTransaction(1)"
+        [disabled]="this.myForm.get('name').value === ''"
+      >Create</button>
+
+
+    </div>
+  </form>
+
+
 </div>
 
 <!--TRANSFER MODAL-->
@@ -172,30 +175,28 @@
      [materializeParams]="[{dismissible: true}]"
      [materializeActions]="modalActions2"
 >
-  <div class="modal-content center-align">
+  <div class="modal-content">
     <h4 >New Transfer</h4>
     <p>You are going to create a new money transfer!</p>
-
-
-    <div class="row">
-      <div class="col">
-        <button
-          type="button"
-          class="btn waves-effect waves-light green"
-          (click)="onClickCreateTransaction(2)"
-        >Create</button>
-      </div>
-      <div class="col">
-        <button
-          type="button"
-          class="btn waves-effect waves-light"
-          (click)="closeModal(2)"
-        >Close</button>
-      </div>
-    </div>
-
-
   </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-flat waves-effect waves-light"
+      (click)="closeModal(2)"
+    >Close</button>
+
+    <button
+      type="button"
+      class="btn btn-flat waves-effect waves-light"
+      (click)="onClickCreateTransaction(2)"
+    >Create</button>
+  </div>
+
+
+
+
 </div>
 
 
