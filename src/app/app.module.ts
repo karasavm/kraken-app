@@ -12,7 +12,6 @@ import {AppComponent} from './app.component';
 import { GroupListComponent } from './groups/group-list/group-list.component';
 import { HeaderComponent } from './header/header.component';
 import {HeaderService} from './header/header.service';
-import { GroupEditComponent } from './groups/group-edit/group-edit.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
 import {GroupService} from './groups/group.service';
@@ -30,21 +29,18 @@ import {ApiInterceptor} from './shared/api.interceptor';
 import { GroupComponent } from './groups/group/group.component';
 import { GroupDashboardComponent } from './groups/group-dashboard/group-dashboard.component';
 import {NavigationService} from './shared/services/navigation.service';
-import { TransactionEditNewComponent } from './groups/transaction-edit-new/transaction-edit-new.component';
 import {GroupResolver} from './groups/group-detail/group.resolver';
-import {TransactionResolver} from './groups/transaction-edit-new/transaction.resolver';
 
 
 import {AuthComponent} from './auth/auth.component';
 import {ToastMessagesService} from './shared/services/toast-messages.service';
 
 import { ButtonsModule } from 'ngx-bootstrap';
-import { TransactionEditGiveComponent } from './groups/transaction-edit-give/transaction-edit-give.component';
-import { GroupCollaboratorsComponent } from './groups/group-collaborators/group-collaborators.component';
 import {TransactionEditComponent} from "./groups/transaction-edit/transaction-edit.component";
 import { EditMembersComponent } from './groups/group/edit-members/edit-members.component';
 
 import {MatButtonModule, MatDialogModule } from "@angular/material";
+import {TransactionResolver} from "./groups/transaction-edit/transaction.resolver";
 
 
 @NgModule({
@@ -52,16 +48,12 @@ import {MatButtonModule, MatDialogModule } from "@angular/material";
     AppComponent,
     GroupListComponent,
     HeaderComponent,
-    GroupEditComponent,
     GroupDetailComponent,
     SignupComponent,
     SiginComponent,
     GroupComponent,
     GroupDashboardComponent,
-    TransactionEditNewComponent,
     AuthComponent,
-    TransactionEditGiveComponent,
-    GroupCollaboratorsComponent,
     TransactionEditComponent,
     EditMembersComponent,
 
@@ -87,8 +79,8 @@ import {MatButtonModule, MatDialogModule } from "@angular/material";
     GroupService,
     HeaderService,
     GroupsResolver,
-    GroupResolver,
     TransactionResolver,
+    GroupResolver,
     AuthGuardService,
     NavigationService,
     {

@@ -108,7 +108,7 @@ export class AppComponent implements OnInit{
 
 
 //todo: backend ----------------     push group creator on group.users -- only leave group functionality -- remove delete group end point -- find usages on front end
-//todo: order by on transactions
+//todo: order by on transactions and groups at backend
 
 //todo: change modal to mat-dialog especial these with auto focus
 //todo: dropdown with mat- angular io
