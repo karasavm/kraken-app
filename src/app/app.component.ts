@@ -109,20 +109,19 @@ export class AppComponent implements OnInit{
 
 //todo: backend ----------------     push group creator on group.users -- only leave group functionality -- remove delete group end point -- find usages on front end
 //todo: order by on transactions
-//todo: error messages sign up
+
 //todo: change modal to mat-dialog especial these with auto focus
 //todo: dropdown with mat- angular io
+//todo: change input field with material design
 
 //todo: dekadika stoggulopoihsh
 //todo: hmerominies sta transaction
 
-//todo: MIGRATE MATERIALIZECSS TO MATERIAL IO INPUTS/MODALS/DROPDOWNS
 
 //todo:strogullopoihsh
 //todo: autocomplete off on signin/signup forms
 //todo: email account for forgot password
 //todo: forgot password pages
-//todo: refresh button on /groups page
 //todo: deprecate DELETE /group/:id chech where it used. only leave
 // BUGS
 // todo: back arrow does not work on android app
@@ -130,6 +129,8 @@ export class AppComponent implements OnInit{
 // todo: group namde does not updated when edit name modal ok
 
 // DONE FEATURES
+// refresh button on /groups page
+// error messages sign up
 // tabs shifting when big screen
 // ashboat table bgainei apo ta oria
 // one click to delete a member

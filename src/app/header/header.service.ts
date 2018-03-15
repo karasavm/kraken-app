@@ -18,6 +18,7 @@ export class HeaderService {
   onClickTransactionSave = new EventEmitter();
 
   onClickHeaderButton = new EventEmitter<string>();
+  onClickRenewGroupsButton = new EventEmitter<any>();
 
   titleChanged = new Subject<string>();
 

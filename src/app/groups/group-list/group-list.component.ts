@@ -18,6 +18,8 @@ import dict from '../../shared/dictionary';
 export class GroupListComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
+  subscription1: Subscription;
+
   groups: Group[];
   groupForm: FormGroup;
   modalActions = new EventEmitter<string|MaterializeAction>();
@@ -45,6 +47,10 @@ export class GroupListComponent implements OnInit, OnDestroy {
         this.groups = data['groups'];
       });
 
+    this.subscription1 = this.headerService.onClickRenewGroupsButton
+      .subscribe((data) => {
+        this.groupService.getGroups().subscribe(groups => this.groups = groups);
+      });
 
     this.constructForm();
 
