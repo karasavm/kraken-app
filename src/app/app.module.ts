@@ -13,7 +13,7 @@ import { GroupListComponent } from './groups/group-list/group-list.component';
 import { HeaderComponent } from './header/header.component';
 import {HeaderService} from './header/header.service';
 import { AppRoutingModule } from './app-routing.module';
-import { GroupDetailComponent } from './groups/group-detail/group-detail.component';
+import { GroupDetailComponent } from './groups/group/group-detail/group-detail.component';
 import {GroupService} from './groups/group.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -27,9 +27,9 @@ import {AuthGuardService} from './auth/auth-guard.service';
 import {ApiInterceptor} from './shared/api.interceptor';
 
 import { GroupComponent } from './groups/group/group.component';
-import { GroupDashboardComponent } from './groups/group-dashboard/group-dashboard.component';
+import { GroupDashboardComponent } from './groups/group/group-dashboard/group-dashboard.component';
 import {NavigationService} from './shared/services/navigation.service';
-import {GroupResolver} from './groups/group-detail/group.resolver';
+import {GroupResolver} from './groups/group/group-detail/group.resolver';
 
 
 import {AuthComponent} from './auth/auth.component';
@@ -41,6 +41,7 @@ import { EditMembersComponent } from './groups/group/edit-members/edit-members.c
 
 import {MatButtonModule, MatDialogModule } from "@angular/material";
 import {TransactionResolver} from "./groups/transaction-edit/transaction.resolver";
+import { NewTransactionBtnComponent } from './groups/group/new-transaction-btn/new-transaction-btn.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import {TransactionResolver} from "./groups/transaction-edit/transaction.resolve
     AuthComponent,
     TransactionEditComponent,
     EditMembersComponent,
+    NewTransactionBtnComponent,
 
   ],
   imports: [

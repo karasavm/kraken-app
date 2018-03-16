@@ -1,0 +1,119 @@
+
+<!--ADD BUTTON-->
+<div class="fixed-action-btn vertical click-to-toggle">
+  <a
+    class="btn-floating btn-large green"
+    [ngClass] = "{'disabled': group.members.length === 0}"
+  >
+
+    <i class="material-icons">add</i>
+  </a>
+  <ul>
+    <li>
+      <a href="#modal" id="test"
+         (click)="openModal('give')"
+         class="btn-floating red modal-trigger"
+      >
+        <i class="material-icons">trending_flat</i>
+      </a>
+
+      <a class="btn-floating mobile-fab-tip">
+        Transfer
+      </a> <!--tooltip-->
+    </li>
+
+    <li>
+      <a href="#modal"
+         (click)="openModal('general')"
+         class="btn-floating blue modal-trigger"
+      >
+        <i class="material-icons">swap_horiz</i>
+      </a>
+
+      <a class="btn-floating mobile-fab-tip">Transaction</a> <!--tooltip-->
+    </li>
+
+  </ul>
+</div>
+
+
+
+
+<!--TRANSFER MODAL-->
+<div id="modal"
+     class="modal"
+     materialize="modal"
+     [materializeParams]="[{dismissible: true}]"
+     [materializeActions]="modalActions"
+>
+
+  <!--TRANSFER-->
+  <ng-container *ngIf="transactionType === 'give'">
+    <div class="modal-content">
+      <h4 >New Transfer</h4>
+      <p>You are going to create a new money transfer!</p>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-flat waves-effect waves-light"
+        (click)="closeModal()"
+      >Close</button>
+
+      <button
+        type="button"
+        class="btn btn-flat waves-effect waves-light"
+        (click)="onClickCreateTransaction('')"
+      >Create</button>
+    </div>
+  </ng-container>
+
+  <!--TRANSACTION-->
+  <ng-container *ngIf="transactionType === 'general'">
+    <form>
+
+      <div class="modal-content">
+        <h4>New Transaction</h4>
+
+        <div class="row">
+          <div class="col s12">
+            <div class="input-field">
+
+              <input id="name"
+                     type="text"
+                     autofocus
+                     required
+                     #groupName
+
+              >
+              <label for="name" >Name</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-flat waves-effect waves-light"
+          (click)="closeModal()"
+        >Close</button>
+
+        <button
+          type="button"
+          [disabled]="groupName.value === ''"
+          class="btn btn-flat waves-effect waves-light"
+          (click)="onClickCreateTransaction(groupName.value)"
+        >Create</button>
+
+      </div>
+    </form>
+  </ng-container>
+
+
+
+
+
+</div>

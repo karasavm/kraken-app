@@ -2,9 +2,9 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
-import {Group} from '../../models/group.model';
-import {GroupService} from '../group.service';
-import {NavigationService} from '../../shared/services/navigation.service';
+import {Group} from '../../../models/group.model';
+import {GroupService} from '../../group.service';
+import {NavigationService} from '../../../shared/services/navigation.service';
 
 @Injectable()
 export class GroupResolver implements Resolve<Group> {

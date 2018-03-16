@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {GroupListComponent} from './groups/group-list/group-list.component';
-import {GroupDetailComponent} from './groups/group-detail/group-detail.component';
+import {GroupDetailComponent} from './groups/group/group-detail/group-detail.component';
 import {GroupsResolver} from './groups/group-list/groups.resolver';
 import {SignupComponent} from './auth/signup/signup.component';
 import { SiginComponent } from './auth/sigin/sigin.component';
 import {AuthGuardService} from './auth/auth-guard.service';
 import {GroupComponent} from './groups/group/group.component';
-import {GroupDashboardComponent} from './groups/group-dashboard/group-dashboard.component';
-import {GroupResolver} from './groups/group-detail/group.resolver';
+import {GroupDashboardComponent} from './groups/group/group-dashboard/group-dashboard.component';
+import {GroupResolver} from './groups/group/group-detail/group.resolver';
 import {TransactionResolver} from './groups/transaction-edit/transaction.resolver';
 import {TransactionEditComponent} from "./groups/transaction-edit/transaction-edit.component";
 const routes: Routes = [

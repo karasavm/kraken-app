@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {HeaderService} from '../../header/header.service';
-import {GroupService} from '../group.service';
-import {Group} from '../../models/group.model';
+import {HeaderService} from '../../../header/header.service';
+import {GroupService} from '../../group.service';
+import {Group} from '../../../models/group.model';
 import {Subscription} from "rxjs/Subscription";
+import dict from "../../../shared/dictionary";
 
 @Component({
   selector: 'app-group-dashboard',
@@ -15,6 +16,7 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
   group: Group;
   debts: any;
   subscription: Subscription;
+  noParticipantsMsg = dict['group.nomembers'];
 
   constructor(
     private groupService: GroupService,

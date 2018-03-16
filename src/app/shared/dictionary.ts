@@ -29,6 +29,8 @@ const dict = {
   'transaction.delete.error': 'Unable to delete transaction',
   'transaction.delete.success': 'Transaction deleted',
 
+  // TEXT
+  'group.nomembers' : 'You have to add participants first.',
   // MODALS
   'group.delete.prompt_message': 'You are going to delete the group. Are you sure for that?',
   'group.leave.prompt_message': 'You are going to leave the group. Are you sure for that?',

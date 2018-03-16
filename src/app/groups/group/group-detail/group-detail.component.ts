@@ -1,15 +1,15 @@
 import {Component, EventEmitter, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {Group} from '../../models/group.model';
-import {GroupService} from '../group.service';
-import {HeaderService} from '../../header/header.service';
+import {Group} from '../../../models/group.model';
+import {GroupService} from '../../group.service';
+import {HeaderService} from '../../../header/header.service';
 import {Subscription} from 'rxjs/Subscription';
-import {Transaction} from '../../models/transaction.model';
+import {Transaction} from '../../../models/transaction.model';
 import {FormControl, FormGroup} from '@angular/forms';
-import {NavigationService} from '../../shared/services/navigation.service';
+import {NavigationService} from '../../../shared/services/navigation.service';
 import {MaterializeAction} from 'angular2-materialize';
-import {ToastMessagesService} from '../../shared/services/toast-messages.service';
-import dict from '../../shared/dictionary';
+import {ToastMessagesService} from '../../../shared/services/toast-messages.service';
+import dict from '../../../shared/dictionary';
 
 @Component({
   selector: 'app-group-detail',
@@ -20,6 +20,7 @@ import dict from '../../shared/dictionary';
 export class GroupDetailComponent implements OnInit, OnDestroy {
 
   group: Group;
+  noParticipantsMsg = dict['group.nomembers'];
   subscription: Subscription;
   myForm: FormGroup;
   id: string;

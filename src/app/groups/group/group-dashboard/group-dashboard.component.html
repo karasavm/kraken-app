@@ -1,0 +1,43 @@
+
+<app-new-transaction-btn></app-new-transaction-btn>
+
+
+<ng-container *ngIf="group.members.length == 0; else dashTable">
+  <div class="row">
+    <div class="col s12 center-align">
+      <h5>{{noParticipantsMsg}} (<i class="material-icons">person_add</i>)</h5>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #dashTable>
+  <table class="striped" >
+    <thead>
+    <tr>
+      <th class="center-align">Name</th>
+      <th class="center-align">Balance</th>
+      <th class="center-align">Expenses</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let m of group.members" class="center-align">
+      <td class="center-align">{{m.name}}</td>
+      <td
+        [ngClass] = "{true: 'center-align red-text', false: 'center-align green-text'}[debts[m.id].debt < 0]"
+      >{{debts[m.id].debt | number}}</td>
+      <td class="center-align">{{debts[m.id].expenses | number}}</td>
+    </tr>
+
+    <!--<tr>-->
+    <!--<td class="center-align">-->
+    <!--<input class="input-field center-align" type="text">-->
+    <!--</td>-->
+    <!--<td></td>-->
+    <!--<td></td>-->
+    <!--</tr>-->
+    </tbody>
+  </table>
+
+
+</ng-template>
