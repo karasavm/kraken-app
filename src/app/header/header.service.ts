@@ -20,6 +20,9 @@ export class HeaderService {
   onClickHeaderButton = new EventEmitter<string>();
   onClickRenewGroupsButton = new EventEmitter<any>();
 
+  saveTransactionBtnDisabledChanged = new EventEmitter<boolean>();
+  saveTransactionBtnDisabled: boolean = false;
+
   titleChanged = new Subject<string>();
 
   constructor() {
@@ -28,4 +31,10 @@ export class HeaderService {
   setTitle(title) {
     this.titleChanged.next(title);
   }
+
+  setSaveBtnDisabled(status: boolean) {
+    this.saveTransactionBtnDisabled = status;
+    this.saveTransactionBtnDisabledChanged.next(status);
+  }
+
 }

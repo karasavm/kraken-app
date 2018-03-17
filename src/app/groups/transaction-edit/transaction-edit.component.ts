@@ -17,7 +17,7 @@ import {nulling} from "../../shared/helper";
   templateUrl: './transaction-edit.component.html',
   styleUrls: ['./transaction-edit.component.css']
 })
-export class TransactionEditComponent implements OnInit, OnDestroy {
+export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
 
   members: Member[];
   transaction: Transaction;
@@ -55,10 +55,8 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
     }
   ];
 
-  values = ["First", "Second", "Third"];
 
   @ViewChild('carousel') carouselElement;
-  actions = new EventEmitter<string>();
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -82,6 +80,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
 
       if (this.transaction.type === 'general') {
         this.initPayments();
+        this.onTransactionChange();
       } else if(this.transaction.type === 'give') {
 
         //TRANSFERS
@@ -136,14 +135,10 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
       })
 
   }
-  togglePayment(i) {
-    //todo: maybe we need to reset payment when becomes unchecked
-    this.payments[i].checked = !this.payments[i].checked;
-  }
 
-  unCheckPayment(i) {
-    this.getCheckedPayments()[i].checked = false;
-  }
+
+
+
   initPayments() {
 
 
@@ -217,6 +212,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
   getCheckedPayments() {
     return this.payments.filter(p => p.checked);
   }
+
   transactionIsValid() {
 
     if (this.checkedPaymentsNum() === 0) {
@@ -226,6 +222,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
     } else if (this.amountPaymentsSum() < this.debtPaymentsSum()) {
       return 3
     }else {
+      // valid
       return -1;
     }
   }
@@ -302,7 +299,49 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
     this.modalActions.emit({action:"modal",params:['close']});
   }
 
+  ngOnChanges() {
+    console.log("2222222222222222222222222")
+
+  }
+
+  // EDIT TRANSACTION PSEUDOEVENTS
+  onCickClearAmount(payment) {
+    this.onTransactionChange();
+    payment.amount = null;
+  }
+  onCickClearDebt(payment) {
+    this.onTransactionChange();
+    payment.debt = null;
+  }
+
+  onCheckChange() {
+    this.onTransactionChange();
+  }
+
+
+  onAmountChange() {
+    this.onTransactionChange();
+  }
+
+  onDebtChange() {
+    this.onTransactionChange();
+  }
+
+  togglePayment(i) {
+    this.onTransactionChange();
+
+    //todo: maybe we need to reset payment when becomes unchecked
+    this.payments[i].checked = !this.payments[i].checked;
+  }
+
+  onTransactionChange() {
+    //todo: follow changes on header component
+    this.headerService.setSaveBtnDisabled(
+      this.transactionIsValid() !== -1
+    );
+  }
   // ------------------------------------------------------------
+
 
 }
 //todo: check that total amount equal with total has to pay

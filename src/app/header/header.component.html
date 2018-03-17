@@ -68,7 +68,8 @@
     >
       <li>
         <a
-          disabled="true"
+
+          [ngClass]="{'disabled-color': saveBtnDisabled}"
           [routerLink]="" (click)="onClickTransactionSave()"
         >
           <i class="material-icons">done</i>

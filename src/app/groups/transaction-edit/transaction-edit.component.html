@@ -28,7 +28,14 @@
 
     <div class="row">
       <div class="input-field col s6">
-        <input type="number" name="amount" id="amount" required materialize placeholder="0 euros" [(ngModel)]="amountTransfer">
+        <input
+          type="number"
+          name="amount"
+          id="amount"
+          required materialize
+          placeholder="0 euros"
+          [(ngModel)]="amountTransfer"
+        >
         <label for="amount"> Amount </label>
       </div>
     </div>
@@ -97,21 +104,35 @@
         > Select at least one participant.
       </span>
           <br>
-          <ul class="collection with-header">
-            <!--<a class="collection-header"><h4>First Names</h4></a>-->
+          <!--<ul class="collection with-header">-->
+            <!--&lt;!&ndash;<a class="collection-header"><h4>First Names</h4></a>&ndash;&gt;-->
 
-            <li
-              class="collection-item"[ngClass]="{true: 'active', false: ''}[payment.checked]"
-              (click)="togglePayment(i)"
+            <!--<li-->
+              <!--class="collection-item"-->
+              <!--[ngClass]="{'active': payment.checked}"-->
+              <!--(click)="togglePayment(i)"-->
+              <!--*ngFor="let payment of payments;let i=index"-->
+            <!--&gt;-->
+              <!--<div>{{getMemberById(payment.member).name}}-->
+                <!--<a class="secondary-content"-->
+                   <!--*ngIf="payment.checked">-->
+                  <!--<i class="material-icons">check_circle</i>-->
+                <!--</a>-->
+              <!--</div>-->
+              <!---->
+            <!--</li>-->
+          <!--</ul>-->
+
+          <ul class="collection">
+            <a
               *ngFor="let payment of payments;let i=index"
-            >
-              <div>{{getMemberById(payment.member).name}}
-                <a class="secondary-content"
-                   *ngIf="payment.checked">
-                  <i class="material-icons">check_circle</i>
-                </a>
-              </div>
-            </li>
+              (click)="togglePayment(i)"
+              [ngClass]="{'active': payment.checked}"
+              class="collection-item avatar avatar-custom">
+              <i class="material-icons circle circle-custom" *ngIf="payment.checked">done</i>
+              <i class="material-icons circle circle-custom" *ngIf="!payment.checked"></i>
+              <span class="title">{{getMemberById(payment.member).name}}</span>
+            </a>
           </ul>
         </div>
       </div>
@@ -155,7 +176,7 @@
                   type="number"
                   placeholder="0 euros"
                   class="center-align"
-
+                  (input)="onAmountChange()"
                   [(ngModel)]="payment.amount"
                 >
               </div>
@@ -168,7 +189,7 @@
 
                 <button class="btn-floating clear-btn grey lighten-1">
                   <i
-                    (click)="payment.amount = null"
+                    (click)="onCickClearAmount(payment)"
                     class="material-icons" style="font-size: 15px">clear</i>
                 </button>
 
@@ -200,6 +221,7 @@
 
                     <input
                       [disabled]="amountPaymentsSum() == 0"
+                      (change)="onCheckChange()"
                       type="checkbox" [(ngModel)]="equalCost">
                     <span class="lever"></span>
                     Yes
@@ -252,15 +274,17 @@
                   type="number"
                   placeholder="AUTO"
                   class="input-field center-align"
+                  (input)="onDebtChange()"
                   [(ngModel)]="payment.debt"
                 >
+
               </div>
 
               <div class="input-field col s2 left-align"
                    style="padding-left: 0">
                 <button class="btn-floating clear-btn grey lighten-1">
                   <i
-                    (click)="payment.debt = null"
+                    (click)="onCickClearDebt(payment)"
                     class="material-icons" style="font-size: 15px">clear</i>
                 </button>
               </div>

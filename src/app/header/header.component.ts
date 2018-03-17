@@ -30,11 +30,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   curTitle: string = '';
   subscription: Subscription;
   subscription1: Subscription;
+  subscription3: Subscription;
   routeName: string = '';
   showGroupTabs = false;
   showAuthTabs = false;
   groupId = null;
   transId = null;
+  saveBtnDisabled = true;
   currentUser = getCurrentUser;
 
   @Output() onClickCollaboration = new EventEmitter();
@@ -69,6 +71,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.subscription3 = this.headerService.saveTransactionBtnDisabledChanged
+      .subscribe((disabled) => {
+        this.saveBtnDisabled = disabled;
+      })
     this.subscription1 = this.headerService.titleChanged.subscribe(title => this.curTitle = title);
 
     this.subscription = this.navService.routeChanged.subscribe((routeStatus) => {
@@ -167,15 +173,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onClickHeaderButton(button) {
     this.headerService.onClickHeaderButton.emit(button);
   }
-
   onClickRenewGroups() {
     this.headerService.onClickRenewGroupsButton.emit(null);
-
   }
 
   onClickTransactionSave() {
     console.log("Transaction save pressed");
-    this.headerService.onClickTransactionSave.emit();
+    if (!this.saveBtnDisabled) {
+
+
+      this.headerService.onClickTransactionSave.emit();
+    }
   }
 
   ngOnDestroy() {

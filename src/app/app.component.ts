@@ -107,26 +107,6 @@ export class AppComponent implements OnInit{
 // TODOLIST New Features
 
 
-//todo: backend ----------------     push group creator on group.users -- only leave group functionality -- remove delete group end point -- find usages on front end
-//todo: order by on transactions and groups at backend
-
-//todo: change modal to mat-dialog especial these with auto focus
-//todo: dropdown with mat- angular io
-//todo: change input field with material design
-
-//todo: dekadika stoggulopoihsh
-//todo: hmerominies sta transaction
-
-
-//todo:strogullopoihsh
-//todo: autocomplete off on signin/signup forms
-//todo: email account for forgot password
-//todo: forgot password pages
-//todo: deprecate DELETE /group/:id chech where it used. only leave
-// BUGS
-// todo: back arrow does not work on android app
-// todo: null name error at login page
-// todo: group namde does not updated when edit name modal ok
 
 // DONE FEATURES
 // refresh button on /groups page
@@ -141,6 +121,8 @@ export class AppComponent implements OnInit{
 // tooltip on new transaction/transfer
 
 // DONE BUGS
+// null name error at login page
+// group namde does not updated when edit name modal ok
 // back arrow does not work on full browser screen
 // not fixed pages on some components after compile
 // new empty transfer issue on transaction list

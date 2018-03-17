@@ -13,9 +13,40 @@
 
 
 
+/*------------members list------------*/
 .collection {
   border: none;
 }
+
+.collection .collection-item.avatar-custom {
+  min-height: 40px;
+  padding-left: 72px;
+  position: relative;
+}
+
+.collection .collection-item.active {
+  background-color: #009688;
+}
+
+.collection {
+  border: none;
+}
+
+
+.collection .collection-item.avatar:not(.circle-clipper) > .circle,
+.collection .collection-item.avatar :not(.circle-clipper) > .circle {
+  width: 22px;
+  height: 22px;
+}
+
+.collection .collection-item.avatar i.circle {
+  font-size: 14px;
+  line-height: 20px;
+  /*color: #fff;*/
+  /*background-color: #999;*/
+  /*text-align: center;*/
+}
+/*------------------------*/
 
 .clear-btn {
   height: 18px;
@@ -44,8 +75,8 @@
 }
 
 /*.tabs .tab.disabled a{*/
-  /*color: green;*/
-  /*cursor: default;*/
+/*color: green;*/
+/*cursor: default;*/
 /*}*/
 
 .roundbutton{
@@ -60,10 +91,10 @@
 
 
 /*.btn-floating.btn-small {*/
-  /*height: 20px;*/
-  /*width: 20px;*/
-  /*line-height: 20px;*/
-  /*font-size: 1.6rem;*/
-  /**/
+/*height: 20px;*/
+/*width: 20px;*/
+/*line-height: 20px;*/
+/*font-size: 1.6rem;*/
+/**/
 /*}*/
 
