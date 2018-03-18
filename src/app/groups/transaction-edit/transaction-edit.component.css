@@ -74,6 +74,11 @@
   will-change: left, right;
 }
 
+/*.tabs .tab.disabled a,*/
+/*.tabs .tab.disabled a:hover {*/
+  /*color: grey;*/
+/*}*/
+
 /*.tabs .tab.disabled a{*/
 /*color: green;*/
 /*cursor: default;*/

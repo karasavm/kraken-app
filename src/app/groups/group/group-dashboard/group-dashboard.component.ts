@@ -43,6 +43,38 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
   initOnData(group) {
     this.group = group;
     this.debts = this.group.calcDebts();
+    console.log(this.debts);
+
+
+    //todo: how to solve the debts
+    let pos = {};
+    let neg = {};
+    for (var memberId in this.debts) {
+
+      if (this.debts[memberId].debt < 0) {
+        neg[memberId] = this.debts[memberId];
+      } else if (this.debts[memberId].debt > 0 ){
+        pos[memberId] = this.debts[memberId];
+      }
+    }
+
+    for (var n in neg) {
+
+      for (var p in pos) {
+
+        if (-1*neg[n].debt > pos[p].debt) {
+          console.log(group.getMemberById(n).name, group.getMemberById(p).name, pos[p].debt)
+        } else {
+          console.log(group.getMemberById(n).name, group.getMemberById(p).name, -1*neg[n].debt)
+        }
+
+      }
+    }
+
+
+
+
+
   }
 
   ngOnDestroy() {

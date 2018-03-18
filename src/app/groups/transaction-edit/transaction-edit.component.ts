@@ -30,12 +30,9 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
   messagesDict = {deleteTrans: dict['transaction.delete.prompt_message']};
 
   // FORMS
-  checked = false;
   payments = [];
   currentPage = 1;
   equalCost = true;
-  showInvalid = false;
-  paymentValue = null;
   actions1 = new EventEmitter<string|MaterializeAction>();
 
   // TRANSFERS
@@ -92,6 +89,8 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
           this.toTransfer = transfer.to;
           this.amountTransfer = transfer.amount;
         }
+
+        this.onTransferChange();
 
       }
 
@@ -212,9 +211,8 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
   getCheckedPayments() {
     return this.payments.filter(p => p.checked);
   }
-
+  // ------------ VALIDATIONs--------------
   transactionIsValid() {
-
     if (this.checkedPaymentsNum() === 0) {
       return 1
     } else if (this.amountPaymentsSum() === 0) {
@@ -227,6 +225,18 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  stepIsValid(step) {
+
+    if (step == 1) {
+      return this.checkedPaymentsNum() >= 2
+    }else if (step == 2) {
+      return this.amountPaymentsSum() > 0
+    }else if (step == 3) {
+
+    }
+  }
+  //  -----------------------------------------
+
   getMemberById(id: string) {
     return this.members.find(m => m.id === id);
   }
@@ -236,18 +246,23 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-  openFirst() {
-    this.actions1.emit({action:"collapsible",params:['open',0]});
-  }
-
-  closeFirst() {
-    this.actions1.emit({action:"collapsible",params:['close',0]});
-  }
-
   //------------- TRANSFERS -------------------
+  onFromChange() {
+    this.onTransferChange();
+  }
+  onToChange() {
+    this.onTransferChange();
+  }
+  onAmountTransferChange() {
+    this.onTransferChange();
+  }
+
+  onTransferChange() {
+    this.headerService.setSaveBtnDisabled(
+      !this.transferIsValid()
+    );
+  }
   onClickTransferSave() {
-
-
     const from = this.fromTransfer;
     const to = this.toTransfer;
     const amount = this.amountTransfer;
@@ -286,7 +301,6 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
     if (this.fromTransfer === this.toTransfer || !this.amountTransfer || this.amountTransfer <= 0) {
       return false;
     }
-
     return true;
   }
 
@@ -304,14 +318,16 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
-  // EDIT TRANSACTION PSEUDOEVENTS
+  // ---------------     EDIT TRANSACTION PSEUDOEVENTS
   onCickClearAmount(payment) {
-    this.onTransactionChange();
     payment.amount = null;
+    this.onTransactionChange();
+
   }
   onCickClearDebt(payment) {
-    this.onTransactionChange();
     payment.debt = null;
+    this.onTransactionChange();
+
   }
 
   onCheckChange() {
@@ -320,6 +336,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
 
 
   onAmountChange() {
+
     this.onTransactionChange();
   }
 
