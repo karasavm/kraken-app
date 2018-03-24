@@ -72,7 +72,7 @@ export class NewTransactionBtnComponent implements OnInit, OnDestroy {
 
     // const name = id === 1 ? this.myForm.get('name').value : 'Transfer';
     // const type = id === 1 ? 'general' : 'give';
-
+    this.closeModal();
     this.groupService.createTransaction(
       this.group.id,
       name,
@@ -80,11 +80,11 @@ export class NewTransactionBtnComponent implements OnInit, OnDestroy {
     )
       .subscribe((data) => {
         this.navService.transaction(this.group.id, data.transaction.id);
-        this.closeModal();
+
         this.toastService.success(dict['transaction.create.success']);
       }, (err) => {
         this.toastService.error(dict['transaction.create.error']);
-        this.closeModal()
+
       });
   }
 

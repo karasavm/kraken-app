@@ -4,7 +4,8 @@
     <ul class="left hide-on-sm-and-down">
 
       <li>
-        <a [routerLink]="backPath()"
+        <a
+           (click)="backPath()"
           *ngIf="router.url.split('/').length >= 4"
         >
           <i class="material-icons">arrow_back</i>
@@ -27,8 +28,15 @@
 
     <ul class="right hide-on-sm-and-down" *ngIf="routeName === 'dashboard' || routeName === 'transactions'">
 
+      <!--EDIT MEMBERS MODAL-->
+      <!--<li>-->
+        <!--<a [routerLink]="" (click)="onClickHeaderButton('edit-member')">-->
+          <!--<i class="material-icons">person_add</i>-->
+        <!--</a>-->
+      <!--</li>-->
+
       <li>
-        <a [routerLink]="" (click)="onClickHeaderButton('edit-member')">
+        <a [routerLink]="" (click)="onClickUsersButton()">
           <i class="material-icons">person_add</i>
         </a>
       </li>
@@ -52,7 +60,6 @@
         <!-- Dropdown Structure -->
         <ul id="groupEdit" class='dropdown-content' style="z-index: 4">
           <li><a (click)="onClickHeaderButton('edit-name')">Edit Name</a></li>
-          <li><a (click)="onClickHeaderButton('collaboration')">Collaborate</a></li>
           <li class="divider"></li>
           <li><a (click)="onClickHeaderButton('leave-group')">Leave Group</a></li>
         </ul>
@@ -139,6 +146,18 @@
     </div>
   </div>
 </nav>
+
+<!--<nav *ngIf="routeName === 'users'">-->
+  <!--<div class="teal nav-wrapper">-->
+    <!--<form>-->
+      <!--<div class="input-field">-->
+        <!--<input id="search" type="search" required>-->
+        <!--<label class="label-icon" for="search"><i class="material-icons">search</i></label>-->
+        <!--<i class="material-icons">close</i>-->
+      <!--</div>-->
+    <!--</form>-->
+  <!--</div>-->
+<!--</nav>-->
 
 <!--SIDE NAV-->
 <ul id="slide-out" class="side-nav" *ngIf="currentUser()">

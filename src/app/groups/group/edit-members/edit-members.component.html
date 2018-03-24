@@ -1,78 +1,297 @@
-<h5 >Edit group participants</h5>
 <br>
-<mat-dialog-content>
-  <ul class="collection black-text with-header" >
-    <li
-      *ngFor="let member of group.members; let i=index"
-      class="collection-item"
-    >
-      {{member.name}}
-
-      <!--Dropdown Trigger-->
-      <a materialize="dropdown"
-         [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
-         class='dropdown-button secondary-content'
-         [attr.data-activates]= "i">
-        <i class="material-icons">more_vert</i>
-      </a>
-
-
-      <!-- Dropdown Structure -->
-      <ul [id]="i" class='dropdown-content' style="z-index: 4">
-        <li><a (click)="onClickDeleteMember(member)">Remove from group</a></li>
-      </ul>
-
-    </li>
-
-  </ul>
 
 
 
+<!--<div class="card blue-grey darken-1">-->
 
-  <br>
+<div class="row">
+  <div class="col s12">
+    <div class="card grey lighten-5">
+
+      <div class="card-content" style="padding-right:5px; padding-left: 12px; padding-top: 0; padding-bottom: 0">
+        <!--<span class="card-title">Search For Users</span>-->
+
+        <form #searchForm="ngForm" class="row">
+          <!--NEW MEMBER-->
+
+          <div class="col s12">
+            <div class="input-field">
+              <i class="material-icons prefix icon-grey">search</i>
+              <input
+                #searchBox
+                (keyup)="searchUsers(searchBox.value)"
+                tabindex="-1"
+                type="search"
+                class="input-field grey lighten-5"
+                placeholder="Search user, enter email"
+                name="user"
+                ngModel
+                style="margin-bottom: 0"
+              >
+              <i (click)="onClickClearSearch(searchForm)"
+                 class="material-icons">close</i>
+              <!--<ul class="collection">-->
+              <!--<li class="collection-item"-->
+              <!--*ngFor="let user of users" >-->
+              <!--<a>-->
+
+              <!--{{user.name}} - {{user.email}}-->
+              <!--</a>-->
+              <!--</li>-->
+              <!--</ul>-->
+              <br>
+              <ul class="collection">
+                <li class="collection-item avatar avatar-custom"
+                    *ngIf="foundUser"
+
+                >
+                  <i class="material-icons circle">person</i>
+
+                  <span class="title">{{foundUser.name}}</span>
+                  <p class="grey-text">{{foundUser.email}}</p>
+                  <!--<br>-->
+
+                  <a class="secondary-content"
+                     (click)="onClickClearSearch(searchForm)">
+
+                    <!--<a materialize="dropdown"-->
+                    <!--style="padding: 0 0.5rem"-->
+                    <!--[materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"-->
+                    <!--class='dropdown-button btn btn-flat teal'-->
+                    <!--[attr.data-activates]= "foundUser.id">-->
+                    <!--LINK-->
+                    <!--</a>-->
 
 
-  <form #f="ngForm" class="row">
-    <!--NEW MEMBER-->
+                    <i class="material-icons icon-grey">clear</i>
 
-    <div class="col s9">
+                  </a>
 
-      <input
-        tabindex="-1"
-        type="email"
-        class="input-field"
-        placeholder="Enter participant"
-        name="member"
-        ngModel
-      >
 
+
+                  <!--&lt;!&ndash; Dropdown Structure &ndash;&gt;-->
+                  <!--<ul [id]="foundUser.id" class='dropdown-content' style="z-index: 4">-->
+                  <!--&lt;!&ndash;<li class="collection-header">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<a class="grey-text">Guest Users</a>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</li>&ndash;&gt;-->
+
+                  <!--<li class="divider"></li>-->
+                  <!--<li-->
+                  <!--*ngFor="let member of group.getVirtualMembers(); let i=index"-->
+                  <!--&gt;<a-->
+                  <!--(click)="onClickLinkMember(searchForm, foundUser, member)"-->
+                  <!--&gt;{{member.name}}</a></li>-->
+                  <!--</ul>-->
+
+
+                </li>
+
+                <li class="collection-item right-align"
+                    *ngIf="foundUser"
+                    style="padding-left: 60px;"
+                >
+
+
+                  <button materialize="dropdown"
+                          [disabled]="foundUserExists() || group.getVirtualMembers().length === 0"
+                          [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
+                          class='btn btn-flat'
+                          [attr.data-activates]= "foundUser.id">
+                    CONNECT GUEST
+                  </button>
+
+                  <button class="btn btn-flat"
+                          [disabled]="foundUserExists()"
+                          (click)="onClickAddUser(searchForm, foundUser)"
+                  >ADD</button>
+
+
+
+
+                  <!-- Dropdown Structure -->
+                  <ul [id]="foundUser.id" class='dropdown-content' style="z-index: 4">
+                    <li class="collection-header">
+
+                    <a class="disabled grey-text">Guest Users</a>
+                    </li>
+
+                    <li class="divider"></li>
+                    <li
+                      *ngFor="let member of group.getVirtualMembers(); let i=index"
+                    ><a
+                      (click)="onClickLinkMember(searchForm, foundUser, member)"
+                    >{{member.name}}</a></li>
+                  </ul>
+
+
+                </li>
+
+
+              </ul>
+
+            </div>
+          </div>
+
+        </form>
+
+      </div>
     </div>
 
-    <div class="col s3 right-align">
-      <button
-        class="btn btn-small waves-effect waves-light teal"
-        type="submit"
-        (click)="onClickAddMember(f)"
-        [disabled]="f.value.member === '' || f.invalid || group.memberNameExist(f.value.member)"
-      >
-        <i class="material-icons">person_add</i>
-      </button>
-    </div>
-  </form>
-
-</mat-dialog-content>
-
-
-<div class="col s12 right-align">
-  <button
-    type="button"
-    class="btn waves-effect waves-light btn-flat"
-    mat-dialog-close
-    tabindex="-1"
-  >Close</button>
+  </div>
 </div>
 
 
+<!--LINKED MEMBERS-->
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content ">
+        <span class="card-title">Users</span>
+
+
+        <ul class="collection with-header" >
+          <!--<li class="collection-header"><h5>Users</h5></li>-->
+          <li
+            *ngFor="let member of group.getUserMembers(); let i=index"
+            class="collection-item avatar avatar-custom"
+          >
+
+            <i class="material-icons circle">person</i>
+
+
+            <p class="title">{{member.name}}</p>
+
+            <p class="grey-text">{{member.user.email}}</p>
+
+            <!--Dropdown Trigger-->
+            <a materialize="dropdown"
+               [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
+               class='dropdown-button secondary-content'
+               [attr.data-activates]= "'u' + i.toString()">
+              <i class="material-icons">more_vert</i>
+            </a>
+
+            <!--<ng-container *ngIf="member.user">-->
+            <!--{{member.name}}  {{member.user.email}}-->
+            <!--</ng-container>-->
+
+            <!--<ng-container *ngIf="!member.user">-->
+            <!--{{member.name}}  <p class="grey-text">virtual user</p>-->
+            <!--</ng-container>-->
+
+
+
+
+
+            <!-- Dropdown Structure -->
+            <ul [id]="'u' + i.toString()" class='dropdown-content' style="z-index: 4">
+              <li><a (click)="onClickUnlinkMember(member)">Become Guest</a></li>
+              <li><a (click)="onClickDeleteMember(member)">Remove from group</a></li>
+            </ul>
+
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content ">
+        <span class="card-title">Guest Users</span>
+
+
+
+        <!--VIRTUAL MEMBERS-->
+        <ul class="collection black-text with-header" >
+          <!--<li class="collection-header"><h5> Guest Users</h5></li>-->
+
+          <li
+            *ngFor="let member of group.getVirtualMembers(); let i=index"
+            class="collection-item"
+          >
+            {{member.name}}
+            <!--<ng-container *ngIf="member.user">-->
+            <!--{{member.name}}  {{member.user.email}}-->
+            <!--</ng-container>-->
+
+            <!--<ng-container *ngIf="!member.user">-->
+            <!--{{member.name}}  <p class="grey-text">virtual user</p>-->
+            <!--</ng-container>-->
+
+
+            <!--Dropdown Trigger-->
+            <a materialize="dropdown"
+               [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
+               class='dropdown-button secondary-content'
+               [attr.data-activates]= "'v' + i.toString()">
+              <i class="material-icons">more_vert</i>
+            </a>
+
+            <!-- Dropdown Structure -->
+            <ul [id]="'v'+ i.toString()" class='dropdown-content' style="z-index: 4">
+              <!--<li><a (click)="onClickLinkEmail(member)">Link</a></li>-->
+              <li><a (click)="onClickDeleteMember(member)">Remove from group</a></li>
+            </ul>
+
+          </li>
+
+
+
+        </ul>
+
+
+        <form #f="ngForm" class="row">
+
+          <!--<div class="col s3"></div>-->
+
+          <div class="input-field col s9">
+            <input
+              (keyup)="searchUsers(searchBox.value)"
+              tabindex="-1"
+              type="email"
+              class="input-field"
+
+              placeholder="Enter guest name"
+              name="member"
+              ngModel
+            >
+          </div>
+
+
+          <div class="col s3 left-align input-field">
+            <button
+              class="btn btn-small waves-effect waves-light teal"
+              type="submit"
+              (click)="onClickAddMember(f)"
+              [disabled]="f.value.member === '' || f.invalid || group.memberNameExist(f.value.member)"
+            >
+              <i class="material-icons">person_add</i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!--<div cl-->
+
+
 <!--<mat-dialog-actions>-->
-  <!--<button mat-button mat-dialog-close tabindex="-1">Close</button>-->
+<!--<button mat-button mat-dialog-close tabindex="-1">Close</button>-->
 <!--</mat-dialog-actions>-->

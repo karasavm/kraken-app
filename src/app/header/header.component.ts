@@ -18,6 +18,7 @@ import {GroupService} from "../groups/group.service";
 
 const defaultTitle = 'Kraken';
 const editGroupTitle = 'Group Details';
+const editUsersTitle = 'Edit Users'
 
 @Component({
   selector: 'app-header',
@@ -48,7 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private location: Location,
     private navService: NavigationService,
-    private groupService: GroupService
+    private groupService: GroupService,
   ) {}
 
 
@@ -74,26 +75,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription3 = this.headerService.saveTransactionBtnDisabledChanged
       .subscribe((disabled) => {
         this.saveBtnDisabled = disabled;
-      })
+      });
     this.subscription1 = this.headerService.titleChanged.subscribe(title => this.curTitle = title);
 
     this.subscription = this.navService.routeChanged.subscribe((routeStatus) => {
 
 
-      const data = routeStatus.data;
-      // console.log("dddddddddddaaaaaaaaaaattttt", data)
+      // const data = routeStatus.data;
       const params = routeStatus.params;
       const routeName = routeStatus.routeName;
 
       this.routeName = routeName;
 
-
-      // set title
-      // if (data.title) {
-      //   this.curTitle = data.title;
-      // } else {
-      //   this.curTitle = defaultTitle;
-      // }
 
       // set group id
       if (params.id) {
@@ -118,12 +111,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.curTitle = defaultTitle;
         this.showAuthTabs = false;
         this.showGroupTabs = false;
+      } else if (routeName === 'users') {
+        this.curTitle = editUsersTitle;
+        this.showAuthTabs = false;
+        this.showGroupTabs = false;
       } else if (routeName === 'dashboard' || routeName === 'transactions') {
+        // title is been set on ngOnInit inside component with header setTitle service
         this.showAuthTabs = false;
         this.showGroupTabs = true;
-      // } else if (routeName === 'settings') {
-      //   this.showAuthTabs = false;
-      //   this.showGroupTabs = false;
       } else if (routeName === 'transaction-edit') {
         this.showAuthTabs = false;
         this.showGroupTabs = false;
@@ -139,7 +134,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   getCurrTitle() {
-    if (this.curTitle.length > 10) {
+    if (this.curTitle.length > 12) {
       return this.curTitle.slice(0, 8) + '...';
     }
     return this.curTitle;
@@ -150,11 +145,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const url = this.router.url.split('/');
 
     if (url.length === 5) {
-      return url.splice(0, url.length - 1);
+      this.router.navigate([url.splice(0, url.length - 1)]);
     } else if (this.routeName === 'settings') {
-      return this.navService.groupDashboardUri(this.groupId);
+      // eturn rthis.navService.groupDashboardUri(this.groupId);
+    } else if (this.routeName === 'users') {
+      // navigate back to 'transactions' or 'dashboard' depending from where you navigated to users
+      // this.location.back();
+      this.navService.groupDashboard(this.groupId);
+    } else if (this.routeName === 'dashboard' || this.routeName === 'transactions') {
+      this.navService.groupList();
     } else {
-      return '/groups';
+      console.log("NAVIGATE BACK TO NOWHERE!!!!")
+      // this.navService.groupList();
     }
   }
 
@@ -168,6 +170,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onClickEditMembers() {
 
+  }
+
+  onClickUsersButton() {
+    this.navService.groupUsers(this.groupId);
   }
 
   onClickHeaderButton(button) {

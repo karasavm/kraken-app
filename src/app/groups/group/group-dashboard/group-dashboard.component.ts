@@ -27,7 +27,6 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.initOnData(this.groupService.getGroupValue());
-
     this.subscription = this.groupService.groupChanged
       .subscribe( (group) => {
         // this.groupService.setGroupValue(group);
@@ -41,9 +40,11 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
   }
 
   initOnData(group) {
+
     this.group = group;
+    this.headerService.setTitle(this.group.name);
     this.debts = this.group.calcDebts();
-    console.log(this.debts);
+
 
 
     //todo: how to solve the debts

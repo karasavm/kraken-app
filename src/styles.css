@@ -35,6 +35,14 @@ i.icon-teal {
   color: teal;
 }
 
+i.icon-grey {
+  color: grey;
+}
+
+i.icon-white {
+  color: white;
+}
+
 .tabs .indicator {
   background-color: teal;
 }

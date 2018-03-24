@@ -14,6 +14,7 @@ import {AuthService} from '../auth/auth.service';
 import {User} from '../models/user.model';
 import {environment} from "../../environments/environment";
 import {HeaderService} from "../header/header.service";
+import {of} from "rxjs/observable/of";
 
 
 @Injectable()
@@ -45,7 +46,7 @@ export class GroupService {
     console.log("Setting group value")
     this.group = group;
 
-    if (updateTitle) {
+    if (true || updateTitle) {
       this.headerService.setTitle(this.group.name);
     }
 
@@ -127,11 +128,11 @@ export class GroupService {
       {transaction: {name: transName, type: type}},
       {headers: this.getHeaders2()})
       .map((data) => {
-      return {
-        transaction: Transaction.JSONtoObject(data['transaction']),
-        members: data['members'].map(m => Member.JSONtoObject(m))
-      };
-    });
+        return {
+          transaction: Transaction.JSONtoObject(data['transaction']),
+          members: data['members'].map(m => Member.JSONtoObject(m))
+        };
+      });
   }
 
   updateTransaction(groupId: string, transId: string, transaction: Transaction): Observable<Transaction> {
@@ -154,9 +155,11 @@ export class GroupService {
       .map(res => Group.JSONtoObject(res.body['group']));
   }
 
-  addMember(id: string, member: { name: string }): Observable<Member[]> {
+  // ---------------------- MEMBERS ----------------------
+  addMember(id: string, member: { name: string } | { email: string } ): Observable<Member[]> {
+
     return this.http2.post(environment.apiHost + '/groups/' + id + '/members', {member: member}, {observe: 'response', headers: this.getHeaders2()})
-      // .map(res => Member.JSONtoObject(res.body['member']))
+    // .map(res => Member.JSONtoObject(res.body['member']))
       .map(res => res.body['group'].members.map(m => Member.JSONtoObject(m)));
 
   }
@@ -176,7 +179,22 @@ export class GroupService {
       .map(res => res.body['group'].members.map(m => Member.JSONtoObject(m)));
   }
 
-////////// ws edw
+  linkMember(groupId: string, memberId: string, email: string): Observable<Member[]> {
+
+    const body = {member: {email: email}};
+    return this.http2.put(environment.apiHost + '/groups/' + groupId + '/members/' + memberId, body, {observe: 'response', headers: this.getHeaders2()})
+      .map(res => res.body['group'].members.map(m => Member.JSONtoObject(m)));
+  }
+
+  unlinkMember(groupId: string, memberId: string): Observable<Member[]> {
+    const body = {member: {email: ''}};
+    return this.http2.put(environment.apiHost + '/groups/' + groupId + '/members/' + memberId, body, {observe: 'response', headers: this.getHeaders2()})
+      .map(res => res.body['group'].members.map(m => Member.JSONtoObject(m)));
+  }
+  // ------------------------------------------------------------------
+
+
+////////////////
   // --------------------------------------------------------------
   addUser(id: string, user: { email: string }): Observable<User[]> {
     return this.http2.post(environment.apiHost + '/groups/' + id + '/users', {user: user}, {observe: 'response', headers: this.getHeaders2()})
@@ -200,5 +218,21 @@ export class GroupService {
   //   };
   // }
 
+
+
+  searchUsers(term: string): Observable<User[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+
+    return this.http2
+      .get<User[]>(environment.apiHost + `/helper/users/?searchKey=${term}`, {headers: this.getHeaders2()})
+      .map(res => res['users'].map(u => User.JSONtoObject(u)))
+      .pipe(
+        tap(_ => console.log(`found users matching "${term}"`)),
+      )
+
+  }
 
 }

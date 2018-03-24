@@ -4,7 +4,9 @@ const dict = {
   'member.update.success': 'Member updated.',
   'member.update.error': 'Unable to update member',
   'member.add.error': 'Unable to add member',
+  'member.link.error': 'Unable to link member',
   'member.delete.error': 'Unable to delete member',
+  'member.unlink.error': 'Unable to unlink member',
 
   'user.delete.error': 'Unable to delete user',
   'user.add.error': 'Unable to add user',

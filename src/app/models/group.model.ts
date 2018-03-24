@@ -66,6 +66,17 @@ export class Group {
   isCreatorsEmail(userEmail : string) {
     return this.creator.email === userEmail;
   }
+
+  getVirtualMembers() {
+    return this.members.filter(function (m) {
+      return !m.user
+    })
+  }
+  getUserMembers() {
+    return this.members.filter(function (m) {
+      return m.user
+    })
+  }
 }
 
 // export interface Group {

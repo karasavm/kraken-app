@@ -1,7 +1,7 @@
 <br>
 <!--LIST-->
 <div class="row">
-  <h5 class="grey-text">
+  <h5 class="grey-text center-align" *ngIf="groups.length == 0">
     Now its time to create a group of people.
   </h5>
   <div class="col s12">
@@ -23,7 +23,7 @@
 
 <!--ADD BUTTON-->
 <div class="fixed-action-btn">
-  <a href="#modal1" class="btn-floating btn-large green modal-trigger" (click)="openModal()">
+  <a href="#modal1" class="btn-floating btn-large teal modal-trigger" (click)="openModal()">
     <i class="large material-icons">add</i>
   </a>
 </div>
@@ -32,7 +32,7 @@
 <div id="modal1"
      class="modal"
      materialize="modal"
-     [materializeParams]="[{dismissible: true}]"
+     [materializeParams]="[{dismissible: true, outDuration: 0}]"
      [materializeActions]="modalActions"
 >
 

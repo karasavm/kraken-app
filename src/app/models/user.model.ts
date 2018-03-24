@@ -7,12 +7,16 @@ export class User {
               public token: string = '') {}
 
   static JSONtoObject(body): User {
+    if (body) {
+      return new User(
+        body.id,
+        body.name,
+        body.email
+      );
+    } else {
+      return null;
+    }
 
-    return new User(
-      body.id,
-      body.name,
-      body.email
-    );
 
   }
 

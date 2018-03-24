@@ -39,9 +39,11 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import {TransactionEditComponent} from "./groups/transaction-edit/transaction-edit.component";
 import { EditMembersComponent } from './groups/group/edit-members/edit-members.component';
 
-import {MatButtonModule, MatDialogModule } from "@angular/material";
+import {MatButtonModule, MatDialogModule, MatInputModule} from "@angular/material";
 import {TransactionResolver} from "./groups/transaction-edit/transaction.resolver";
 import { NewTransactionBtnComponent } from './groups/group/new-transaction-btn/new-transaction-btn.component';
+import { LinkEmailModalComponent } from './groups/group/edit-members/link-email-modal/link-email-modal.component';
+import {LoaderService} from "./shared/services/loader.service";
 
 
 @NgModule({
@@ -58,12 +60,13 @@ import { NewTransactionBtnComponent } from './groups/group/new-transaction-btn/n
     TransactionEditComponent,
     EditMembersComponent,
     NewTransactionBtnComponent,
-
+    LinkEmailModalComponent
   ],
   imports: [
     // Material IO
     MatDialogModule,
     MatButtonModule,
+    MatInputModule,
 
     ButtonsModule.forRoot(),
     MaterializeModule,
@@ -75,9 +78,10 @@ import { NewTransactionBtnComponent } from './groups/group/new-transaction-btn/n
     FormsModule
   ],
   // for
-  entryComponents: [EditMembersComponent],
+  entryComponents: [EditMembersComponent, LinkEmailModalComponent],
 
   providers: [
+    LoaderService,
     GroupService,
     HeaderService,
     GroupsResolver,

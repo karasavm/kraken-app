@@ -48,13 +48,8 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               public navService: NavigationService,
-              private toastService: ToastMessagesService) {
-
-
-
-
-
-  }
+              private toastService: ToastMessagesService
+  ) {}
 
 
 
@@ -72,6 +67,7 @@ export class GroupDetailComponent implements OnInit, OnDestroy {
 
   initOnData(group) {
     this.group = group;
+    this.headerService.setTitle(this.group.name);
     this.searched_transactions = this.group.transactions;
   }
 

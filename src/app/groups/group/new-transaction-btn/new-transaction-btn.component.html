@@ -2,7 +2,7 @@
 <!--ADD BUTTON-->
 <div class="fixed-action-btn vertical click-to-toggle">
   <a
-    class="btn-floating btn-large green"
+    class="btn-floating btn-large teal"
     [ngClass] = "{'disabled': group.members.length === 0}"
   >
 
@@ -43,7 +43,7 @@
 <div id="modal"
      class="modal"
      materialize="modal"
-     [materializeParams]="[{dismissible: true}]"
+     [materializeParams]="[{dismissible: true, outDuration: 0}]"
      [materializeActions]="modalActions"
 >
 

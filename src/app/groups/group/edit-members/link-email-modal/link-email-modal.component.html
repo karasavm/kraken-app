@@ -1,0 +1,40 @@
+<br>
+<mat-dialog-content>
+
+  <h3 mat-dialog-title>Serach user by email</h3>
+
+  <form #f="ngForm" class="row">
+    <!--NEW MEMBER-->
+
+    <div class="col s12">
+
+      <div class="input-field">
+        <!--<label for="email">Email</label>-->
+        <input
+          tabindex="1"
+          type="email"
+          class="input-field"
+          name="email"
+          id="email"
+          [(ngModel)]="email"
+        >
+      </div>
+
+
+
+
+    </div>
+
+
+  </form>
+
+</mat-dialog-content>
+
+
+<!--<div cl-->
+
+
+<mat-dialog-actions>
+<button mat-button mat-dialog-close tabindex="-1">Close</button>
+<button mat-button mat-dialog-close tabindex="-1" (click)="onClickAdd()">Add</button>
+</mat-dialog-actions>

@@ -59,13 +59,13 @@ export class GroupListComponent implements OnInit, OnDestroy {
 
 
   onClickCreateGroup() {
+    this.closeModal();
     this.groupService.createGroup(this.groupForm.get('name').value)
       .subscribe((group) => {
         this.toastService.success(dict['group.create.success']);
         this.navService.groupTransactions(group.id);
-        this.closeModal();
       }, (err) => {
-        this.closeModal();
+
         this.toastService.error(dict['group.create.error']);
       });
 

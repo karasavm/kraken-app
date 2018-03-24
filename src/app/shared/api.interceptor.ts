@@ -4,12 +4,15 @@ import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, Http
 import {Observable} from 'rxjs/Observable';
 import {AuthService} from '../auth/auth.service';
 import {Router} from '@angular/router';
+import {LoaderService} from "./services/loader.service";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
   constructor (private router: Router,
-               private inj: Injector) {
+               private inj: Injector,
+               private spinnerService: LoaderService
+  ) {
 
 
     }
@@ -23,16 +26,20 @@ export class ApiInterceptor implements HttpInterceptor {
 
     console.log('REQUEST         =>', req);
     const started = Date.now();
+
+    this.spinnerService.showSpinner();
     return next.handle(req)
       .do(event => {
+        // this.spinnerService.hideSpinner();
         if (event instanceof HttpResponse) {
+          this.spinnerService.hideSpinner();
           const elapsed = Date.now() - started;
           // console.log(`Request for ${req.urlWithParams} took ${elapsed} ms.`);
           console.log(`RESPONSE(${elapsed}ms) =>`, event);
         }
       })
       .catch((error: HttpErrorResponse) => {
-
+        this.spinnerService.hideSpinner();
 
         if (error instanceof HttpErrorResponse) {
           const elapsed = Date.now() - started;

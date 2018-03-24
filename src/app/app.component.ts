@@ -5,6 +5,8 @@ import {
 } from '@angular/router';
 import {NavigationService} from "./shared/services/navigation.service";
 import { trigger, style, animate, transition } from '@angular/animations';
+import {LoaderService} from "./shared/services/loader.service";
+import {Subscription} from "rxjs/Subscription";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,13 +31,22 @@ export class AppComponent implements OnInit{
   show = false;
   name = 'mike';
   showSpinner = false;
-
+  subscription: Subscription;
 
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private navService: NavigationService) {
+    private navService: NavigationService,
+    private spinnerService: LoaderService
+  ) {
+
+    this.subscription = this.spinnerService.showSpinnerChanged
+      .subscribe((showSpinner) => {
+        console.log("mpikeksfkljsljflk", showSpinner)
+        this.showSpinner = showSpinner;
+      });
+
 
     // Assign the selected theme name to the `theme` property of the instance of ToastyConfig.
     // Possible values: default, bootstrap, material

@@ -37,6 +37,10 @@ export class NavigationService {
     return '/groups/' + groupId + '/settings';
   }
 
+  groupUsersUri(groupId: string) {
+    return '/groups/' + groupId + '/users';
+  }
+
   groupTransactionsUri(groupId: string) {
     return '/groups/' + groupId + '/transactions';
   }
@@ -58,6 +62,11 @@ export class NavigationService {
 
   groupSettings(groupId: string) {
     this.router.navigate(['/groups/' + groupId + '/settings']);
+  }
+
+  groupUsers(groupId: string) {
+
+    this.router.navigate([this.groupUsersUri(groupId)]);
   }
 
   groupList() {
