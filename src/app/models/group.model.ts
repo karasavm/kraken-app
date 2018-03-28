@@ -2,6 +2,7 @@
 import { Member } from './member.model';
 import {Transaction} from './transaction.model';
 import {User} from './user.model';
+import {getCurrentUser} from "../shared/helper";
 
 export class Group {
   constructor(public id: string,
@@ -76,6 +77,13 @@ export class Group {
     return this.members.filter(function (m) {
       return m.user
     })
+  }
+
+  getCurrentMember() {
+    return this.getUserMembers()[
+      this.getUserMembers().findIndex(m => getCurrentUser().id === m.user.id)
+      ];
+
   }
 }
 

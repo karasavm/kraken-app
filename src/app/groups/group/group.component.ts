@@ -1,5 +1,5 @@
 import {
-  AfterViewChecked, Component, ElementRef, EventEmitter, OnDestroy, OnInit, ViewChild,
+  AfterViewChecked, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, ViewChild,
   ViewChildren
 } from '@angular/core';
 import {NavigationService} from '../../shared/services/navigation.service';
@@ -49,6 +49,69 @@ export class GroupComponent implements OnInit, OnDestroy {
   };
 
   dialogRefEditMembers : MatDialogRef<EditMembersComponent>;
+
+  touch1 = {x:0,y:0,time:0};
+  @HostListener('touchstart', ['$event'])
+  @HostListener('touchend', ['$event'])
+  //@HostListener('touchmove', ['$event'])
+  @HostListener('touchcancel', ['$event'])
+
+  handleTouch(ev){
+    var touch = ev.touches[0] || ev.changedTouches[0];
+    if (ev.type === 'touchstart'){
+      this.touch1.x = touch.pageX;
+      this.touch1.y = touch.pageY;
+      this.touch1.time = ev.timeStamp;
+    } else if (ev.type === 'touchend'){
+      var dx = touch.pageX - this.touch1.x;
+      var dy = touch.pageY - this.touch1.y;
+      var dt = ev.timeStamp - this.touch1.time;
+
+      if (dt < 500){
+
+        // swipe lasted less than 500 ms
+        if (Math.abs(dx) > 60){
+          // delta x is at least 60 pixels
+          if (dx > 0){
+            this.doSwipeLeft(ev);
+          } else {
+            this.doSwipeRight(ev);
+          }
+        }
+
+        if (Math.abs(dy) > 100){
+          // delta x is at least 60 pixels
+          if (dy > 0){
+            this.doSwipeDown(ev);
+          } else {
+            this.doSwipeUp(ev);
+          }
+        }
+      }
+    }
+  }
+  doSwipeDown(ev) {
+    const that = this;
+    this.groupService.getGroup(this.group.id).subscribe(function (g) {
+      that.group = g;
+      that.groupService.setGroupValue(g);
+    });
+  }
+
+  doSwipeUp(ev) {
+
+  }
+
+  doSwipeRight(ev) {
+    // return;
+    this.navService.groupDashboard(this.group.id);
+  }
+
+  doSwipeLeft(ev) {
+    // this.temp -= 5;
+    // return;
+    this.navService.groupTransactions(this.group.id);
+  }
 
   constructor(private navService: NavigationService,
               private headerService: HeaderService,

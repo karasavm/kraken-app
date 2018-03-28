@@ -1,45 +1,369 @@
 
-<app-new-transaction-btn></app-new-transaction-btn>
+<!--<app-new-transaction-btn></app-new-transaction-btn>-->
 
 
-<ng-container *ngIf="group.members.length == 0; else dashTable">
-  <div class="row">
-    <div class="col s12 center-align">
-      <h5>{{noParticipantsMsg}} (<i class="material-icons">person_add</i>)</h5>
+<!--<div class="row">-->
+<!--<div class="col s12">-->
+
+<!--<div class="card">-->
+
+<!--<div class="card-content center-align" style="padding-bottom: 5px">-->
+
+<!--&lt;!&ndash;OWE&ndash;&gt;-->
+<!--<ng-container *ngIf="debts[group.getCurrentMember().id].debt < 0">-->
+
+<!--<div class="card-title center-align">-->
+<!--YOU OWE MONEY-->
+<!--</div>-->
+<!--<div class="card-title center-align red-text">-->
+<!--{{currentDebt | number}} euros-->
+<!--</div>-->
+
+<!--<h6>Select users to pay money back!</h6>-->
+
+<!--<div class="row">-->
+<!--<form class="center-align">-->
+<!--<p *ngFor="let p of pos;let i=index;">-->
+<!--<input-->
+<!--[disabled]="p.debtToShow === 0"-->
+<!--type="checkbox"-->
+<!--[name]="p.memberId" [id]="p.memberId"-->
+<!--(click)="onClickChecked(i)"/>-->
+<!--<label [for]="p.memberId"-->
+<!--style="left: 33%"-->
+<!--&gt;{{group.getMemberById(p.memberId).name}}: <b>{{p.debtToShow | number}}</b></label>-->
+<!--</p>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div class="row">-->
+<!--<div class="col s12 right-align">-->
+<!--<button-->
+<!--[disabled]="!negChanged()"-->
+<!--class="btn waves-effect waves-light">-->
+<!--DONE-->
+<!--</button>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</ng-container>-->
+
+
+<!--<ng-container-->
+<!--*ngIf="debts[group.getCurrentMember().id].debt > 0"-->
+<!--&gt;-->
+<!--<div class="card-title center-align">-->
+<!--THEY OWE YOU MONEY-->
+<!--</div>-->
+
+<!--<div class="card-title center-align green-text">-->
+<!--{{currentDebt | number}} euros-->
+<!--</div>-->
+<!--</ng-container>-->
+<!--&lt;!&ndash;NOT OWE&ndash;&gt;-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;TABLE&ndash;&gt;-->
+<!--<ng-container *ngIf="group.members.length == 0; else dashTable">-->
+<!--<div class="row">-->
+<!--<div class="col s12 center-align">-->
+<!--<h5>{{noParticipantsMsg}} (<i class="material-icons">person_add</i>)</h5>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-container>-->
+
+<!--<ng-template #dashTable>-->
+<!--<table class="striped" >-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<th class="center-align">Name</th>-->
+<!--<th class="center-align">Balance</th>-->
+<!--<th class="center-align">Expenses</th>-->
+<!--</tr>-->
+<!--</thead>-->
+
+<!--<tbody>-->
+<!--<tr *ngFor="let m of group.members" class="center-align">-->
+<!--<td class="center-align">{{m.name}}</td>-->
+<!--<td-->
+<!--[ngClass] = "{true: 'center-align red-text', false: 'center-align green-text'}[debts[m.id].debt < 0]"-->
+<!--&gt;{{debts[m.id].debt | number}}</td>-->
+<!--<td class="center-align">{{debts[m.id].expenses | number}}</td>-->
+<!--</tr>-->
+
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<td class="center-align">&ndash;&gt;-->
+<!--&lt;!&ndash;<input class="input-field center-align" type="text">&ndash;&gt;-->
+<!--&lt;!&ndash;</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--</tbody>-->
+<!--</table>-->
+
+<!--</ng-template>-->
+
+
+<!--<br/><br/>-->
+
+
+
+
+
+
+
+
+
+
+<!--<ul-->
+<!--materialize="collapsible"-->
+<!--class="collapsible popout"-->
+<!--data-collapsible="accordion"-->
+<!--&gt;-->
+<!--<li-->
+<!--*ngFor="let m of group.members"-->
+
+
+
+<!--&gt;-->
+<!--<div class="collapsible-header"-->
+<!--[ngClass]="{'active': group.getCurrentMember().id === m.id && debts[m.id].debt !== 0}">-->
+
+
+<!--<div class="col s12 center-align">-->
+<!--<div >-->
+
+<!--<ng-container *ngIf="group.getCurrentMember().id === m.id">-->
+<!--<b>YOU</b>-->
+<!--</ng-container>-->
+<!--<ng-container *ngIf="group.getCurrentMember().id !== m.id">-->
+<!--{{m.name}}-->
+<!--</ng-container>-->
+
+<!--<ng-container *ngIf="debts[m.id].debt < 0">-->
+<!--<ng-container *ngIf="group.getCurrentMember().id === m.id">-->
+<!--OWE-->
+<!--</ng-container>-->
+<!--<ng-container *ngIf="group.getCurrentMember().id !== m.id">-->
+<!--OWES-->
+<!--</ng-container>-->
+<!--</ng-container>-->
+
+<!--<ng-container *ngIf="debts[m.id].debt > 0">-->
+<!--<ng-container *ngIf="group.getCurrentMember().id === m.id">-->
+<!--NEED-->
+<!--</ng-container>-->
+<!--<ng-container *ngIf="group.getCurrentMember().id !== m.id">-->
+<!--NEEDS-->
+<!--</ng-container>-->
+<!--</ng-container>-->
+
+<!--<ng-container *ngIf="debts[m.id].debt === 0">-->
+<!--ALL DONE-->
+<!--</ng-container>-->
+
+<!--</div>-->
+
+
+<!--<h6-->
+<!--*ngIf="group.getCurrentMember().id !== m.id"-->
+<!--[ngClass]="{'red-text': debts[m.id].debt < 0, 'green-text': debts[m.id].debt >= 0}">-->
+<!--{{debts[m.id].debt | number}}€-->
+<!--</h6>-->
+
+<!--<h6-->
+<!--*ngIf="group.getCurrentMember().id === m.id"-->
+<!--[ngClass]="{'red-text': debts[m.id].debt < 0, 'green-text': debts[m.id].debt >= 0, 'green-text': currentDebt === 0}">-->
+<!--{{currentDebt | number}}€-->
+<!--</h6>-->
+
+
+<!--</div>-->
+
+<!--</div>-->
+
+
+<!--<div class="collapsible-body">-->
+
+<!--<div>-->
+<!--<h6-->
+<!--*ngIf="debts[m.id].debt !== 0"-->
+<!--&gt;Select users to pay money back!</h6>-->
+
+<!--<div class="row" *ngIf="group.getCurrentMember().id === m.id">-->
+<!--<form class="center-align">-->
+<!--<p *ngFor="let p of pos;let i=index;">-->
+<!--<input-->
+<!--[disabled]="p.debtToShow === 0"-->
+<!--type="checkbox"-->
+<!--[name]="p.memberId" [id]="p.memberId"-->
+<!--(click)="onClickChecked(i)"/>-->
+<!--<label [for]="p.memberId"-->
+<!--style="left: 33%"-->
+<!--&gt;{{group.getMemberById(p.memberId).name}}: <b>{{p.debtToShow | number}}€</b></label>-->
+<!--</p>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div class="row"-->
+<!--*ngIf="debts[m.id].debt !== 0"-->
+<!--&gt;-->
+<!--<div class="col s12 right-align">-->
+<!--<button-->
+<!--[disabled]="!negChanged()"-->
+<!--class="btn waves-effect waves-light">-->
+<!--DONE-->
+<!--</button>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</li>-->
+<!--</ul>-->
+
+
+
+
+<ul
+  materialize="collapsible"
+  class="collapsible popout"
+  data-collapsible="accordion"
+  [materializeParams]="params"
+  [materializeActions]="actions1"
+>
+  <li
+    *ngFor="let m of neg2;let i=index;"
+    (click)="onClickCollapsible(m)"
+    [id]="i"
+  >
+    <div class="collapsible-header"
+    [ngClass]="{'active': group.getCurrentMember().id === m.memberId}"
+    >
+
+
+      <div class="col s12 center-align">
+
+        <div >
+
+          <ng-container *ngIf="group.getCurrentMember().id === m.memberId">
+            <b>YOU</b> OWE
+          </ng-container>
+
+          <ng-container *ngIf="group.getCurrentMember().id !== m.memberId">
+            {{group.getMemberById(m.memberId).name}} OWES
+          </ng-container>
+
+
+        </div>
+
+        <h6 class="red-text">
+          {{m.debtToShow | number}}€
+        </h6>
+
+
+      </div>
+
     </div>
-  </div>
-</ng-container>
-
-<ng-template #dashTable>
-  <table class="striped" >
-    <thead>
-    <tr>
-      <th class="center-align">Name</th>
-      <th class="center-align">Balance</th>
-      <th class="center-align">Expenses</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr *ngFor="let m of group.members" class="center-align">
-      <td class="center-align">{{m.name}}</td>
-      <td
-        [ngClass] = "{true: 'center-align red-text', false: 'center-align green-text'}[debts[m.id].debt < 0]"
-      >{{debts[m.id].debt | number}}</td>
-      <td class="center-align">{{debts[m.id].expenses | number}}</td>
-    </tr>
-
-    <!--<tr>-->
-    <!--<td class="center-align">-->
-    <!--<input class="input-field center-align" type="text">-->
-    <!--</td>-->
-    <!--<td></td>-->
-    <!--<td></td>-->
-    <!--</tr>-->
-    </tbody>
-  </table>
 
 
-</ng-template>
+    <div class="collapsible-body" style="padding-bottom: 2px">
 
-<!--<app-edit-members></app-edit-members>-->
+      <div>
+        <h6
+          *ngIf="m.debt !== 0"
+        >Select users to pay money back!</h6>
+
+        <div class="row" *ngIf="selectedNeg.memberId === m.memberId">
+          <form class="center-align">
+            <p *ngFor="let p of posCurrent;">
+              <input
+                [disabled]="p.debtToShow === 0"
+                type="checkbox"
+                [id]="p.memberId"
+                (click)="onClickChecked(p)"
+              />
+
+              <label [for]="p.memberId"
+                     style="left: 33%"
+
+              >{{group.getMemberById(p.memberId).name}}: <b>{{p.debtToShow | number}}€</b></label>
+            </p>
+          </form>
+        </div>
+
+        <div class="row">
+          <div class="col s12 right-align">
+            <button
+              [disabled]="m.debt === m.debtToShow"
+              class="btn waves-effect waves-light">
+              DONE
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+  </li>
+
+
+  <li
+    *ngFor="let m of pos2"
+  >
+    <div class="collapsible-header">
+
+
+      <div class="col s12 center-align">
+
+        <div>
+          <ng-container *ngIf="group.getCurrentMember().id === m.memberId">
+            <b>YOU</b> NEED
+          </ng-container>
+
+          <ng-container *ngIf="group.getCurrentMember().id !== m.memberId">
+            {{group.getMemberById(m.memberId).name}} NEEDS
+          </ng-container>
+
+        </div>
+
+        <h6 class="green-text">
+          {{m.debt | number}}€
+        </h6>
+
+
+      </div>
+
+    </div>
+
+
+    <div class="collapsible-body">
+
+
+    </div>
+  </li>
+
+
+
+</ul>
+
+

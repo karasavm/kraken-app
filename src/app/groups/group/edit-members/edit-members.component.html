@@ -23,7 +23,7 @@
                 tabindex="-1"
                 type="search"
                 class="input-field grey lighten-5"
-                placeholder="Search user, enter email"
+                placeholder="Search user by email"
                 name="user"
                 ngModel
                 style="margin-bottom: 0"
@@ -92,13 +92,13 @@
                 >
 
 
-                  <button materialize="dropdown"
-                          [disabled]="foundUserExists() || group.getVirtualMembers().length === 0"
-                          [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
-                          class='btn btn-flat'
-                          [attr.data-activates]= "foundUser.id">
-                    CONNECT GUEST
-                  </button>
+                  <!--<button materialize="dropdown"-->
+                          <!--[disabled]="foundUserExists() || group.getVirtualMembers().length === 0"-->
+                          <!--[materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"-->
+                          <!--class='btn btn-flat'-->
+                          <!--[attr.data-activates]= "foundUser.id">-->
+                    <!--LINK GUEST-->
+                  <!--</button>-->
 
                   <button class="btn btn-flat"
                           [disabled]="foundUserExists()"
