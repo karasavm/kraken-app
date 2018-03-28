@@ -79,7 +79,7 @@ export class GroupComponent implements OnInit, OnDestroy {
           }
         }
 
-        if (Math.abs(dy) > 100){
+        if (Math.abs(dy) > 250){
           // delta x is at least 60 pixels
           if (dy > 0){
             this.doSwipeDown(ev);

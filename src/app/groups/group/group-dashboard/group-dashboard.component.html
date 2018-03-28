@@ -239,7 +239,7 @@
 <!--</li>-->
 <!--</ul>-->
 
-
+<h5 class="center-align" *ngIf="neg.length === 0"> There are no Debts!!!</h5>
 
 
 <ul
@@ -288,6 +288,7 @@
 
       <div>
         <h6
+          class="center-align"
           *ngIf="m.debt !== 0"
         >Select users to pay money back!</h6>
 

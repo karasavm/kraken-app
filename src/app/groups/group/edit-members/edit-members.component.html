@@ -92,13 +92,13 @@
                 >
 
 
-                  <!--<button materialize="dropdown"-->
-                          <!--[disabled]="foundUserExists() || group.getVirtualMembers().length === 0"-->
-                          <!--[materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"-->
-                          <!--class='btn btn-flat'-->
-                          <!--[attr.data-activates]= "foundUser.id">-->
-                    <!--LINK GUEST-->
-                  <!--</button>-->
+                  <button materialize="dropdown"
+                          [disabled]="foundUserExists() || group.getVirtualMembers().length === 0"
+                          [materializeParams]="[{constrainWidth: false, belowOrigin: false, stopPropagation: true}]"
+                          class='btn btn-flat'
+                          [attr.data-activates]= "foundUser.id">
+                    LINK GUEST
+                  </button>
 
                   <button class="btn btn-flat"
                           [disabled]="foundUserExists()"
