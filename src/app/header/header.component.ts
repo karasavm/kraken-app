@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   transId = null;
   saveBtnDisabled = true;
   currentUser = getCurrentUser;
+  wasDashboard = false;
 
   @Output() onClickCollaboration = new EventEmitter();
 
@@ -87,6 +88,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       this.routeName = routeName;
 
+      // keep logged dashboar or transactions
+      if (this.routeName === 'dashboard') {
+        this.wasDashboard = true;
+      } else if (this.routeName === 'users') {
+
+      } else {
+        this.wasDashboard = false;
+      }
 
       // set group id
       if (params.id) {
@@ -142,18 +151,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   backPath() {
+
     const url = this.router.url.split('/');
 
-    if (url.length === 5) {
-      this.router.navigate([url.splice(0, url.length - 1)]);
-    } else if (this.routeName === 'settings') {
+    if (this.routeName === 'settings') {
       // eturn rthis.navService.groupDashboardUri(this.groupId);
     } else if (this.routeName === 'users') {
       // navigate back to 'transactions' or 'dashboard' depending from where you navigated to users
       // this.location.back();
-      this.navService.groupDashboard(this.groupId);
+      if (this.wasDashboard) {
+        this.navService.groupDashboard(this.groupId);
+      } else {
+        this.navService.groupTransactions(this.groupId);
+      }
+
     } else if (this.routeName === 'dashboard' || this.routeName === 'transactions') {
       this.navService.groupList();
+    } else if (this.routeName === 'transaction-edit') {
+      this.navService.groupTransactions(this.groupId);
     } else {
       console.log("NAVIGATE BACK TO NOWHERE!!!!")
       // this.navService.groupList();
