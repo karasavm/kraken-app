@@ -24,6 +24,7 @@ import {ToastMessagesService} from "../../shared/services/toast-messages.service
 import {getCurrentUser, isCurrentUser} from "../../shared/helper";
 import {MatDialog, MatDialogRef} from "@angular/material";
 import {EditMembersComponent} from "./edit-members/edit-members.component";
+import {Member} from "../../models/member.model";
 // $ = jQuery;
 
 
@@ -231,6 +232,8 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   onClickLeaveGroup() {
 
+
+
     this.groupService.deleteUser(this.group.id, getCurrentUser().id)
       .subscribe((users) => {
 
@@ -241,6 +244,21 @@ export class GroupComponent implements OnInit, OnDestroy {
       }, (err) => {
         this.toastService.error(dict['user.left.error']);
       });
+  }
+
+  onClickLeaveGroup2() {
+    // remove member from group
+    console.log(this.group.members, this.group.getCurrentMember())
+    this.groupService.deleteMember(this.group.id, this.group.getCurrentMember().id)
+      .subscribe((members) =>
+        {
+          this.group.members = members;
+          this.groupService.setGroupValue(this.group);
+          this.navService.groupList();
+        },
+        (err) => {
+          this.toastService.error(dict['member.delete.error']);
+        });
   }
 
 
