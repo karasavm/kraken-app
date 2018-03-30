@@ -62,9 +62,8 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     this.headerService.setTitle(this.group.name);
     this.debts = this.group.calcDebts();
     this.currentDebt = Math.abs(this.debts[this.group.getCurrentMember().id].debt);
-
-
-    //todo: how to solve the debts
+    console.log("debts", this.debts)
+    //todo: how to solve t he debts
     let pos = [];
     let pos2 = [];
     let neg = [];
@@ -94,7 +93,8 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
         pos2.push({
           memberId: memberId,
           debt: this.debts[memberId].debt,
-          checked: false
+          checked: false,
+          debtToShow: this.debts[memberId].debt,
 
         });
 
@@ -106,7 +106,7 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     this.neg2 = neg2;
     this.pos2 = pos2;
     this.pos = pos;
-
+    console.log(this.pos2, 'dddddddddddddddddd')
 
 
     this.selectedNeg = this.neg2[0];
@@ -195,11 +195,11 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     p.checked = !p.checked;
 
     // update the unchecked options
-
+    console.log(this.posCurrent, 'kllllll', this.selectedNeg)
     for (let i=0; i < this.posCurrent.length; i++) {
 
-      if (this.posCurrent[i].debt > this.selectedNeg.debtToShow && !this.posCurrent[i].checked) {
-        console.log("dfd")
+      if (this.posCurrent[i].debt >= this.selectedNeg.debtToShow && !this.posCurrent[i].checked) {
+  console.log("mpike")
         this.posCurrent[i].debtToShow = this.selectedNeg.debtToShow;
       } else if (this.posCurrent[i].debt < this.selectedNeg.debtToShow && !this.posCurrent[i].checked){
         this.posCurrent[i].debtToShow = this.posCurrent[i].debt;

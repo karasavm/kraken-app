@@ -50,6 +50,10 @@ export class Group {
 
       }
     }
+
+    for (let i = 0; i < this.members.length; i ++) {
+      res[this.members[i].id].debt = Math.round(res[this.members[i].id].debt*100)/100;
+    }
     return res;
   }
 
