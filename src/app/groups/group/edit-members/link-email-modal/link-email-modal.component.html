@@ -1,32 +1,109 @@
 <br>
-<mat-dialog-content>
+<mat-dialog-content style="padding-right: 8px; padding-left: 8px">
 
-  <h3 mat-dialog-title>Serach user by email</h3>
 
-  <form #f="ngForm" class="row">
+    <h3 class="left-align" style="padding-left: 20px" mat-dialog-title>Add users</h3>
+
+
+  <form #searchForm="ngForm" class="row">
     <!--NEW MEMBER-->
 
-    <div class="col s12">
+    <!--<div class="col s12">-->
 
-      <div class="input-field">
-        <!--<label for="email">Email</label>-->
+    <!--<div class="input-field">-->
+    <!--&lt;!&ndash;<label for="email">Email</label>&ndash;&gt;-->
+    <!--<input-->
+    <!--tabindex="1"-->
+    <!--type="email"-->
+    <!--class="input-field"-->
+    <!--name="email"-->
+    <!--id="email"-->
+    <!--[(ngModel)]="email"-->
+    <!--&gt;-->
+    <!--</div>-->
+
+
+
+    <!--</div>-->
+
+    <div class="input-field">
+      <div class="col s12">
+        <i class="material-icons prefix icon-grey">search</i>
         <input
-          tabindex="1"
-          type="email"
+          #searchBox
+          type="search"
+          tabindex="-1"
           class="input-field"
-          name="email"
-          id="email"
-          [(ngModel)]="email"
+          placeholder="Search user by email"
+          name="user"
+          ngModel
+          style="margin-bottom: 0"
+          (keyup)="searchUsers(searchBox.value)"
         >
+        <i
+          (click)="onClickClearSearch(searchForm)"
+          class="material-icons">close</i>
       </div>
+      <!--<ul class="collection">-->
+      <!--<li class="collection-item"-->
+      <!--*ngFor="let user of users" >-->
+      <!--<a>-->
 
-
-
-
+      <!--{{user.name}} - {{user.email}}-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--</ul>-->
     </div>
-
-
   </form>
+
+  <h6
+    style="padding-left: 30px"
+    *ngIf="foundUser && foundUser.length===0"> No Results</h6>
+  <br>
+  <div class="row">
+    <div class="col s12" style="padding-left: 0; padding-right: 0">
+
+      <ul class="collection">
+
+        <li class="collection-item avatar avatar-custom"
+            *ngIf="foundUser && foundUser.length === 1"
+        >
+          <i class="material-icons circle">person</i>
+
+          <span class="title">{{foundUser[0].name}}</span>
+          <p class="grey-text">{{foundUser[0].email}}</p>
+          <!--<br>-->
+          <a
+            (click)="onClickAdd(searchForm, foundUser[0])"
+            class="secondary-content btn btn-flat waves-effect waves-light add-btn">
+            <!--<i class="material-icons icon-grey">clear</i>-->
+            ADD
+          </a>
+
+
+        </li>
+        <br>
+        <li class="collection-item avatar avatar-custom"
+            *ngFor="let f of filteredFriends();"
+
+        >
+          <i class="material-icons circle">person</i>
+
+          <span class="title">{{f.name}}</span>
+          <p class="grey-text">{{f.email}}</p>
+          <!--<br>-->
+          <a
+            (click)="onClickAdd(null, f)"
+            class="secondary-content btn btn-flat waves-effect waves-light add-btn">
+            <!--<i class="material-icons icon-grey">clear</i>-->
+            ADD
+          </a>
+
+
+        </li>
+      </ul>
+    </div>
+  </div>
 
 </mat-dialog-content>
 
@@ -34,7 +111,7 @@
 <!--<div cl-->
 
 
-<mat-dialog-actions>
-<button mat-button mat-dialog-close tabindex="-1">Close</button>
-<button mat-button mat-dialog-close tabindex="-1" (click)="onClickAdd()">Add</button>
+<mat-dialog-actions align="end">
+  <button class="right-align right-aligned" mat-button mat-dialog-close tabindex="-1">Close</button>
+  <!--<button mat-button mat-dialog-close tabindex="-1" (click)="onClickAdd()">Add</button>-->
 </mat-dialog-actions>

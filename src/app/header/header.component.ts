@@ -194,9 +194,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onClickHeaderButton(button) {
     this.headerService.onClickHeaderButton.emit(button);
   }
-  onClickRenewGroups() {
-    this.headerService.onClickRenewGroupsButton.emit(null);
-  }
+  // onClickRenewGroups() {
+  //   this.headerService.onClickRenewGroupsButton.emit(null);
+  // }
 
   onClickTransactionSave() {
     console.log("Transaction save pressed");

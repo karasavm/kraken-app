@@ -50,6 +50,7 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   dialogRefEditMembers : MatDialogRef<EditMembersComponent>;
 
+  // swipe down to reload
   touch1 = {x:0,y:0,time:0};
   @HostListener('touchstart', ['$event'])
   @HostListener('touchend', ['$event'])
@@ -73,9 +74,9 @@ export class GroupComponent implements OnInit, OnDestroy {
         if (Math.abs(dx) > 60){
           // delta x is at least 60 pixels
           if (dx > 0){
-            this.doSwipeLeft(ev);
+            // this.doSwipeLeft(ev);
           } else {
-            this.doSwipeRight(ev);
+            // this.doSwipeRight(ev);
           }
         }
 
@@ -84,7 +85,7 @@ export class GroupComponent implements OnInit, OnDestroy {
           if (dy > 0){
             this.doSwipeDown(ev);
           } else {
-            this.doSwipeUp(ev);
+            // this.doSwipeUp(ev);
           }
         }
       }
@@ -98,20 +99,18 @@ export class GroupComponent implements OnInit, OnDestroy {
     });
   }
 
-  doSwipeUp(ev) {
 
-  }
-
-  doSwipeRight(ev) {
-    // return;
-    this.navService.groupDashboard(this.group.id);
-  }
-
-  doSwipeLeft(ev) {
-    // this.temp -= 5;
-    // return;
-    this.navService.groupTransactions(this.group.id);
-  }
+  // doSwipeRight(ev) {
+  //   // return;
+  //   this.navService.groupTransactions(this.group.id);
+  // }
+  //
+  // doSwipeLeft(ev) {
+  //   // this.temp -= 5;
+  //   // return;
+  //
+  //   this.navService.groupDashboard(this.group.id);
+  // }
 
   constructor(private navService: NavigationService,
               private headerService: HeaderService,

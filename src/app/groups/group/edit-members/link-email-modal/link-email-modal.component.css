@@ -7,3 +7,43 @@
 .example-full-width {
   width: 100%;
 }
+
+
+
+
+.collection {
+  overflow: visible;
+  border: none;
+}
+
+.collection-item {
+  border: none;
+  background-color: transparent;
+}
+
+.collection .collection-item.avatar-custom {
+  min-height: 60px;
+  padding-left: 60px;
+  position: relative;
+}
+
+.collection .collection-item.avatar:not(.circle-clipper) > .circle,
+.collection .collection-item.avatar :not(.circle-clipper) > .circle {
+  width: 32px;
+  height: 32px;
+}
+
+.collection .collection-item.avatar i.circle {
+  font-size: 24px;
+  line-height: 30px;
+  /*color: #fff;*/
+  /*background-color: #999;*/
+  /*text-align: center;*/
+}
+
+
+.add-btn {
+  padding-right: 2px;
+  padding-left: 2px;
+}
+

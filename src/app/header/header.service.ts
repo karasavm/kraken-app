@@ -18,7 +18,7 @@ export class HeaderService {
   onClickTransactionSave = new EventEmitter();
 
   onClickHeaderButton = new EventEmitter<string>();
-  onClickRenewGroupsButton = new EventEmitter<any>();
+  // onClickRenewGroupsButton = new EventEmitter<any>();
 
   saveTransactionBtnDisabledChanged = new EventEmitter<boolean>();
   saveTransactionBtnDisabled: boolean = false;

@@ -218,7 +218,12 @@ export class GroupService {
   //   };
   // }
 
+  getFriends(): Observable<User[]> {
+    return this.http2
+      .get(environment.apiHost + '/helper/friends', {headers: this.getHeaders2()})
+      .map(data => data['users'].map(u => User.JSONtoObject(u)))
 
+  }
 
   searchUsers(term: string): Observable<User[]> {
     if (!term.trim()) {

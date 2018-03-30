@@ -25,6 +25,7 @@ export class EditMembersComponent implements OnInit {
   searchTerm$ = new Subject<string>();
   users: User[];
   foundUser: User;
+  friends: User[] = [];
 
   constructor(
     private groupService: GroupService,
@@ -32,7 +33,7 @@ export class EditMembersComponent implements OnInit {
     private dialog: MatDialog
   )
   {
-
+    this.groupService.getFriends().subscribe(friends => this.friends=friends);
 
     this.search(this.searchTerm$)
       .subscribe(results => {
@@ -53,6 +54,8 @@ export class EditMembersComponent implements OnInit {
 
 
 
+
+
     // this.groupService.getGroup(this.group.id).subscribe((g) => {
     //   console.log("getting group")
     //   setTimeout(() => {
@@ -66,6 +69,13 @@ export class EditMembersComponent implements OnInit {
 
   // -----------------------------   MEMBERS HANDLING ------------------------
 
+  onClickAddUser2() {
+
+    this.dialogRefLinkEmail = this.dialog.open(LinkEmailModalComponent, {
+      data: {memberId: null, friends: this.friends, group: this.group},
+      width: '95%'
+    });
+  }
   onClickAddUser(f, user: User) {
 
 
@@ -180,7 +190,8 @@ export class EditMembersComponent implements OnInit {
   onClickLinkEmail(member: Member) {
     console.log(member);
     this.dialogRefLinkEmail = this.dialog.open(LinkEmailModalComponent, {
-      data: {memberId: member.id, groupId: this.group.id}
+      data: {memberId: member.id, friends: this.friends, group: this.group},
+      width: '95%'
     });
   }
 

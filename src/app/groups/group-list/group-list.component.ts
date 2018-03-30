@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {GroupService} from '../group.service';
 import {HeaderService} from '../../header/header.service';
@@ -47,10 +47,10 @@ export class GroupListComponent implements OnInit, OnDestroy {
         this.groups = data['groups'];
       });
 
-    this.subscription1 = this.headerService.onClickRenewGroupsButton
-      .subscribe((data) => {
-        this.groupService.getGroups().subscribe(groups => this.groups = groups);
-      });
+    // this.subscription1 = this.headerService.onClickRenewGroupsButton
+    //   .subscribe((data) => {
+    //     this.groupService.getGroups().subscribe(groups => this.groups = groups);
+    //   });
 
     this.constructForm();
 
@@ -87,5 +87,51 @@ export class GroupListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  // ----------------- swipe down to reload -----------------
+  touch1 = {x:0,y:0,time:0};
+  @HostListener('touchstart', ['$event'])
+  @HostListener('touchend', ['$event'])
+  //@HostListener('touchmove', ['$event'])
+  @HostListener('touchcancel', ['$event'])
+
+  handleTouch(ev){
+    var touch = ev.touches[0] || ev.changedTouches[0];
+    if (ev.type === 'touchstart'){
+      this.touch1.x = touch.pageX;
+      this.touch1.y = touch.pageY;
+      this.touch1.time = ev.timeStamp;
+    } else if (ev.type === 'touchend'){
+      var dx = touch.pageX - this.touch1.x;
+      var dy = touch.pageY - this.touch1.y;
+      var dt = ev.timeStamp - this.touch1.time;
+
+      if (dt < 500){
+
+        // swipe lasted less than 500 ms
+        if (Math.abs(dx) > 60){
+          // delta x is at least 60 pixels
+          if (dx > 0){
+            // this.doSwipeLeft(ev);
+          } else {
+            // this.doSwipeRight(ev);
+          }
+        }
+
+        if (Math.abs(dy) > 250){
+          // delta x is at least 60 pixels
+          if (dy > 0){
+            this.doSwipeDown(ev);
+          } else {
+            // this.doSwipeUp(ev);
+          }
+        }
+      }
+    }
+  }
+  doSwipeDown(ev) {
+    const that = this;
+    this.groupService.getGroups().subscribe(groups => that.groups = groups);
   }
 }

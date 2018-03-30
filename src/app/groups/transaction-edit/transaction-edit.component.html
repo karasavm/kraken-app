@@ -300,7 +300,9 @@
             </div>
 
             <div class="input-field col s2 left-align"
-                 style="padding-left: 0">
+                 style="padding-left: 0"
+                *ngIf="payment.debt"
+            >
               <button class="btn-floating clear-btn grey lighten-1">
                 <i
                   (click)="onCickClearDebt(payment)"
