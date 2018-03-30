@@ -121,11 +121,11 @@ export class GroupService {
 
 
 
-  createTransaction(groupId: string, transName: string, type: string): Observable<{transaction: Transaction, members: Member[]}>{
-
+  createTransaction(groupId: string, transName: string, type: string, payments = []): Observable<{transaction: Transaction, members: Member[]}>{
+    console.log(payments, "dskfjklsdjflkdsjfkldjsfkldjlksjdlkjfklj")
     return this.http2.post(
       environment.apiHost + '/groups/' + groupId + '/transactions/',
-      {transaction: {name: transName, type: type}},
+      {transaction: {name: transName, type: type, payments: payments}},
       {headers: this.getHeaders2()})
       .map((data) => {
         return {

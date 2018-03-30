@@ -315,7 +315,9 @@
           <div class="col s12 right-align">
             <button
               [disabled]="m.debt === m.debtToShow"
-              class="btn waves-effect waves-light">
+              class="btn waves-effect waves-light"
+              (click)="onClickDone()"
+            >
               DONE
             </button>
           </div>

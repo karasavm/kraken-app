@@ -8,6 +8,7 @@ import dict from "../../../shared/dictionary";
 import {getCurrentUser} from "../../../shared/helper";
 import {User} from "../../../models/user.model";
 import {MaterializeAction} from "angular2-materialize";
+import {Transaction} from "../../../models/transaction.model";
 
 @Component({
   selector: 'app-group-dashboard',
@@ -233,6 +234,39 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
 
     }
   }
+
+  onClickDone() {
+    for (let i=0; i < this.posCurrent.length; i++) {
+
+      if (this.posCurrent[i].checked) {
+        console.log(
+          this.group.getCurrentMember(),
+          this.posCurrent[i].memberId,
+          this.posCurrent[i].debtToShow
+        );
+
+        this.groupService.createTransaction(
+          this.group.id,
+          'Payment Back',
+          'give',
+          Transaction.transferToPayments(
+            this.selectedNeg.memberId,
+            this.posCurrent[i].memberId,
+            this.posCurrent[i].debtToShow
+          )
+        )
+          .subscribe((data) => {
+
+            this.group.transactions.reverse().push(data.transaction);
+            this.group.transactions = this.group.transactions.reverse();
+            this.groupService.setGroupValue(this.group);
+          })
+
+
+      }
+    }
+  }
+
 
 
 
