@@ -10,7 +10,8 @@ export class Group {
               public members: Member[] = [],
               public transactions: Transaction[] = [],
               public users: User[] = [],
-              public creator: User = null) {
+              public creator: User = null,
+              public updatedAt = null) {
 
   }
 
@@ -21,7 +22,8 @@ export class Group {
       body.members.map(member => Member.JSONtoObject(member)),
       body.transactions.map(transaction => Transaction.JSONtoObject(transaction)),
       body.users,
-      body.creator
+      body.creator,
+      body.updatedAt
     );
 
   }

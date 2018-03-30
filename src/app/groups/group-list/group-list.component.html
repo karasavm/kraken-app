@@ -12,7 +12,7 @@
       >
         <!--<img src="images/yuna.jpg" alt="" class="circle">-->
         <h5>{{group.name}}</h5>
-        <a href="" class="secondary-content">3 days ago</a>
+        <a href="" class="secondary-content">{{group.updatedAt | timeAgo}} </a>
         <p>{{group.members.length}} participants</p>
 
       </a>

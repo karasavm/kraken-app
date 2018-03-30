@@ -44,6 +44,7 @@ import {TransactionResolver} from "./groups/transaction-edit/transaction.resolve
 import { NewTransactionBtnComponent } from './groups/group/new-transaction-btn/new-transaction-btn.component';
 import { LinkEmailModalComponent } from './groups/group/edit-members/link-email-modal/link-email-modal.component';
 import {LoaderService} from "./shared/services/loader.service";
+import {TimeAgoPipe} from "time-ago-pipe";
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import {LoaderService} from "./shared/services/loader.service";
     TransactionEditComponent,
     EditMembersComponent,
     NewTransactionBtnComponent,
-    LinkEmailModalComponent
+    LinkEmailModalComponent,
+    TimeAgoPipe
   ],
   imports: [
     // Material IO
