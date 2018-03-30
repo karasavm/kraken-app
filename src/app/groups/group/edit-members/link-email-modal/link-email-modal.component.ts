@@ -86,7 +86,7 @@ export class LinkEmailModalComponent implements OnInit {
 
   }
 
-  filteredFriends(friends) {
+  filteredFriends() {
 
     let res = [];
 
