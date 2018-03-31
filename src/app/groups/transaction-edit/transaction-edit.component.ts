@@ -114,7 +114,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
             if (this.equalCost) {
               this.setPaymentsToEqual();
             }
-            
+
             this.groupService.updateTransaction(
               this.groupId,
               this.transId,

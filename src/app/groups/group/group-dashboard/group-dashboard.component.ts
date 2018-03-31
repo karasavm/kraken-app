@@ -62,12 +62,13 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     this.headerService.setTitle(this.group.name);
     this.debts = this.group.calcDebts();
     this.currentDebt = Math.abs(this.debts[this.group.getCurrentMember().id].debt);
-    console.log("debts", this.debts)
-    //todo: how to solve t he debts
+
     let pos = [];
     let pos2 = [];
     let neg = [];
     let neg2 = [];
+
+
     for (var memberId in this.debts) {
 
       if (this.debts[memberId].debt < 0) {
@@ -101,12 +102,39 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
       }
     }
 
-
     this.neg = neg;
     this.neg2 = neg2;
     this.pos2 = pos2;
     this.pos = pos;
-    console.log(this.pos2, 'dddddddddddddddddd')
+
+    let dashboards = {
+      neg: [],
+      pos: []
+    };
+
+    for (let i=0; i < this.neg.length; i++) {
+
+      let v = {
+        debt: Math.abs(this.neg[i].debt),
+        debtToShow: Math.abs(this.neg[i].debt),
+        options: []
+      };
+
+      for (let j=0 ; j < this.pos.length; j++) {
+        v.options.push({
+          memberId: this.pos[j].memberId,
+          debt: this.pos[j].debt,
+          checked: false,
+          debtToShow: this.pos[j].debt,
+        });
+      }
+
+      dashboards.neg.push(v);
+    }
+
+
+
+
 
 
     this.selectedNeg = this.neg2[0];
