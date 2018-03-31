@@ -20,18 +20,36 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
   group: Group;
   currentUser: User;
   debts: any;
-  neg2 = [];
   neg = [];
   pos = [];
-  pos2 = [];
   selected = [];
-  newDebt: number;
   subscription: Subscription;
   noParticipantsMsg = dict['group.nomembers'];
   currentDebt: number;
 
   // dashboard
   dashboard;
+
+  // COLLAPSIBLE
+  actions1 = new EventEmitter<string|MaterializeAction>();
+
+
+  params = [
+    {
+      onOpen: (el) => {
+        // this.initDashboard();
+        // this.initCollapsibleHeader();
+      },
+      onClose: (el) => {
+        // console.log("Collapsible close", el);
+        // this.initCollapsibleHeader();
+        this.resetDashboard()
+
+      }
+    }
+  ];
+  values = ["First", "Second", "Third"];
+
   constructor(
     private groupService: GroupService,
     private route: ActivatedRoute,
@@ -65,9 +83,7 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     this.debts = this.group.calcDebts();
 
     let pos = [];
-    let pos2 = [];
     let neg = [];
-    let neg2 = [];
 
 
     for (var memberId in this.debts) {
@@ -78,12 +94,6 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
           debt: this.debts[memberId].debt
         });
 
-        neg2.push({
-          memberId: memberId,
-          debt: Math.abs(this.debts[memberId].debt),
-          checked: false,
-          debtToShow: Math.abs(this.debts[memberId].debt)
-        });
       } else if (this.debts[memberId].debt > 0 ){
         pos.push({
           memberId: memberId,
@@ -92,37 +102,13 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
           checked: false
         });
 
-        pos2.push({
-          memberId: memberId,
-          debt: this.debts[memberId].debt,
-          checked: false,
-          debtToShow: this.debts[memberId].debt,
-
-        });
-
       }
     }
 
     this.neg = neg;
-    this.neg2 = neg2;
-    this.pos2 = pos2;
     this.pos = pos;
 
-
-
     this.initDashboard();
-
-
-    // this.selectedNeg = this.neg2[0];
-    // for (let i=0; i < this.neg2.length; i++) {
-    //   if(this.neg2[i].memberId === this.group.getCurrentMember().id) {
-    //     this.selectedNeg = this.neg2[i];
-    //     break;
-    //   }
-    // }
-    // this.initCollapsibleHeader();
-
-
 
   }
 
@@ -148,16 +134,9 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
         } else {
           this.dashboard.neg[i].options[j].debtToShow = this.dashboard.neg[i].options[j].debt;
         }
-
         this.dashboard.neg[i].options[j].checked = false;
-
       }
-
-
-      // this.updatedUnceckedOptions(v);
     }
-
-    // this.dashboard = dashboard;
   }
 
   initDashboard() {
@@ -196,32 +175,6 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  negChanged() {
-    return -1 !== this.pos.findIndex(function (v) {
-      return v.checked;
-    })
-  }
-
-  // COLLAPSIBLE
-  actions1 = new EventEmitter<string|MaterializeAction>();
-
-
-  params = [
-    {
-      onOpen: (el) => {
-        // this.initDashboard();
-        // this.initCollapsibleHeader();
-      },
-      onClose: (el) => {
-        // console.log("Collapsible close", el);
-        // this.initCollapsibleHeader();
-        this.resetDashboard()
-
-      }
-    }
-  ];
-
-  values = ["First", "Second", "Third"];
 
   openFirst() {
     this.actions1.emit({action:"collapsible",params:['open',0]});
@@ -231,28 +184,6 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     this.actions1.emit({action:"collapsible",params:['close',0]});
   }
 
-  owes(memberId) {
-    for (let i=0 ; i<this.neg2.length;i++) {
-      if (this.neg2[i].memberId === memberId){
-        return true
-      }
-    }
-
-    for (let i=0 ; i<this.pos2.length;i++) {
-      if (this.pos2[i].memberId === memberId){
-        return false
-      }
-    }
-
-
-  }
-
-  posCurrent;
-  selectedNeg;
-  onClickCollapsible(m) {
-    this.selectedNeg = m;
-
-  }
 
   updatedUnceckedOptions(currentNeg) {
     for (let i=0; i <  currentNeg.options.length; i++) {
@@ -267,9 +198,7 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
   }
   onClickChecked(currentNeg, selectedP) {
 
-
     selectedP.checked = !selectedP.checked;
-
 
     if (selectedP.checked) {
       currentNeg.debtToShow -= selectedP.debtToShow;
@@ -278,74 +207,21 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
     }
 
     this.updatedUnceckedOptions(currentNeg);
-
-
-    // index of posCurrent
-    // if (p.checked) {
-    //   this.selectedNeg.debtToShow += p.debtToShow;
-    //   console.log('+')
-    // } else {
-    //   console.log('-')
-    //   this.selectedNeg.debtToShow -= p.debtToShow;
-    // }
-    // p.checked = !p.checked;
-    //
-    // // update the unchecked options
-    // console.log(this.posCurrent, 'kllllll', this.selectedNeg)
-    // for (let i=0; i < this.posCurrent.length; i++) {
-    //
-    //   if (this.posCurrent[i].debt >= this.selectedNeg.debtToShow && !this.posCurrent[i].checked) {
-    //     this.posCurrent[i].debtToShow = this.selectedNeg.debtToShow;
-    //   } else if (this.posCurrent[i].debt < this.selectedNeg.debtToShow && !this.posCurrent[i].checked){
-    //     this.posCurrent[i].debtToShow = this.posCurrent[i].debt;
-    //   }
-    //
-    // }
-
-
-
   }
 
-  initCollapsibleHeader() {
 
-    // Initiallization Process
-    let m = this.selectedNeg;
-    for (let i=0; i < this.neg2.length; i++) {
-      this.neg2[i].debtToShow = this.neg2[i].debt;
-    }
-
-    for (let i=0; i < this.pos2.length; i++) {
-      this.pos2[i].debtToShow = this.pos2[i].debt;
-    }
-
-
-    this.posCurrent = this.pos2.slice(0);
-
-    for (let i=0; i < this.posCurrent.length; i++) {
-      this.posCurrent[i].checked = false;
-      if (this.posCurrent[i].debt > m.debt) {
-        this.posCurrent[i].debt = m.debt;
-      }
-
-    }
-  }
 
   onClickDone(index) {
     for (let i=0; i < this.dashboard.neg[index].options.length; i++) {
 
       if (this.dashboard.neg[index].options[i].checked) {
-        console.log(
-          this.group.getCurrentMember(),
-          this.dashboard.neg[index].options[i].memberId,
-          this.dashboard.neg[index].options[i].debtToShow
-        );
 
         this.groupService.createTransaction(
           this.group.id,
           'Payment Back',
           'give',
           Transaction.transferToPayments(
-            this.selectedNeg.memberId,
+            this.dashboard.neg[index].memberId,
             this.dashboard.neg[index].options[i].memberId,
             this.dashboard.neg[index].options[i].debtToShow
           )
@@ -361,8 +237,5 @@ export class GroupDashboardComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-
-
 
 }

@@ -60,7 +60,6 @@ export class Group {
 
     }
 
-    console.log("DEBTS", res)
     return res;
   }
 
