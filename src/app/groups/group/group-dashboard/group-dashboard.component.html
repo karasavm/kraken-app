@@ -251,7 +251,7 @@
 >
 
   <li
-    *ngFor="let m of neg2;let i=index;"
+    *ngFor="let m of dashboard.neg;let i=index;"
     (click)="onClickCollapsible(m)"
     [id]="i"
   >
@@ -287,23 +287,25 @@
 
     <div class="collapsible-body" style="padding-bottom: 2px">
 
-      <div>
+      <div >
         <h6
           class="center-align"
-          *ngIf="m.debt !== 0"
         >Select users to pay money back!</h6>
 
-        <div class="row" *ngIf="selectedNeg.memberId === m.memberId">
+        <div class="row">
           <form class="center-align">
-            <p *ngFor="let p of posCurrent;">
+            <p *ngFor="let p of m.options;">
               <input
-                [disabled]="p.debtToShow === 0"
+
                 type="checkbox"
-                [id]="p.memberId"
-                (click)="onClickChecked(p)"
+                [id]="m.memberId+p.memberId"
+                [name]="m.memberId+p.memberId"
+                (click)="onClickChecked(m, p)"
+                [checked]="p.checked"
+                [disabled]="p.debtToShow === 0"
               />
 
-              <label [for]="p.memberId"
+              <label [for]="m.memberId+p.memberId"
                      style="left: 33%"
 
               >{{group.getMemberById(p.memberId).name}}: <b>{{p.debtToShow | number}}€</b></label>
@@ -316,7 +318,7 @@
             <button
               [disabled]="m.debt === m.debtToShow"
               class="btn waves-effect waves-light"
-              (click)="onClickDone()"
+              (click)="onClickDone(i)"
             >
               DONE
             </button>

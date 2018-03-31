@@ -52,8 +52,15 @@ export class Group {
     }
 
     for (let i = 0; i < this.members.length; i ++) {
-      res[this.members[i].id].debt = Math.round(res[this.members[i].id].debt*100)/100;
+      res[this.members[i].id].debt = Math.round(res[this.members[i].id].debt*10000)/10000;
+      if (Math.abs(res[this.members[i].id].debt) < 0.05) {
+
+        delete res[this.members[i].id];
+      }
+
     }
+
+    console.log("DEBTS", res)
     return res;
   }
 
