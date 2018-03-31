@@ -165,12 +165,37 @@
             Select at least one participant at step one.
           </span>
           </ng-container>
+
+
           <ng-container *ngIf="getCheckedPayments().length > 0">
             <p class= "grey-text center-align"
                *ngIf="true || transactionIsValid() === 2"
             > Who paid for <b>{{transaction.name}}</b>? Insert payment's amount to them.
             </p>
             <br>
+
+
+            <div class="row">
+              <div class="col s6 center-align"
+                   [ngClass]="{'disabled-color': !stepIsValid(2)}"
+              >
+                Everyone has to pay the same.
+              </div>
+
+              <div class="col s6 center-align">
+                <div class="switch" >
+                  <label>
+                    No
+                    <input
+                      [disabled]="!stepIsValid(2)"
+                      (change)="onCheckChange()"
+                      type="checkbox" [(ngModel)]="equalCost">
+                    <span class="lever"></span>
+                    Yes
+                  </label>
+                </div>
+              </div>
+            </div>
 
             <div class="row" *ngFor="let payment of getCheckedPayments();let i=index">
 
@@ -232,19 +257,19 @@
                 Everyone has to pay the same.
               </div>
 
-              <div class="col s6">
-                <div class="switch" >
-                  <label>
-                    No
-                    <input
-                      [disabled]="!stepIsValid(2)"
-                      (change)="onCheckChange()"
-                      type="checkbox" [(ngModel)]="equalCost">
-                    <span class="lever"></span>
-                    Yes
-                  </label>
-                </div>
-              </div>
+              <!--<div class="col s6">-->
+                <!--<div class="switch" >-->
+                  <!--<label>-->
+                    <!--No-->
+                    <!--<input-->
+                      <!--[disabled]="!stepIsValid(2)"-->
+                      <!--(change)="onCheckChange()"-->
+                      <!--type="checkbox" [(ngModel)]="equalCost">-->
+                    <!--<span class="lever"></span>-->
+                    <!--Yes-->
+                  <!--</label>-->
+                <!--</div>-->
+              <!--</div>-->
             </div>
           </ng-container>
           <p class="right-align">

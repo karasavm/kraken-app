@@ -111,7 +111,10 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
           if (this.transactionIsValid() === -1) {
 
             this.transaction.payments = this.getCheckedPayments();
-            console.log(this.transaction.payments)
+            if (this.equalCost) {
+              this.setPaymentsToEqual();
+            }
+            
             this.groupService.updateTransaction(
               this.groupId,
               this.transId,
@@ -210,6 +213,11 @@ export class TransactionEditComponent implements OnInit, OnDestroy, OnChanges {
 
   getCheckedPayments() {
     return this.payments.filter(p => p.checked);
+  }
+  setPaymentsToEqual() {
+    for (let i=0; i < this.transaction.payments.length; i++) {
+      this.transaction.payments[i].debt = null;
+    }
   }
   // ------------ VALIDATIONs--------------
   transactionIsValid() {
